@@ -21,6 +21,7 @@ export default function Navbar() {
             alt="logo"
             layout="fill"
             objectFit="contain"
+            className="absolute"
             width={0}
             height={0}
           />
