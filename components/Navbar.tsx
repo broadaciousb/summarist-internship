@@ -1,21 +1,29 @@
 import Image from "next/image";
+import Logo from "/assets/logo.png";
 
 export default function Navbar() {
   return (
     <nav className="h-[80px]">
       <div
         className="
+        h-full
+        w-full
         flex
         justify-between
         items-center
         max-w-[1070px]
-        h-full
-        w-full
         mx-auto
         px-[24px]"
       >
-        <figure className="m-w-[200px]">
-          <Image className="h-full w-full" src="/assets/logo.png" alt="logo"/>
+        <figure className="m-w-[200px] w-full h-full relative">
+          <Image
+            src={Logo}
+            alt="logo"
+            layout="fill"
+            objectFit="contain"
+            width={0}
+            height={0}
+          />
         </figure>
         <ul className="flex gap-[24px]">
           <li
