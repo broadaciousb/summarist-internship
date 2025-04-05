@@ -37,12 +37,12 @@ export default function Landing() {
                 <br className="remove--tablet" />
                 and even people who don't like to read.
               </div>
-              <button className="btn home__cta--btn"></button>
+              <button className="btn home__cta--btn">Login</button>
             </div>
             <figure className="flex justify-end w-full relative">
               <Image
                 src={LandingImg}
-                className="w-full h-full max-w-[400px] absolute"
+                className="absolute max-w-[400px]"
                 alt="landing"
                 layout="fill"
                 objectFit="contain"
