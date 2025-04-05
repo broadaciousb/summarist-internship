@@ -3,7 +3,6 @@
 
 
 * {
-  margin: 0 auto;
   padding: 0;
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
@@ -37,6 +36,19 @@ button:active {
 button:disabled {
   cursor: not-allowed;
   opacity: 0.65;
+}
+
+.row {
+  max-width: 1070px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.container {
+  margin: 0;
+  padding: 40px 0;
+  width: 100%;
 }
 
 

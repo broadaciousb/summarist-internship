@@ -15,7 +15,7 @@ export default function Navbar() {
         mx-auto
         px-[24px]"
       >
-        <figure className="m-w-[200px] w-full h-full relative">
+        <figure className="max-w-[200px] w-full h-full relative">
           <Image
             src={Logo}
             alt="logo"
