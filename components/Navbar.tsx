@@ -12,6 +12,7 @@ export default function Navbar() {
         justify-between
         items-center
         max-w-[1070px]
+        my-[0]
         mx-auto
         px-[24px]"
       >
