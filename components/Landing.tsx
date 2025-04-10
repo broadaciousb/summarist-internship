@@ -6,7 +6,7 @@ export default function Landing() {
     <section id="landing">
       <div className="container">
         <div className="row">
-          <div className="landing__wrapper flex">
+          <div className="landing__wrapper flex m-[0px]">
             <div className="landing__content w-full">
               <div
                 className="
