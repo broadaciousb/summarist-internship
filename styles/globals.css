@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
 
 
@@ -25,7 +28,6 @@ button {
   cursor: pointer;
   outline: none;
   border: none;
-  background-color: transparent;
 }
 
 button:active {
@@ -51,8 +53,6 @@ button:disabled {
 }
 
 .btn {
-  background-color: #2bd97c;
-  color: #032b41;
   width: 100%;
   height: 40px;
   border-radius: 4px;
@@ -62,10 +62,6 @@ button:disabled {
   align-items: center;
   justify-content: center;
   min-width: 180px;
-}
-
-.btn:hover:not(:disabled) {
-  background-color: #20ba68;
 }
 
 .btn:active {
@@ -78,6 +74,10 @@ button:disabled {
   align-items: center;
   justify-content: center;
 }
+
+
+
+
 
 
 
