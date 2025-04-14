@@ -1,6 +1,6 @@
 import Image from "next/image";
 import googleImg from "../assets/google.png";
-import loginImg from "../assets/login.png";
+import { BsPersonFill } from "react-icons/bs";
 
 export default function LoginModal() {
   return (
@@ -12,11 +12,8 @@ export default function LoginModal() {
           </div>
           <button className="btn relative text-white bg-[#3a579d] hover:bg-[#25396b]">
             <div>Login as a Guest</div>
-            <figure className="guest__icon--mask bg-transparent flex items-center w-[36px] h-[36px] left-[2px] absolute">
-              <Image
-                src={loginImg}
-                className=""
-              />
+            <figure className="icon--mask bg-transparent flex items-center justify-center w-[36px] h-[36px] left-[2px] absolute">
+              <BsPersonFill className="w-full h-full" />
             </figure>
           </button>
           <div className="auth__or flex items-center my-[16px] mx-[0]">
@@ -28,6 +25,14 @@ export default function LoginModal() {
           </div>
           <button className="btn relative text-white bg-[#4285f4] hover:bg-[#3367d6]">
             <div>Login with Google</div>
+            <figure className="icon--mask bg-transparent flex items-center justify-center w-[36px] h-[36px] left-[2px] absolute">
+              <Image
+                src={googleImg}
+                className="bg-white rounded-sm"
+                layout="fill"
+                objectFit="contain"
+              />
+            </figure>
           </button>
           <div className="auth__or flex items-center my-[16px] mx-[0]">
             <span className="block grow h-[1px] bg-[#bac8ce] content-['']"></span>
