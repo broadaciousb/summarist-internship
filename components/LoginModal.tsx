@@ -1,11 +1,15 @@
 import Image from "next/image";
 import googleImg from "../assets/google.png";
 import { BsPersonFill } from "react-icons/bs";
+import { RxCross2 } from "react-icons/rx";
 
 export default function LoginModal() {
   return (
     <div className="auth__wrapper fixed flex flex-col justify-center items-center h-full inset-0 z-10 bg-black/[0.75]">
       <div className="auth relative max-w-[400px] w-full bg-white rounded-[8px]">
+        <div className="auth__close--btn absolute top-[12px] right-[12px] flex cursor-pointer transition-opacity transition-[0.2s] hover:opacity-[0.5]">
+          <RxCross2 className="w-[24px] h-[24px] relative" />
+        </div>
         <div className="auth__content pt-[48px] px-[32px] pb-[24px]">
           <div className="text-center text-xl font-bold text-[#032b41] mb-[24px]">
             Log in to Summarist
