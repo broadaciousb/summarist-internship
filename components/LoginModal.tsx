@@ -67,7 +67,6 @@ export default function LoginModal() {
         <button className="auth__switch--btn h-[40px] w-full text-base font-[300] text-center text-[#116be9] bg-[#f1f6f4]">
           Don't have an account?
         </button>
-        <div className="auth__close--btn absolute t-[12px]">X</div>
       </div>
     </div>
   );
