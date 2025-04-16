@@ -4,7 +4,7 @@ import LandingImg from "/assets/landing.png";
 export default function Landing() {
   return (
     <section id="landing">
-      <div className="w-full">
+      <div className="w-full py-[40px]">
         <div className="row">
           <div className="landing__wrapper flex m-[0px]">
             <div className="landing__content w-full">
@@ -42,7 +42,7 @@ export default function Landing() {
             <figure className="flex justify-end w-[800px] h-[400px] relative">
               <Image
                 src={LandingImg}
-                className="absolute max-w-[400px]"
+                className="absolute w-[400px]"
                 alt="landing"
                 layout="fill"
                 objectFit="contain"
