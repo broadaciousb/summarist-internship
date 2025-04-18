@@ -2,8 +2,15 @@ import Image from "next/image";
 import googleImg from "../assets/google.png";
 import { BsPersonFill } from "react-icons/bs";
 import { RxCross2 } from "react-icons/rx";
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { increment } from "@/redux/LoggedInSlice";
 
 export default function LoginModal() {
+
+  const isOnline: boolean = useAppSelector(state => state.online.loggedIn)
+  const dispatch = useAppDispatch()
+  console.log(isOnline)
+
   return (
     <div className="auth__wrapper fixed flex flex-col justify-center items-center h-full inset-0 z-10 bg-black/[0.75]">
       <div className="auth relative max-w-[400px] w-full bg-white rounded-[8px]">
@@ -56,7 +63,8 @@ export default function LoginModal() {
               className="auth__main--input h-[40px] py-[0] px-[12px] text-[#394547] border-[2px] border-[#bac8ce] rounded-sm"
               placeholder="Password"
             />
-            <button className="btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]">
+            <button className="btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
+            onClick={() => dispatch(increment())}>
               Login
             </button>
           </form>
