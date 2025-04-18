@@ -6,10 +6,9 @@ import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { increment } from "@/redux/LoggedInSlice";
 
 export default function LoginModal() {
-
-  const isOnline: boolean = useAppSelector(state => state.online.loggedIn)
-  const dispatch = useAppDispatch()
-  console.log(isOnline)
+  const isOnline: boolean = useAppSelector((state) => state.online.loggedIn);
+  const dispatch = useAppDispatch();
+  console.log(isOnline);
 
   return (
     <div className="auth__wrapper fixed flex flex-col justify-center items-center h-full inset-0 z-10 bg-black/[0.75]">
@@ -52,7 +51,13 @@ export default function LoginModal() {
             </div>
             <span className="block grow h-[1px] bg-[#bac8ce] content-['']"></span>
           </div>
-          <form className="auth__main--form flex flex-col gap-[16px]">
+          <form
+            className="auth__main--form flex flex-col gap-[16px]"
+            //TODO1: add onSubmit function to handle form submission and prevent the default action
+            // onSubmit={(e) => {
+            //   e.preventDefault();
+            // }}
+          >
             <input
               type="text"
               className="auth__main--input h-[40px] py-[0] px-[12px] text-[#394547] border-[2px] border-[#bac8ce] rounded-sm"
@@ -63,8 +68,14 @@ export default function LoginModal() {
               className="auth__main--input h-[40px] py-[0] px-[12px] text-[#394547] border-[2px] border-[#bac8ce] rounded-sm"
               placeholder="Password"
             />
-            <button className="btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
-            onClick={() => dispatch(increment())}>
+            <button
+              className="btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
+              onClick={(e) => {
+                //TODO: prevent the default action of event
+                // e.preventDefault();
+                dispatch(increment());
+              }}
+            >
               Login
             </button>
           </form>
