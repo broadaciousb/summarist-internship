@@ -1,9 +1,19 @@
 import Image from "next/image";
 import Logo from "/assets/logo.png";
+import { useState } from "react";
+import LoginModal from "./LoginModal";
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { increment as openModal } from "@/redux/ToggleModalSlice";
 
 export default function Navbar() {
+  const isModalOpen: boolean = useAppSelector((state) => state.toggleModal.isModalOpen);
+  const dispatch = useAppDispatch();
+
+  
+
   return (
     <nav className="h-[80px]">
+      {isModalOpen && <LoginModal />}
       <div
         className="
         h-full
@@ -34,6 +44,10 @@ export default function Navbar() {
           transition-colors
           duration-100
           hover:text-[#2bd97c]"
+            onClick={(e) => {
+              e.preventDefault;
+              dispatch(openModal());
+            }}
           >
             Login
           </li>

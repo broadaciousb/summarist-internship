@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import LoggedInSlice from './LoggedInSlice'
+import ToggleModalSlice from './ToggleModalSlice';
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      online: LoggedInSlice
+      online: LoggedInSlice,
+      toggleModal: ToggleModalSlice
     },
   })
 }

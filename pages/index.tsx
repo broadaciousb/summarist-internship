@@ -1,18 +1,22 @@
 import Image from "next/image";
 import Navbar from "../components/Navbar";
-import LoginModal from "@/components/LoginModal";
 import Landing from "@/components/Landing";
 import Features from "@/components/Features";
+import Statistics from "@/components/Statistics";
 import StoreProvider from "@/redux/StoreProvider";
+import { useState } from "react";
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 
 export default function Home() {
+  
+
   return (
     <>
       <StoreProvider>
         <Navbar />
         <Landing />
         <Features />
-        <LoginModal />
+        <Statistics />
       </StoreProvider>
     </>
   );
