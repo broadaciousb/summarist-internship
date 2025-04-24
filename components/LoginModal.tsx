@@ -6,7 +6,7 @@ import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { increment, decrement } from "@/redux/LoggedInSlice";
 import { decrement as closeModal } from "@/redux/ToggleModalSlice";
 import { useState } from "react";
-import { auth } from "@/Firebase/firebase.config";
+import { CreateAccount } from "@/Firebase/firebase.config";
 
 export default function LoginModal() {
   const isOnline: boolean = useAppSelector((state) => state.online.loggedIn);
@@ -129,7 +129,7 @@ export default function LoginModal() {
               className="btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
               onClick={(e) => {
                 e.preventDefault();
-                auth;
+                CreateAccount();
               }}
             >
               Create Account
