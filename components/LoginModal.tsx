@@ -6,6 +6,7 @@ import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { increment, decrement } from "@/redux/LoggedInSlice";
 import { decrement as closeModal } from "@/redux/ToggleModalSlice";
 import { useState } from "react";
+import { auth } from "@/Firebase/firebase.config";
 
 export default function LoginModal() {
   const isOnline: boolean = useAppSelector((state) => state.online.loggedIn);
@@ -56,38 +57,37 @@ export default function LoginModal() {
             </div>
           )}
 
-          {!userSignUp ? (<div>
-            <button className="btn relative text-white bg-[#4285f4] hover:bg-[#3367d6]">
-            <div>Login with Google</div>
-            <figure className="icon--mask bg-transparent flex items-center justify-center w-[36px] h-[36px] left-[2px] absolute">
-              <Image
-                src={googleImg}
-                className="bg-white rounded-sm"
-                layout="fill"
-                objectFit="contain"
-                alt="google img"
-              />
-            </figure>
-          </button>
-          </div>) :
-          (<div>
-            <button className="btn relative text-white bg-[#4285f4] hover:bg-[#3367d6]">
-            <div>Sign up with Google</div>
-            <figure className="icon--mask bg-transparent flex items-center justify-center w-[36px] h-[36px] left-[2px] absolute">
-              <Image
-                src={googleImg}
-                className="bg-white rounded-sm"
-                layout="fill"
-                objectFit="contain"
-                alt="google img"
-              />
-            </figure>
-          </button>
-          </div>)
-
-          }
-
-          
+          {!userSignUp ? (
+            <div>
+              <button className="btn relative text-white bg-[#4285f4] hover:bg-[#3367d6]">
+                <div>Login with Google</div>
+                <figure className="icon--mask bg-transparent flex items-center justify-center w-[36px] h-[36px] left-[2px] absolute">
+                  <Image
+                    src={googleImg}
+                    className="bg-white rounded-sm"
+                    layout="fill"
+                    objectFit="contain"
+                    alt="google img"
+                  />
+                </figure>
+              </button>
+            </div>
+          ) : (
+            <div>
+              <button className="btn relative text-white bg-[#4285f4] hover:bg-[#3367d6]">
+                <div>Sign up with Google</div>
+                <figure className="icon--mask bg-transparent flex items-center justify-center w-[36px] h-[36px] left-[2px] absolute">
+                  <Image
+                    src={googleImg}
+                    className="bg-white rounded-sm"
+                    layout="fill"
+                    objectFit="contain"
+                    alt="google img"
+                  />
+                </figure>
+              </button>
+            </div>
+          )}
           <div className="auth__or flex items-center my-[16px] mx-[0]">
             <span className="block grow h-[1px] bg-[#bac8ce] content-['']"></span>
             <div className="auth__or--text text-sm text-[#394547] font-medium my-[0] mx-[24px]">
@@ -115,16 +115,27 @@ export default function LoginModal() {
               className="auth__main--input h-[40px] py-[0] px-[12px] text-[#394547] border-[2px] border-[#bac8ce] rounded-sm"
               placeholder="Password"
             />
-            <button
+            {!userSignUp ? (
+              <button
               className="btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
               onClick={(e) => {
-                //TODO: prevent the default action of event
-                // e.preventDefault();
-                dispatch(increment());
+                e.preventDefault();
               }}
             >
               Login
             </button>
+            ) : (
+              <button
+              className="btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
+              onClick={(e) => {
+                e.preventDefault();
+                auth;
+              }}
+            >
+              Create Account
+            </button>
+            )}
+            
           </form>
         </div>
         <div className="auth__forgot--password text-center text-[#116be9] font-[300] text-sm mt-[0] mx-auto mb-[16px]">
