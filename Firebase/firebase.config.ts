@@ -18,20 +18,27 @@ const firebaseConfig = {
 const app: FirebaseApp = initializeApp(firebaseConfig);
 
 // Create User
-const auth = getAuth(app);
+const auth: Auth = getAuth(app);
 
-export function CreateAccount() {
-  createUserWithEmailAndPassword(auth, "yourmail@gmail.com", "yourpassword")
-    .then((userCredential) => {
-      // Signed up
-      const user = userCredential.user;
-      console.log("account created");
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      alert("Error message");
-      // ..
-    });
+export async function CreateAccount(
+  email: string,
+  password: string
+): Promise<void> {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      'example__email@gmail.com',
+      'example__password'
+    );
+    const user = userCredential.user;
+    console.log("Account created:", user);
+    alert("Account created successfully");
+    // You might want to return the user object or dispatch an action here
+  } catch (error: any) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.error("Error creating account:", errorCode, errorMessage);
+    alert(`Error creating account: ${errorMessage}`); // Display more informative error
+    // Handle specific error codes (e.g., weak-password, email-already-in-use) for better UI feedback
+  }
 }
