@@ -1,72 +1,106 @@
 export default function Statistics() {
   return (
     <div className="w-full">
-      <div className="statistics__wrapper flex gap-[80px] mb-[96px]">
-        <div className="statistics__content--header">
-          <div className="statistics__heading">Enhance your knowledge</div>
-          <div className="statistics__heading">Achieve greater success</div>
-          <div className="statistics__heading">Improve your health</div>
-          <div className="statistics__heading">
-            Develop better parenting skills
-          </div>
-          <div className="statistics__heading">Increase happiness</div>
-          <div className="statistics__heading">
-            Be the best version of yourself!
-          </div>
-        </div>
-        <div className="statistics__content--details mb-[0]">
-          <div className="statistics__data">
-            <div className="statistics__data--number">93%</div>
-            <div className="statistics__data--title">
-              of Summarist members <b>significantly increase</b> reading
-              frequency.
+      <div className="row">
+        <div className="statistics__wrapper flex gap-[80px] mb-[96px]">
+          <div className="statistics__content--header w-full flex justify-center flex-col">
+            <div className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+              Enhance your knowledge
+            </div>
+            <div className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+              Achieve greater success
+            </div>
+            <div className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+              Improve your health
+            </div>
+            <div className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+              Develop better parenting skills
+            </div>
+            <div className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+              Increase happiness
+            </div>
+            <div className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+              Be the best version of yourself!
             </div>
           </div>
-          <div className="statistics__data">
-            <div className="statistics__data--number">96%</div>
-            <div className="statistics__data--title">
-              of Summarist members <b>establish better</b> habits.
+          <div className="statistics__content--details w-full flex flex-col justify-center gap-[24px] bg-[#f1f6f4] py-[40px] px-[24px]">
+            <div className="statistics__data flex gap-[16px]">
+              <div className="statistics__data--number text-[#0365f2] text-xl font-[600] mt-[4px]">
+                93%
+              </div>
+              <div className="statistics__data--title text-xl font-[300] text-[#394547]">
+                of Summarist members <b>significantly increase</b> reading
+                frequency.
+              </div>
             </div>
-          </div>
-          <div className="statistics__data">
-            <div className="statistics__data--number">90%</div>
-            <div className="statistics__data--title">
-              have made <b>significant positive</b> change to their lives.
+            <div className="statistics__data flex gap-[16px]">
+              <div className="statistics__data--number text-[#0365f2] text-xl font-[600] mt-[4px]">
+                96%
+              </div>
+              <div className="statistics__data--title text-xl font-[300] text-[#394547]">
+                of Summarist members <b>establish better</b> habits.
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <div className="statistics__wrapper">
-        <div className="statistics__content--details statistics__content--details-second">
-          <div className="statistics__data">
-            <div className="statistics__data--number">91%</div>
-            <div className="statistics__data--title">
-              of Summarist members <b>report feeling more productive</b>
-              after incorporating the service into their daily routine.
-            </div>
-          </div>
-          <div className="statistics__data">
-            <div className="statistics__data--number">94%</div>
-            <div className="statistics__data--title">
-              of Summarist members have <b>noticed an improvement</b> in their
-              overall comprehension and retention of information.
-            </div>
-          </div>
-          <div className="statistics__data">
-            <div className="statistics__data--number">88%</div>
-            <div className="statistics__data--title">
-              of Summarist members <b>feel more informed</b> about current
-              events and industry trends since using the platform.
+            <div className="statistics__data flex gap-[16px]">
+              <div className="statistics__data--number text-[#0365f2] text-xl font-[600] mt-[4px]">
+                90%
+              </div>
+              <div className="statistics__data--title text-xl font-[300] text-[#394547]">
+                have made <b>significant positive</b> change to their lives.
+              </div>
             </div>
           </div>
         </div>
-        <div className="statistics__content--header statistics__content--header-second mb-[0]">
-          <div className="statistics__heading">Expand your learning</div>
-          <div className="statistics__heading">Accomplish your goals</div>
-          <div className="statistics__heading">Strengthen your vitality</div>
-          <div className="statistics__heading">Become a better caregiver</div>
-          <div className="statistics__heading">Improve your mood</div>
-          <div className="statistics__heading">Maximize your abilities</div>
+        <div className="statistics__wrapper flex gap-[80px] mb-[96px]">
+          <div className="statistics__content--details statistics__content--details-second w-full flex flex-col justify-center gap-[24px] bg-[#f1f6f4] py-[40px] px-[24px]">
+            <div className="statistics__data flex gap-[16px]">
+              <div className="statistics__data--number text-[#0365f2] text-xl font-[600] mt-[4px]">
+                91%
+              </div>
+              <div className="statistics__data--title text-xl font-[300] text-[#394547]">
+                of Summarist members <b>report feeling more productive</b>
+                after incorporating the service into their daily routine.
+              </div>
+            </div>
+            <div className="statistics__data flex gap-[16px]">
+              <div className="statistics__data--number text-[#0365f2] text-xl font-[600] mt-[4px]">
+                94%
+              </div>
+              <div className="statistics__data--title text-xl font-[300] text-[#394547]">
+                of Summarist members have <b>noticed an improvement</b> in their
+                overall comprehension and retention of information.
+              </div>
+            </div>
+            <div className="statistics__data flex gap-[16px]">
+              <div className="statistics__data--number text-[#0365f2] text-xl font-[600] mt-[4px]">
+                88%
+              </div>
+              <div className="statistics__data--title text-xl font-[300] text-[#394547]">
+                of Summarist members <b>feel more informed</b> about current
+                events and industry trends since using the platform.
+              </div>
+            </div>
+          </div>
+          <div className="statistics__content--header statistics__content--header-second  w-full flex justify-center flex-col flex-end">
+            <div className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+              Expand your learning
+            </div>
+            <div className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+              Accomplish your goals
+            </div>
+            <div className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+              Strengthen your vitality
+            </div>
+            <div className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+              Become a better caregiver
+            </div>
+            <div className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+              Improve your mood
+            </div>
+            <div className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+              Maximize your abilities
+            </div>
+          </div>
         </div>
       </div>
     </div>
