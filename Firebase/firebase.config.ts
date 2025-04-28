@@ -1,6 +1,11 @@
 // Import the functions you need from the SDKs you need
 import { FirebaseApp, initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, Auth } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  Auth,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -27,8 +32,8 @@ export async function CreateAccount(
   try {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
-      'example__email@gmail.com',
-      'example__password'
+      email,
+      password
     );
     const user = userCredential.user;
     console.log("Account created:", user);
@@ -40,5 +45,23 @@ export async function CreateAccount(
     console.error("Error creating account:", errorCode, errorMessage);
     alert(`Error creating account: ${errorMessage}`); // Display more informative error
     // Handle specific error codes (e.g., weak-password, email-already-in-use) for better UI feedback
+  }
+}
+
+// Sign In User
+export async function signIn(email: string, password: string): Promise<void> {
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
+    console.log("User signed in:", user);
+  } catch (error: any) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.error("Error signing in account:", errorCode, errorMessage);
+    alert(`Error signing in account: ${errorMessage}`);
   }
 }

@@ -37,6 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateAccount = CreateAccount;
+exports.signIn = signIn;
 // Import the functions you need from the SDKs you need
 var app_1 = require("firebase/app");
 var auth_1 = require("firebase/auth");
@@ -62,7 +63,7 @@ function CreateAccount(email, password) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, (0, auth_1.createUserWithEmailAndPassword)(auth, 'example__email@gmail.com', 'example__password')];
+                    return [4 /*yield*/, (0, auth_1.createUserWithEmailAndPassword)(auth, email, password)];
                 case 1:
                     userCredential = _a.sent();
                     user = userCredential.user;
@@ -75,6 +76,32 @@ function CreateAccount(email, password) {
                     errorMessage = error_1.message;
                     console.error("Error creating account:", errorCode, errorMessage);
                     alert("Error creating account: ".concat(errorMessage)); // Display more informative error
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+// Sign In User
+function signIn(email, password) {
+    return __awaiter(this, void 0, void 0, function () {
+        var userCredential, user, error_2, errorCode, errorMessage;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, (0, auth_1.signInWithEmailAndPassword)(auth, email, password)];
+                case 1:
+                    userCredential = _a.sent();
+                    user = userCredential.user;
+                    console.log("User signed in:", user);
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_2 = _a.sent();
+                    errorCode = error_2.code;
+                    errorMessage = error_2.message;
+                    console.error("Error signing in account:", errorCode, errorMessage);
+                    alert("Error signing in account: ".concat(errorMessage));
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
             }
