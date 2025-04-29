@@ -81,7 +81,7 @@ export default function Statistics() {
               </div>
             </div>
           </div>
-          <div className="statistics__content--header statistics__content--header-second  w-full flex justify-center flex-col flex-end">
+          <div className="statistics__content--header statistics__content--header-second  w-full flex justify-center flex-col items-end">
             <div className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
               Expand your learning
             </div>
