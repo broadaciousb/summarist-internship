@@ -38,6 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateAccount = CreateAccount;
 exports.signIn = signIn;
+exports.logOut = logOut;
 // Import the functions you need from the SDKs you need
 var app_1 = require("firebase/app");
 var auth_1 = require("firebase/auth");
@@ -102,6 +103,31 @@ function signIn(email, password) {
                     errorMessage = error_2.message;
                     console.error("Error signing in account:", errorCode, errorMessage);
                     alert("Error signing in account: ".concat(errorMessage));
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+// Sign Out User
+function logOut() {
+    return __awaiter(this, void 0, void 0, function () {
+        var error_3, errorCorde, errorMessage;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, (0, auth_1.signOut)(auth)];
+                case 1:
+                    _a.sent();
+                    console.log("User logged out");
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_3 = _a.sent();
+                    errorCorde = error_3.code;
+                    errorMessage = error_3.message;
+                    console.error("Error signing out account:", errorCorde, errorMessage);
+                    alert("Error signing out account: ".concat(errorMessage));
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
             }

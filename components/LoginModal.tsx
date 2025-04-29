@@ -61,12 +61,12 @@ export default function LoginModal() {
             <div>
               <button className="btn relative text-white bg-[#4285f4] hover:bg-[#3367d6]">
                 <div>Login with Google</div>
-                <figure className="icon--mask bg-transparent flex items-center justify-center w-[36px] h-[36px] left-[2px] absolute">
+                <figure className="icon--mask bg-transparent flex items-center justify-center max-w-[200px] left-[2px] absolute">
                   <Image
                     src={googleImg}
                     className="bg-white rounded-sm"
-                    layout="fill"
-                    objectFit="contain"
+                    fill={true}
+                    style={{objectFit: "contain"}}
                     alt="google img"
                   />
                 </figure>

@@ -5,6 +5,7 @@ import {
   createUserWithEmailAndPassword,
   Auth,
   signInWithEmailAndPassword,
+  signOut
 } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -63,5 +64,18 @@ export async function signIn(email: string, password: string): Promise<void> {
     const errorMessage = error.message;
     console.error("Error signing in account:", errorCode, errorMessage);
     alert(`Error signing in account: ${errorMessage}`);
+  }
+}
+
+// Sign Out User
+export async function logOut(): Promise<void> {
+  try {
+    await signOut(auth);
+    console.log("User logged out");
+  } catch(error: any) {
+    const errorCorde = error.code;
+    const errorMessage = error.message;
+    console.error("Error signing out account:", errorCorde, errorMessage);
+    alert(`Error signing out account: ${errorMessage}`);
   }
 }
