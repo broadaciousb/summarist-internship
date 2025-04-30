@@ -4,6 +4,7 @@ import Landing from "@/components/Landing";
 import Features from "@/components/Features";
 import Reviews from "@/components/Reviews";
 import Statistics from "@/components/Statistics";
+import Numbers from "@/components/Numbers";
 import StoreProvider from "@/redux/StoreProvider";
 import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
@@ -19,6 +20,7 @@ export default function Home() {
         <Features />
         <Statistics />
         <Reviews />
+        <Numbers />
       </StoreProvider>
     </>
   );
