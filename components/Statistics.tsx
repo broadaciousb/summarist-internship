@@ -1,3 +1,6 @@
+import ActiveHeading from "./ActiveHeading";
+import { useEffect } from "react";
+
 export default function Statistics() {
   return (
     <div className="w-full">
@@ -5,21 +8,21 @@ export default function Statistics() {
         <div className="statistics__wrapper flex gap-[80px] mb-[96px]">
           <div className="statistics__content--header w-full flex justify-center flex-col">
             <div className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
-              Enhance your knowledge
+               <div id="1">Enhance your knowledge</div>
             </div>
-            <div className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+            <div id="2" className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
               Achieve greater success
             </div>
-            <div className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+            <div id="3" className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
               Improve your health
             </div>
-            <div className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+            <div id="4" className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
               Develop better parenting skills
             </div>
-            <div className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+            <div id="5" className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
               Increase happiness
             </div>
-            <div className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+            <div id="6" className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
               Be the best version of yourself!
             </div>
           </div>
@@ -82,22 +85,22 @@ export default function Statistics() {
             </div>
           </div>
           <div className="statistics__content--header statistics__content--header-second  w-full flex justify-center flex-col items-end">
-            <div className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+            <div id="1" className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
               Expand your learning
             </div>
-            <div className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+            <div id="2" className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
               Accomplish your goals
             </div>
-            <div className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+            <div id="3" className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
               Strengthen your vitality
             </div>
-            <div className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+            <div id="4" className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
               Become a better caregiver
             </div>
-            <div className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+            <div id="5" className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
               Improve your mood
             </div>
-            <div className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+            <div id="6" className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
               Maximize your abilities
             </div>
           </div>

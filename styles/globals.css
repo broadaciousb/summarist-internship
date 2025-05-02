@@ -79,6 +79,10 @@ button:disabled {
   justify-content: center;
 }
 
+.active__heading {
+  color: green;
+}
+
 
 
 
