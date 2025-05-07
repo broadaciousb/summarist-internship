@@ -2,13 +2,15 @@ import Link from "next/link";
 import Image from "next/image";
 import HowToWinFriends from "../assets/how-to-win-friends.png";
 
-export default function BookTemplate(
+interface BookTemplateProps {
   key: string,
   imgLink: string,
   title: string,
   author: string,
   subTitle: string
-) {
+}
+
+export default function BookTemplate({ imgLink, title, author, subTitle }: BookTemplateProps) {
   return (
     <Link
       href=""
