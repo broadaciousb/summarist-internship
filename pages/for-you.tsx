@@ -5,6 +5,7 @@ import Image from "next/image";
 import LeanStartup from "../assets/the-lean-startup.png";
 import Book from "@/components/BookTemplate";
 import RecommendedBooks from "@/components/RecommendedBooks";
+import SuggestedBooks from "@/components/SuggestedBooks";
 
 export default function forYou() {
   return (
@@ -71,29 +72,16 @@ export default function forYou() {
               <div className="for-you__sub--title text-[#394547] mb-[16px] font-[300]">
                 We think you’ll like these
               </div>
-              <div className="for-you__recommended--books flex overflow-x-auto gap-[16px] mb-[32px] snap-x">
-                <Book />
-                <Book />
-                <Book />
-                <Book />
-                <Book />
-              </div>
+              <RecommendedBooks />
             </div>
             <div>
-            <div className="for-you__title text-[22px] text-[#032b41] gont-[700] mb-[16px]">
+              <div className="for-you__title text-[22px] text-[#032b41] gont-[700] mb-[16px]">
                 Suggested Books
               </div>
               <div className="for-you__sub--title text-[#394547] mb-[16px] font-[300]">
                 Browse those books
               </div>
-              <div className="for-you__recommended--books flex overflow-x-auto gap-[16px] mb-[32px] snap-x">
-                <Book />
-                <Book />
-                <Book />
-                <Book />
-                <Book />
-              </div>
-              <RecommendedBooks />
+              <SuggestedBooks />
             </div>
           </div>
         </div>

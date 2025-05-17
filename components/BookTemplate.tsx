@@ -20,14 +20,10 @@ export default function BookTemplate({ imgLink, title, author, subTitle }: BookT
         Premium
       </div>
       <figure className="book__image--wrapper relative mb-[8px] w-[172px] h-[172px]">
-        <Image
+        <img
           className="book__image w-full h-full absolute"
           src={imgLink}
           alt="book"
-          layout="fill"
-          objectFit="contain"
-          width={0}
-          height={0}
         />
       </figure>
       <div className="recommended__book--title text-base text-[#032b41] font-[700] mb-[8px]">
