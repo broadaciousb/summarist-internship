@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import BookTemplate from "./BookTemplate";
 
 export async function getServerSideProps() {
-  const res = await fetch("https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended")
-  const data = await res.json()
+  const res = await fetch("https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended");
+  const data = await res.json();
 
   return {
     props: {
@@ -13,7 +13,7 @@ export async function getServerSideProps() {
   }
 }
 
-export default function RecommendedBooks({books}) {
+export default function RecommendedBooks({books}: any) {
   // const api: string =
   //   "https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended";
 
@@ -33,18 +33,17 @@ export default function RecommendedBooks({books}) {
   
 
   function renderBooks() {
-    getServerSideProps();
 
-    return books?.map((book: any) => (
-      <BookTemplate
-        key={book.title}
-        imgLink={book.imageLink}
-        title={book.title}
-        author={book.author}
-        subTitle={book.subTitle}
-        subscriptionRequired={book.subscriptionRequired}
-    />
-    ));
+    // return books?.map((book: any) => (
+    //   <BookTemplate
+    //     key={book.title}
+    //     imgLink={book.imageLink}
+    //     title={book.title}
+    //     author={book.author}
+    //     subTitle={book.subTitle}
+    //     subscriptionRequired={book.subscriptionRequired}
+    // />
+    // ));
   }
 
   // useEffect(() => {
@@ -55,7 +54,18 @@ export default function RecommendedBooks({books}) {
 
   return (
     <div className="for-you__recommended--books flex overflow-x-auto gap-[16px] mb-[32px] snap-x">
-      {renderBooks()}
+      {
+        books?.map((book: any) => {
+      <BookTemplate
+        key={book.title}
+        imgLink={book.imageLink}
+        title={book.title}
+        author={book.author}
+        subTitle={book.subTitle}
+        subscriptionRequired={book.subscriptionRequired}
+    />
+})
+      }
     </div>
   );
 }
