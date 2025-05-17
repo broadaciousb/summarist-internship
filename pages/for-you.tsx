@@ -14,13 +14,13 @@ export default function forYou() {
       <SearchBar />
       <div className="row">
         <div className="w-full px-[40px]">
-          <div className="for-you__wrapper">
+          <div className="for-you__wrapper my-[40px]">
             <div className="for-you__title text-[22px] text-[#032b41] font-[700] mb-[16px]">
               Selected just for you
             </div>
             <Link
               href=""
-              className="selected__book flex justify-between bg-[#fbefd6] p-[24px] rounded-sm mb-[24px] gap-[24px] w-[calc(100% / 3) * 2]"
+              className="selected__book flex justify-between bg-[#fbefd6] p-[24px] rounded-sm mb-[24px] gap-[24px] w-[67%]"
             >
               <div className="selected__book--sub-title text-[#032b41] w-[40%]">
                 How Constant Innovation Creates Radically Successful Business
@@ -66,7 +66,7 @@ export default function forYou() {
               </div>
             </Link>
             <div>
-              <div className="for-you__title text-[22px] text-[#032b41] gont-[700] mb-[16px]">
+              <div className="for-you__title text-[22px] text-[#032b41] font-[700] mb-[16px]">
                 Recommended For You
               </div>
               <div className="for-you__sub--title text-[#394547] mb-[16px] font-[300]">
@@ -75,7 +75,7 @@ export default function forYou() {
               <RecommendedBooks />
             </div>
             <div>
-              <div className="for-you__title text-[22px] text-[#032b41] gont-[700] mb-[16px]">
+              <div className="for-you__title text-[22px] text-[#032b41] font-[700] mb-[16px]">
                 Suggested Books
               </div>
               <div className="for-you__sub--title text-[#394547] mb-[16px] font-[300]">

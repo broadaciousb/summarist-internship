@@ -1,7 +1,10 @@
 export default function SearchBar() {
   return (
     <div className="search__background bg-[#fff] border-b border-[#e1e7ea] h-[80px]">
-      <div className="search__bar flex justify-end items-center px-[32px] max-w-[1070px] h-full">
+      <div className="search__wrapper flex justify-between items-center px-[32px] max-w-[1070px] h-full mx-auto relative">
+        <figure>
+
+        </figure>
         <div className="search__content flex items-center gap-[24px] max-w-[340px] w-full">
           <div className="search flex items-center w-full">
             <div className="search__input--wrapper relative gap-[8px] flex items-center w-full">
