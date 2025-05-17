@@ -4,6 +4,11 @@ import SearchBar from "@/components/SearchBar";
 import Link from "next/link";
 import Image from "next/image";
 
+export async function getServerSideProps() {
+  const res = await fetch("https://us-central1-summaristt.cloudfunctions.net/getBooks?status=selected")
+  const data = await res.json()
+}
+
 export default function Book() {
   const router = useRouter();
   console.log(router);
