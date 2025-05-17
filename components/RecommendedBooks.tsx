@@ -65,7 +65,9 @@ export default function RecommendedBooks({books}: any) {
         subscriptionRequired={book.subscriptionRequired}
     />
 })
+        
       }
+      {console.log(books)}
     </div>
   );
 }
