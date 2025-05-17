@@ -2,16 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 import BookTemplate from "./BookTemplate";
 
-export async function getServerSideProps() {
-  const res = await fetch("https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended");
-  const data = await res.json();
 
-  return {
-    props: {
-      books : data
-    }
-  }
-}
 
 export default function RecommendedBooks({books}: any) {
   // const api: string =
@@ -70,4 +61,15 @@ export default function RecommendedBooks({books}: any) {
       {console.log(books)}
     </div>
   );
+}
+
+export async function getServerSideProps() {
+  const res = await fetch("https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended");
+  const data = await res.json();
+
+  return {
+    props: {
+      books : data
+    }
+  }
 }
