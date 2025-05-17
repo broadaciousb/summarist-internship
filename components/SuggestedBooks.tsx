@@ -25,6 +25,7 @@ export default function SuggestedBooks() {
           title={book.title}
           author={book.author}
           subTitle={book.subTitle}
+          subscriptionRequired={book.subscriptionRequired}
       />
       ));
     }

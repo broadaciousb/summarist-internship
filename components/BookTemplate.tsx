@@ -3,22 +3,32 @@ import Image from "next/image";
 import HowToWinFriends from "../assets/how-to-win-friends.png";
 
 interface BookTemplateProps {
-  key: string,
-  imgLink: string,
-  title: string,
-  author: string,
-  subTitle: string
+  key: string;
+  imgLink: string;
+  title: string;
+  author: string;
+  subTitle: string;
+  subscriptionRequired: boolean;
 }
 
-export default function BookTemplate({ imgLink, title, author, subTitle }: BookTemplateProps) {
+export default function BookTemplate({
+  imgLink,
+  title,
+  author,
+  subTitle,
+  subscriptionRequired,
+}: BookTemplateProps) {
   return (
     <Link
       href=""
       className="for-you__recommended--books-link relative pt-[32px] pb-[12px] px-[12px] rounded-sm max-w-[200px] w-full snap-start"
     >
-      <div className="premium__pill bg-[#032b41] size-fit h-[18px] p-[8px] absolute top-[0] right-[0] text-[#fff] text-[10px] flex items-center rounded-[20px]">
-        Premium
-      </div>
+      {subscriptionRequired && (
+        <div className="premium__pill bg-[#032b41] size-fit h-[18px] p-[8px] absolute top-[0] right-[0] text-[#fff] text-[10px] flex items-center rounded-[20px]">
+          Premium
+        </div>
+      )}
+
       <figure className="book__image--wrapper relative mb-[8px] w-[172px] h-[172px]">
         <img
           className="book__image w-full h-full absolute"

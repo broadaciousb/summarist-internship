@@ -11,6 +11,7 @@ export default function RecommendedBooks() {
   async function getBooks(): Promise<any> {
     try {
       const { data } = await axios.get(api);
+      console.log(data);
       setBooks(data);
     } catch (error: any) {
       console.error("Error fetching recommended books", error.message);
@@ -26,6 +27,7 @@ export default function RecommendedBooks() {
         title={book.title}
         author={book.author}
         subTitle={book.subTitle}
+        subscriptionRequired={book.subscriptionRequired}
     />
     ));
   }
