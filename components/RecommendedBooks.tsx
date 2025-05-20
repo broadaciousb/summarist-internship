@@ -5,21 +5,21 @@ import BookTemplate from "./BookTemplate";
 
 
 export default function RecommendedBooks({books}: any) {
-  // const api: string =
-  //   "https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended";
+  const api: string =
+    "https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended";
 
-  // const [books, setBooks] = useState<any[]>([]);
+  const [books, setBooks] = useState<any[]>([]);
 
-  // async function getBooks(): Promise<any> {
-  //   try {
-  //     const { data } = await axios.get(api);
-  //     console.log(data);
-  //     setBooks(data);
-  //   } catch (error: any) {
-  //     console.error("Error fetching recommended books", error.message);
-  //     throw error;
-  //   }
-  // }
+  async function getBooks(): Promise<any> {
+    try {
+      const { data } = await axios.get(api);
+      console.log(data);
+      setBooks(data);
+    } catch (error: any) {
+      console.error("Error fetching recommended books", error.message);
+      throw error;
+    }
+  }
 
   
 
