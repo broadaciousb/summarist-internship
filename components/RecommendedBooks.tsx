@@ -1,23 +1,48 @@
 import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 import BookTemplate from "./BookTemplate";
+import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
+
+interface BookProps {
+  id: string;
+  author: string;
+  title: string;
+  subTitle: string;
+  imageLink: string;
+  audioLink: string;
+  totalRating: number;
+  averageRating: number;
+  keyIdeas: number;
+  type: string;
+  status: string;
+  subscriptionRequired: boolean;
+  summary: string;
+  tags: string[];
+  bookDescription: string;
+  authorDescription: string;
+}
+
+type Data = {
+  books: BookProps[]
+}
 
 
-
-export async function getServerSideProps() {
+export const getServerSideProps = (async () => {
   const res = await fetch("https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended");
-  const data = await res.json();
+  const data: Data = await res.json();
+
+  console.log(data);
 
   return {
     props: {
       books : data
     }
   }
-}
+}) satisfies GetServerSideProps<{ books: Data }>
 
 
 
-export default function RecommendedBooks({books}: any) {
+export default function RecommendedBooks({books}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const api: string =
     "https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended";
 
@@ -34,13 +59,12 @@ export default function RecommendedBooks({books}: any) {
   //   }
   // }
 
-  
 
   function renderBooks() {
 
     console.log(books);
 
-    return books?.map((book: any) => (
+    return books?.map((book: BookProps) => (
       <BookTemplate
         key={book.title}
         imgLink={book.imageLink}
@@ -61,7 +85,6 @@ export default function RecommendedBooks({books}: any) {
   return (
     <div className="for-you__recommended--books flex overflow-x-auto gap-[16px] mb-[32px] snap-x">
       {renderBooks()}
-      {console.log(books)}
     </div>
   );
 }
