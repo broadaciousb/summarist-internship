@@ -3,9 +3,6 @@ import SearchBar from "@/components/SearchBar";
 import Link from "next/link";
 import Image from "next/image";
 import LeanStartup from "../assets/the-lean-startup.png";
-import Book from "@/components/BookTemplate";
-import RecommendedBooks from "@/components/RecommendedBooks";
-import SuggestedBooks from "@/components/SuggestedBooks";
 import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 import BookTemplate from "@/components/BookTemplate";
@@ -33,22 +30,30 @@ interface BookProps {
 type Data = BookProps[];
 
 export const getServerSideProps = (async () => {
-  const res = await fetch(
+  const res1 = await fetch(
     "https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended"
   );
-  const data: Data = await res.json();
+  const data1: Data = await res1.json();
 
-  console.log(data);
+  const res2 = await fetch(
+    "https://us-central1-summaristt.cloudfunctions.net/getBooks?status=suggested"
+  );
+  const data2: Data = await res2.json();
 
   return {
     props: {
-      books: data,
+      recBooks: data1,
+      sugBooks: data2,
     },
   };
-}) satisfies GetServerSideProps<{ books: BookProps[] }>;
+}) satisfies GetServerSideProps<{
+  recBooks: BookProps[];
+  sugBooks: BookProps[];
+}>;
 
 export default function forYou({
-  books,
+  recBooks,
+  sugBooks,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <div className="flex flex-col ml-[200px] w-[calc(100% - 200px)]">
@@ -115,7 +120,7 @@ export default function forYou({
                 We think you’ll like these
               </div>
               <div className="for-you__recommended--books flex overflow-x-auto gap-[16px] mb-[32px] snap-x">
-                {books?.map((book: BookProps) => (
+                {recBooks?.map((book: BookProps) => (
                   <BookTemplate
                     key={book.title}
                     imgLink={book.imageLink}
@@ -134,7 +139,18 @@ export default function forYou({
               <div className="for-you__sub--title text-[#394547] mb-[16px] font-[300]">
                 Browse those books
               </div>
-              <SuggestedBooks />
+              <div className="for-you__recommended--books flex overflow-x-auto gap-[16px] mb-[32px] snap-x">
+                {sugBooks?.map((book: BookProps) => (
+                  <BookTemplate
+                    key={book.title}
+                    imgLink={book.imageLink}
+                    title={book.title}
+                    author={book.author}
+                    subTitle={book.subTitle}
+                    subscriptionRequired={book.subscriptionRequired}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>
