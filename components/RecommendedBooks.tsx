@@ -22,11 +22,11 @@ interface BookProps {
   authorDescription: string;
 }
 
-
+type Data = BookProps[]
 
 export const getServerSideProps = (async () => {
   const res = await fetch("https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended");
-  const data: BookProps[] = await res.json();
+  const data: Data = await res.json();
 
   console.log(data);
 
