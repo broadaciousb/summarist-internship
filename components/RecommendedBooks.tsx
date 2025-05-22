@@ -22,14 +22,11 @@ interface BookProps {
   authorDescription: string;
 }
 
-type Data = {
-  books: BookProps[]
-}
 
 
 export const getServerSideProps = (async () => {
   const res = await fetch("https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended");
-  const data: Data = await res.json();
+  const data: BookProps[] = await res.json();
 
   console.log(data);
 
@@ -38,33 +35,16 @@ export const getServerSideProps = (async () => {
       books : data
     }
   }
-}) satisfies GetServerSideProps<{ books: Data }>
-
-
+}) satisfies GetServerSideProps<{ books: BookProps[] }>
 
 export default function RecommendedBooks({books}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const api: string =
-    "https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended";
+  
+  console.log(books)
 
-  // const [books, setBooks] = useState<any[]>([]);
-
-  // async function getBooks(): Promise<any> {
-  //   try {
-  //     const { data } = await axios.get(api);
-  //     console.log(data);
-  //     setBooks(data);
-  //   } catch (error: any) {
-  //     console.error("Error fetching recommended books", error.message);
-  //     throw error;
-  //   }
-  // }
-
-
-  function renderBooks() {
-
-    console.log(books);
-
-    return books?.map((book: BookProps) => (
+  return (
+    <div className="for-you__recommended--books flex overflow-x-auto gap-[16px] mb-[32px] snap-x">
+      {
+        books?.map((book: BookProps) => (
       <BookTemplate
         key={book.title}
         imgLink={book.imageLink}
@@ -73,18 +53,8 @@ export default function RecommendedBooks({books}: InferGetServerSidePropsType<ty
         subTitle={book.subTitle}
         subscriptionRequired={book.subscriptionRequired}
     />
-    ));
-  }
-
-  // useEffect(() => {
-  //   getBooks();
-  // }, []);
-
-  
-
-  return (
-    <div className="for-you__recommended--books flex overflow-x-auto gap-[16px] mb-[32px] snap-x">
-      {renderBooks()}
+    ))
+      }
     </div>
   );
 }
