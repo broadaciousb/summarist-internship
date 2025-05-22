@@ -1,41 +1,41 @@
-import axios, { AxiosResponse } from "axios";
-import { useEffect, useState } from "react";
-import BookTemplate from "./BookTemplate";
-import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
+// import axios, { AxiosResponse } from "axios";
+// import { useEffect, useState } from "react";
+// import BookTemplate from "./BookTemplate";
+// import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 
-interface BookProps {
-  id: string;
-  author: string;
-  title: string;
-  subTitle: string;
-  imageLink: string;
-  audioLink: string;
-  totalRating: number;
-  averageRating: number;
-  keyIdeas: number;
-  type: string;
-  status: string;
-  subscriptionRequired: boolean;
-  summary: string;
-  tags: string[];
-  bookDescription: string;
-  authorDescription: string;
-}
+// interface BookProps {
+//   id: string;
+//   author: string;
+//   title: string;
+//   subTitle: string;
+//   imageLink: string;
+//   audioLink: string;
+//   totalRating: number;
+//   averageRating: number;
+//   keyIdeas: number;
+//   type: string;
+//   status: string;
+//   subscriptionRequired: boolean;
+//   summary: string;
+//   tags: string[];
+//   bookDescription: string;
+//   authorDescription: string;
+// }
 
-type Data = BookProps[]
+// type Data = BookProps[]
 
-export const getServerSideProps = (async () => {
-  const res = await fetch("https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended");
-  const data: Data = await res.json();
+// export const getServerSideProps = (async () => {
+//   const res = await fetch("https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended");
+//   const data: Data = await res.json();
 
-  console.log(data);
+//   console.log(data);
 
-  return {
-    props: {
-      books : data
-    }
-  }
-}) satisfies GetServerSideProps<{ books: BookProps[] }>
+//   return {
+//     props: {
+//       books : data
+//     }
+//   }
+// }) satisfies GetServerSideProps<{ books: BookProps[] }>
 
 export default function RecommendedBooks({books}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   

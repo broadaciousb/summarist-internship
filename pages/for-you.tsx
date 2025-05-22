@@ -6,8 +6,50 @@ import LeanStartup from "../assets/the-lean-startup.png";
 import Book from "@/components/BookTemplate";
 import RecommendedBooks from "@/components/RecommendedBooks";
 import SuggestedBooks from "@/components/SuggestedBooks";
+import axios, { AxiosResponse } from "axios";
+import { useEffect, useState } from "react";
+import BookTemplate from "@/components/BookTemplate";
+import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
 
-export default function forYou() {
+interface BookProps {
+  id: string;
+  author: string;
+  title: string;
+  subTitle: string;
+  imageLink: string;
+  audioLink: string;
+  totalRating: number;
+  averageRating: number;
+  keyIdeas: number;
+  type: string;
+  status: string;
+  subscriptionRequired: boolean;
+  summary: string;
+  tags: string[];
+  bookDescription: string;
+  authorDescription: string;
+}
+
+type Data = BookProps[];
+
+export const getServerSideProps = (async () => {
+  const res = await fetch(
+    "https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended"
+  );
+  const data: Data = await res.json();
+
+  console.log(data);
+
+  return {
+    props: {
+      books: data,
+    },
+  };
+}) satisfies GetServerSideProps<{ books: BookProps[] }>;
+
+export default function forYou({
+  books,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <div className="flex flex-col ml-[200px] w-[calc(100% - 200px)]">
       <SideBarNav />
@@ -72,7 +114,18 @@ export default function forYou() {
               <div className="for-you__sub--title text-[#394547] mb-[16px] font-[300]">
                 We think you’ll like these
               </div>
-              <RecommendedBooks />
+              <div className="for-you__recommended--books flex overflow-x-auto gap-[16px] mb-[32px] snap-x">
+                {books?.map((book: BookProps) => (
+                  <BookTemplate
+                    key={book.title}
+                    imgLink={book.imageLink}
+                    title={book.title}
+                    author={book.author}
+                    subTitle={book.subTitle}
+                    subscriptionRequired={book.subscriptionRequired}
+                  />
+                ))}
+              </div>
             </div>
             <div>
               <div className="for-you__title text-[22px] text-[#032b41] font-[700] mb-[16px]">
