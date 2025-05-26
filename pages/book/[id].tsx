@@ -1,18 +1,50 @@
-import { useRouter } from "next/router";
+import { NextRouter, useRouter } from "next/router";
 import SideBarNav from "@/components/SideBarNav";
 import SearchBar from "@/components/SearchBar";
 import Link from "next/link";
 import Image from "next/image";
+import { InferGetServerSidePropsType } from "next";
 
-export async function getServerSideProps() {
-  const res = await fetch("https://us-central1-summaristt.cloudfunctions.net/getBooks?status=selected")
-  const data = await res.json()
+interface BookProps {
+  id: string;
+  author: string;
+  title: string;
+  subTitle: string;
+  imageLink: string;
+  audioLink: string;
+  totalRating: number;
+  averageRating: number;
+  keyIdeas: number;
+  type: string;
+  status: string;
+  subscriptionRequired: boolean;
+  summary: string;
+  tags: string[];
+  bookDescription: string;
+  authorDescription: string;
 }
 
-export default function Book() {
-  const router = useRouter();
-  console.log(router);
+type Data = BookProps;
 
+export async function getServerSideProps(context: any) {
+  const { id } = context.query;
+  const res = await fetch(
+    `https://us-central1-summaristt.cloudfunctions.net/getBook?id=${id}`
+  );
+  const data: Data = await res.json();
+
+  console.log(data);
+
+  return {
+    props: {
+      book: data,
+    },
+  };
+}
+
+export default function Book({
+  book,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <div className="flex flex-col ml-[200px] w-[calc(100% - 200px)]">
       <SideBarNav />
@@ -22,13 +54,13 @@ export default function Book() {
           <div className="inner_wrapper flex gap-[8px]">
             <div className="inner__book w-full">
               <div className="inner_book--title text-[#032b41] text-[32px] mb-[16px] font-[600]">
-                Can't Hurt Me
+                {book?.title}
               </div>
               <div className="inner__book--author text-[#032b41] mb-[16px] font-[600]">
-                David Goggins
+                {book?.author}
               </div>
               <div className="inner__book--sub-title text-[#032b41] text-xl mb-[16px] font-[300]">
-                Master Your Mind and Defy the Odds
+                {book?.subTitle}
               </div>
               <div className="inner__book--wrapper mb-[24px] border-[#e1e7ea] border-y py-[16px]">
                 <div className="inner__book-description--wrapper flex flex-wrap max-w-[400px] gap-y-[12px]">
@@ -46,9 +78,11 @@ export default function Book() {
                         <path d="M908.1 353.1l-253.9-36.9L540.7 86.1c-3.1-6.3-8.2-11.4-14.5-14.5-15.8-7.8-35-1.3-42.9 14.5L369.8 316.2l-253.9 36.9c-7 1-13.4 4.3-18.3 9.3a32.05 32.05 0 0 0 .6 45.3l183.7 179.1-43.4 252.9a31.95 31.95 0 0 0 46.4 33.7L512 754l227.1 119.4c6.2 3.3 13.4 4.4 20.3 3.2 17.4-3 29.1-19.5 26.1-36.9l-43.4-252.9 183.7-179.1c5-4.9 8.3-11.3 9.3-18.3 2.7-17.5-9.5-33.7-27-36.3zM664.8 561.6l36.1 210.3L512 672.7 323.1 772l36.1-210.3-152.8-149L417.6 382 512 190.7 606.4 382l211.2 30.7-152.8 148.9z"></path>
                       </svg>
                     </div>
-                    <div className="inner__book--overall-rating">4.2&nbsp;</div>
+                    <div className="inner__book--overall-rating">
+                      {book?.averageRating}&nbsp;
+                    </div>
                     <div className="inner__book--total-rating">
-                      &#40;726&#41;
+                      &#40;{book?.totalRating}&#41;
                     </div>
                   </div>
                   <div className="inner__book--description flex items-center w-[50%] text-sm text-[#032b41] font-[500]">
@@ -82,7 +116,7 @@ export default function Book() {
                         <path d="M842 454c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8 0 140.3-113.7 254-254 254S258 594.3 258 454c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8 0 168.7 126.6 307.9 290 327.6V884H326.7c-13.7 0-24.7 14.3-24.7 32v36c0 4.4 2.8 8 6.2 8h407.6c3.4 0 6.2-3.6 6.2-8v-36c0-17.7-11-32-24.7-32H548V782.1c165.3-18 294-158 294-328.1zM512 624c93.9 0 170-75.2 170-168V232c0-92.8-76.1-168-170-168s-170 75.2-170 168v224c0 92.8 76.1 168 170 168zm-94-392c0-50.6 41.9-92 94-92s94 41.4 94 92v224c0 50.6-41.9 92-94 92s-94-41.4-94-92V232z"></path>
                       </svg>
                     </div>
-                    <div className="inner__book--type">Audio & Text</div>
+                    <div className="inner__book--type">{book?.type}</div>
                   </div>
                   <div className="inner__book--description flex items-center w-[50%] text-sm text-[#032b41] font-[500]">
                     <div className="inner__book--icon flex h-[24px] w-[24px] mr-[4px]">
@@ -103,7 +137,7 @@ export default function Book() {
                         ></path>
                       </svg>
                     </div>
-                    <div className="inner__book--ideas">6 Key ideas</div>
+                    <div className="inner__book--ideas">{book?.keyIdeas}</div>
                   </div>
                 </div>
               </div>
@@ -163,55 +197,27 @@ export default function Book() {
                 What's it about?
               </div>
               <div className="inner__book--tags-wrapper flex flex-wrap gap-[16px] mb-[16px]">
-                <div className="inner__book--tag bg-[#f1f6f4] px-[16px] h-[48px] flex items-center cursor-not-allowed text-[#032b41] font-[500] rounded-sm">
-                  Biography & Memoir
-                </div>
-                <div className="inner__book--tag bg-[#f1f6f4] px-[16px] h-[48px] flex items-center cursor-not-allowed text-[#032b41] font-[500] rounded-sm">
-                  Personal Development
-                </div>
+                {book.tags?.map((tag: string) => (
+                  <div className="inner__book--tag bg-[#f1f6f4] px-[16px] h-[48px] flex items-center cursor-not-allowed text-[#032b41] font-[500] rounded-sm">
+                    {tag}
+                  </div>
+                ))}
               </div>
               <div className="inner__book--about text-[#032b41] mb-[16px] leading-[1.5]">
-                "Can’t Hurt Me" is a memoir written by former Navy SEAL David
-                Goggins, with the help of writer Adam Skolnick. The book was
-                first published in 2018 and tells the story of Goggins' life,
-                including his difficult childhood, his career as a Navy SEAL,
-                and his transformation into an ultra-endurance athlete and
-                motivational speaker. Throughout the book, Goggins emphasizes
-                the importance of mental toughness and overcoming self-limiting
-                beliefs. He shares his personal experiences of pushing himself
-                to physical and mental extremes, and provides advice and
-                techniques for readers to challenge themselves and achieve their
-                goals. "Can’t Hurt Me" has been widely praised for its raw and
-                inspiring message, and has become a popular book in the
-                self-improvement and motivational genres.
+                {book.bookDescription}
               </div>
               <div className="inner__book--secondary-title text-lg text-[#032b41] mb-[16px] font-[600]">
                 About the author
               </div>
               <div className="inner__book--author text-[#032b41] leading-[1.5]">
-                David Goggins is a retired Navy SEAL, ultra-endurance athlete,
-                and motivational speaker. Born in 1975 in New York, Goggins grew
-                up in poverty and endured a difficult childhood. He joined the
-                U.S. Air Force after high school, but later became a Navy SEAL,
-                serving in numerous deployments to Iraq and Afghanistan. After
-                leaving the military, Goggins became an accomplished
-                ultra-marathon runner, completing numerous races and setting
-                records in events such as the Badwater Ultramarathon and the
-                Moab 240. He is also known for his motivational speaking and has
-                shared his message of mental toughness and self-improvement with
-                audiences around the world. Goggins has written a memoir titled
-                "Can’t Hurt Me" and has been featured in numerous media outlets,
-                including podcasts, television shows, and documentaries. He is
-                widely regarded as a symbol of resilience and determination, and
-                his story has inspired many to push beyond their limits and
-                achieve their goals.
+                {book.authorDescription}
               </div>
             </div>
             <div className="inner__book-img--wrapper">
               <figure className="book__image--wrapper h-[300px] w-[300px] min-w-[300px]">
                 <img
                   className="book__image w-full h-full"
-                  src="https://firebasestorage.googleapis.com/v0/b/summaristt.appspot.com/o/books%2Fimages%2Fcant-hurt-me.png?alt=media&token=026646b0-40f8-48c4-8d32-b69bd5b8f700"
+                  src={book.imageLink}
                   alt="book image"
                 />
               </figure>

@@ -55,6 +55,8 @@ export default function forYou({
   recBooks,
   sugBooks,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+
+  console.log(recBooks)
   return (
     <div className="flex flex-col ml-[200px] w-[calc(100% - 200px)]">
       <SideBarNav />
@@ -122,6 +124,7 @@ export default function forYou({
               <div className="for-you__recommended--books flex overflow-x-auto gap-[16px] mb-[32px] snap-x">
                 {recBooks?.map((book: BookProps) => (
                   <BookTemplate
+                    id={book.id}
                     key={book.title}
                     imgLink={book.imageLink}
                     title={book.title}
@@ -142,6 +145,7 @@ export default function forYou({
               <div className="for-you__recommended--books flex overflow-x-auto gap-[16px] mb-[32px] snap-x">
                 {sugBooks?.map((book: BookProps) => (
                   <BookTemplate
+                    id={book.id}
                     key={book.title}
                     imgLink={book.imageLink}
                     title={book.title}

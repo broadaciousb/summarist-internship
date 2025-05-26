@@ -3,6 +3,7 @@ import Image from "next/image";
 import HowToWinFriends from "../assets/how-to-win-friends.png";
 
 interface BookTemplateProps {
+  id: string,
   key: string;
   imgLink: string;
   title: string;
@@ -12,6 +13,7 @@ interface BookTemplateProps {
 }
 
 export default function BookTemplate({
+  id,
   imgLink,
   title,
   author,
@@ -20,7 +22,7 @@ export default function BookTemplate({
 }: BookTemplateProps) {
   return (
     <Link
-      href=""
+      href={"/book/" + id}
       className="for-you__recommended--books-link relative pt-[32px] pb-[12px] px-[12px] rounded-sm max-w-[200px] w-full snap-start"
     >
       {subscriptionRequired && (
