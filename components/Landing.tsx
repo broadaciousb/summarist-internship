@@ -42,7 +42,7 @@ export default function Landing() {
                 <br className="remove--tablet" />
                 and even people who don't like to read.
               </div>
-              <button className="btn home__cta--btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
+              <button className="btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
                 onClick={(e) => {
                   e.preventDefault;
                   dispatch(openModal());
