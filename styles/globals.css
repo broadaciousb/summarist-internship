@@ -83,7 +83,19 @@ button:disabled {
   color: green;
 }
 
+.audio__progress--bar {
+  border-radius: 8px;
+  height: 4px;
+  max-width: 300px;
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+}
 
+.audio__progress--bar::-webkit-slider-thumb {
+  color: white;
+}
 
 
 

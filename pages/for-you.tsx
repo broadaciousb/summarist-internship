@@ -1,4 +1,5 @@
 import SideBarNav from "@/components/SideBarNav";
+import SideBarLogo from "@/components/SidebarLogo";
 import SearchBar from "@/components/SearchBar";
 import Link from "next/link";
 import Image from "next/image";
@@ -55,11 +56,15 @@ export default function forYou({
   recBooks,
   sugBooks,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-
-  console.log(recBooks)
+  console.log(recBooks);
   return (
     <div className="flex flex-col ml-[200px] w-[calc(100% - 200px)]">
-      <SideBarNav />
+      <div className="sidebar bg-[#f7faf9] w-[200px] fixed top-[0] h-[100vh] left-[0] z-[1000]">
+        <SideBarLogo />
+        <div className="h-[calc(100vh-60px)]">
+          <SideBarNav />
+        </div>
+      </div>
       <SearchBar />
       <div className="row">
         <div className="w-full px-[40px]">
