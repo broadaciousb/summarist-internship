@@ -4,12 +4,14 @@ import { useState } from "react";
 import LoginModal from "./LoginModal";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { increment as openModal } from "@/redux/ToggleModalSlice";
+import { logout } from "@/redux/LoggedInSlice";
 
 export default function Navbar() {
-  const isModalOpen: boolean = useAppSelector((state) => state.toggleModal.isModalOpen);
+  const isModalOpen: boolean = useAppSelector(
+    (state) => state.toggleModal.isModalOpen
+  );
+  const isOnline: boolean = useAppSelector((state) => state.online.loggedIn);
   const dispatch = useAppDispatch();
-
-  
 
   return (
     <nav className="h-[80px]">
@@ -38,19 +40,37 @@ export default function Navbar() {
           />
         </figure>
         <ul className="flex gap-[24px]">
-          <li
-            className="text-[#032b41]
+          {!isOnline ? (
+            <li
+              className="text-[#032b41]
           cursor-pointer
           transition-colors
           duration-100
           hover:text-[#2bd97c]"
-            onClick={(e) => {
-              e.preventDefault;
-              dispatch(openModal());
-            }}
-          >
-            Login
-          </li>
+              onClick={(e) => {
+                e.preventDefault;
+                dispatch(openModal());
+              }}
+            >
+              Login
+            </li>
+          ) : (
+            <li
+              className="text-[#032b41]
+          cursor-pointer
+          transition-colors
+          duration-100
+          hover:text-[#2bd97c]"
+              onClick={(e) => {
+                e.preventDefault;
+                dispatch(logout());
+                console.log(isOnline);
+              }}
+            >
+              Logout
+            </li>
+          )}
+
           <li className="text-[#032b41] cursor-not-allowed">About</li>
           <li className="text-[#032b41] cursor-not-allowed">Contact</li>
           <li className="text-[#032b41] cursor-not-allowed">Help</li>

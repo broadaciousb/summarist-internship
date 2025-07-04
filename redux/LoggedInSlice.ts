@@ -3,24 +3,24 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from './store'
 
 // Define a type for the slice state
-interface CounterState {
+interface LoggedIn {
   loggedIn: boolean
 }
 
 // Define the initial state using that type
-const initialState: CounterState = {
+const initialState: LoggedIn = {
   loggedIn: false,
 }
 
-export const counterSlice = createSlice({
+export const loggedInSlice = createSlice({
   name: 'online',
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    increment: (state) => {
+    login: (state) => {
       state.loggedIn = true
     },
-    decrement: (state) => {
+    logout: (state) => {
       state.loggedIn = false
     },
     // Use the PayloadAction type to declare the contents of `action.payload`
@@ -30,9 +30,9 @@ export const counterSlice = createSlice({
   },
 })
 
-export const { increment, decrement, incrementByAmount } = counterSlice.actions
+export const { login, logout, incrementByAmount } = loggedInSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectCount = (state: RootState) => state.online.loggedIn
+export const isLoggedIn = (state: RootState) => state.online.loggedIn
 
-export default counterSlice.reducer
+export default loggedInSlice.reducer

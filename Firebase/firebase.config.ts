@@ -7,6 +7,8 @@ import {
   signInWithEmailAndPassword,
   signOut
 } from "firebase/auth";
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { login, logout } from "@/redux/LoggedInSlice";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -30,6 +32,7 @@ export async function CreateAccount(
   email: string,
   password: string
 ): Promise<void> {
+
   try {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
@@ -68,7 +71,7 @@ export async function signIn(email: string, password: string): Promise<void> {
 }
 
 // Sign Out User
-export async function logOut(): Promise<void> {
+export async function signUserOut(): Promise<void> {
   try {
     await signOut(auth);
     console.log("User logged out");

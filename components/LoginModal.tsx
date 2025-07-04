@@ -3,20 +3,26 @@ import googleImg from "../assets/google.png";
 import { BsPersonFill } from "react-icons/bs";
 import { RxCross2 } from "react-icons/rx";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
-import { increment, decrement } from "@/redux/LoggedInSlice";
 import { decrement as closeModal } from "@/redux/ToggleModalSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CreateAccount, signIn } from "@/Firebase/firebase.config";
+import { login } from "@/redux/LoggedInSlice";
 
 export default function LoginModal() {
   const isOnline: boolean = useAppSelector((state) => state.online.loggedIn);
   const dispatch = useAppDispatch();
 
-  const [userSignUp, setUserSignUp] = useState(false);
+  const [needUserSignUp, setneedUserSignUp] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   function signUp() {
-    !userSignUp ? setUserSignUp(true) : setUserSignUp(false);
+    !needUserSignUp ? setneedUserSignUp(true) : setneedUserSignUp(false);
   }
+
+  useEffect(() => {
+    console.log(isOnline);
+  }, [isOnline]);
 
   return (
     <div className="auth__wrapper fixed flex flex-col justify-center items-center h-full inset-0 z-10 bg-black/[0.75]">
@@ -33,13 +39,13 @@ export default function LoginModal() {
         </div>
         <div className="auth__content pt-[48px] px-[32px] pb-[24px]">
           <div className="text-center text-xl font-bold text-[#032b41] mb-[24px]">
-            {!userSignUp ? (
+            {!needUserSignUp ? (
               <div>Log in to Summarist</div>
             ) : (
               <div>Sign up to Summarist</div>
             )}
           </div>
-          {!userSignUp && (
+          {!needUserSignUp && (
             <div>
               <button className="btn relative text-white bg-[#3a579d] hover:bg-[#25396b]">
                 <div>Login as a Guest</div>
@@ -57,7 +63,7 @@ export default function LoginModal() {
             </div>
           )}
 
-          {!userSignUp ? (
+          {!needUserSignUp ? (
             <div>
               <button className="btn relative text-white bg-[#4285f4] hover:bg-[#3367d6]">
                 <div>Login with Google</div>
@@ -96,6 +102,7 @@ export default function LoginModal() {
             <span className="block grow h-[1px] bg-[#bac8ce] content-['']"></span>
           </div>
           <form
+            id="sign-in"
             className="auth__main--form flex flex-col gap-[16px]"
             onSubmit={(e) => {
               e.preventDefault();
@@ -106,21 +113,27 @@ export default function LoginModal() {
             // }}
           >
             <input
-              type="text"
+              type="email"
               className="auth__main--input h-[40px] py-[0] px-[12px] text-[#394547] border-[2px] border-[#bac8ce] rounded-sm"
               placeholder="Email Address"
+              onChange={(e) => setEmail(e.target.value)}
             />
             <input
               type="text"
               className="auth__main--input h-[40px] py-[0] px-[12px] text-[#394547] border-[2px] border-[#bac8ce] rounded-sm"
               placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
             />
-            {!userSignUp ? (
+            {!needUserSignUp ? (
               <button
               className="btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
               onClick={(e) => {
                 e.preventDefault();
-                signIn('example__email@gmail.com', 'example__password');
+                signIn(email, password);
+                setEmail('');
+                setPassword('');
+                dispatch(login());
+                dispatch(closeModal());
               }}
             >
               Login
@@ -130,7 +143,10 @@ export default function LoginModal() {
               className="btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
               onClick={(e) => {
                 e.preventDefault();
-                CreateAccount('example__email@gmail.com', 'example__password');
+                CreateAccount(email, password);
+                setEmail('');
+                setPassword('');
+                signUp();
               }}
             >
               Create Account
@@ -146,7 +162,7 @@ export default function LoginModal() {
           className="auth__switch--btn h-[40px] w-full text-base font-[300] text-center text-[#116be9] bg-[#f1f6f4]"
           onClick={signUp}
         >
-          {!userSignUp ? (
+          {!needUserSignUp ? (
             <div>Don't have an account?</div>
           ) : (
             <div>Already have an account?</div>
