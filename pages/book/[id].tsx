@@ -1,10 +1,11 @@
 import { NextRouter, useRouter } from "next/router";
 import SideBarNav from "@/components/SideBarNav";
-import SideBarLogo from "@/components/SidebarLogo";
+import SideBarLogo from "@/components/SideBarLogo";
 import SearchBar from "@/components/SearchBar";
 import Link from "next/link";
 import Image from "next/image";
 import { InferGetServerSidePropsType } from "next";
+import { useAppSelector } from "@/redux/hooks";
 
 interface BookProps {
   id: string;
@@ -27,25 +28,9 @@ interface BookProps {
 
 type Data = BookProps;
 
-export async function getServerSideProps(context: any) {
-  const { id } = context.query;
-  const res = await fetch(
-    `https://us-central1-summaristt.cloudfunctions.net/getBook?id=${id}`
-  );
-  const data: Data = await res.json();
+export default function Book() {
+  const currentBook = useAppSelector((state) => state.myBook.currentBook);
 
-  console.log(data);
-
-  return {
-    props: {
-      book: data,
-    },
-  };
-}
-
-export default function Book({
-  book,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <div className="flex flex-col ml-[200px] w-[calc(100% - 200px)]">
       <div className="sidebar bg-[#f7faf9] w-[200px] fixed top-[0] h-[100vh] left-[0] z-[1000]">
@@ -60,13 +45,13 @@ export default function Book({
           <div className="inner_wrapper flex gap-[8px]">
             <div className="inner__book w-full">
               <div className="inner_book--title text-[#032b41] text-[32px] mb-[16px] font-[600]">
-                {book?.title}
+                {currentBook?.title}
               </div>
               <div className="inner__book--author text-[#032b41] mb-[16px] font-[600]">
-                {book?.author}
+                {currentBook?.author}
               </div>
               <div className="inner__book--sub-title text-[#032b41] text-xl mb-[16px] font-[300]">
-                {book?.subTitle}
+                {currentBook?.subTitle}
               </div>
               <div className="inner__book--wrapper mb-[24px] border-[#e1e7ea] border-y py-[16px]">
                 <div className="inner__book-description--wrapper flex flex-wrap max-w-[400px] gap-y-[12px]">
@@ -85,10 +70,10 @@ export default function Book({
                       </svg>
                     </div>
                     <div className="inner__book--overall-rating">
-                      {book?.averageRating}&nbsp;
+                      {currentBook?.averageRating}&nbsp;
                     </div>
                     <div className="inner__book--total-rating">
-                      &#40;{book?.totalRating}&#41;
+                      &#40;{currentBook?.totalRating}&#41;
                     </div>
                   </div>
                   <div className="inner__book--description flex items-center w-[50%] text-sm text-[#032b41] font-[500]">
@@ -122,7 +107,7 @@ export default function Book({
                         <path d="M842 454c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8 0 140.3-113.7 254-254 254S258 594.3 258 454c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8 0 168.7 126.6 307.9 290 327.6V884H326.7c-13.7 0-24.7 14.3-24.7 32v36c0 4.4 2.8 8 6.2 8h407.6c3.4 0 6.2-3.6 6.2-8v-36c0-17.7-11-32-24.7-32H548V782.1c165.3-18 294-158 294-328.1zM512 624c93.9 0 170-75.2 170-168V232c0-92.8-76.1-168-170-168s-170 75.2-170 168v224c0 92.8 76.1 168 170 168zm-94-392c0-50.6 41.9-92 94-92s94 41.4 94 92v224c0 50.6-41.9 92-94 92s-94-41.4-94-92V232z"></path>
                       </svg>
                     </div>
-                    <div className="inner__book--type">{book?.type}</div>
+                    <div className="inner__book--type">{currentBook?.type}</div>
                   </div>
                   <div className="inner__book--description flex items-center w-[50%] text-sm text-[#032b41] font-[500]">
                     <div className="inner__book--icon flex h-[24px] w-[24px] mr-[4px]">
@@ -143,7 +128,9 @@ export default function Book({
                         ></path>
                       </svg>
                     </div>
-                    <div className="inner__book--ideas">{book?.keyIdeas}</div>
+                    <div className="inner__book--ideas">
+                      {currentBook?.keyIdeas}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -178,7 +165,9 @@ export default function Book({
                       <path d="M842 454c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8 0 140.3-113.7 254-254 254S258 594.3 258 454c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8 0 168.7 126.6 307.9 290 327.6V884H326.7c-13.7 0-24.7 14.3-24.7 32v36c0 4.4 2.8 8 6.2 8h407.6c3.4 0 6.2-3.6 6.2-8v-36c0-17.7-11-32-24.7-32H548V782.1c165.3-18 294-158 294-328.1zM512 624c93.9 0 170-75.2 170-168V232c0-92.8-76.1-168-170-168s-170 75.2-170 168v224c0 92.8 76.1 168 170 168zm-94-392c0-50.6 41.9-92 94-92s94 41.4 94 92v224c0 50.6-41.9 92-94 92s-94-41.4-94-92V232z"></path>
                     </svg>
                   </div>
-                  <div className="inner__book--read-text">Listen</div>
+                  <Link href={"/player/" + currentBook?.id}>
+                    <div className="inner__book--read-text">Listen</div>
+                  </Link>
                 </button>
               </div>
               <div className="inner__book--bookmark flex items-center gap-[8px] text-[#0365f2] font-[500] cursor-pointer mb-[40px] text-lg">
@@ -203,27 +192,27 @@ export default function Book({
                 What's it about?
               </div>
               <div className="inner__book--tags-wrapper flex flex-wrap gap-[16px] mb-[16px]">
-                {book.tags?.map((tag: string) => (
+                {currentBook?.tags.map((tag: string) => (
                   <div className="inner__book--tag bg-[#f1f6f4] px-[16px] h-[48px] flex items-center cursor-not-allowed text-[#032b41] font-[500] rounded-sm">
                     {tag}
                   </div>
                 ))}
               </div>
               <div className="inner__book--about text-[#032b41] mb-[16px] leading-[1.5]">
-                {book.bookDescription}
+                {currentBook?.bookDescription}
               </div>
               <div className="inner__book--secondary-title text-lg text-[#032b41] mb-[16px] font-[600]">
                 About the author
               </div>
               <div className="inner__book--author text-[#032b41] leading-[1.5]">
-                {book.authorDescription}
+                {currentBook?.authorDescription}
               </div>
             </div>
             <div className="inner__book-img--wrapper">
               <figure className="book__image--wrapper h-[300px] w-[300px] min-w-[300px]">
                 <img
                   className="book__image w-full h-full"
-                  src={book.imageLink}
+                  src={currentBook?.imageLink}
                   alt="book image"
                 />
               </figure>

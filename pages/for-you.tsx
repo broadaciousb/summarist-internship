@@ -1,5 +1,5 @@
 import SideBarNav from "@/components/SideBarNav";
-import SideBarLogo from "@/components/SidebarLogo";
+import SideBarLogo from "@/components/SideBarLogo";
 import SearchBar from "@/components/SearchBar";
 import Link from "next/link";
 import Image from "next/image";
@@ -8,6 +8,7 @@ import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 import BookTemplate from "@/components/BookTemplate";
 import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
+import { setBook } from "@/redux/bookSlice";
 
 interface BookProps {
   id: string;
@@ -130,12 +131,22 @@ export default function forYou({
                 {recBooks?.map((book: BookProps) => (
                   <BookTemplate
                     id={book.id}
-                    key={book.title}
-                    imgLink={book.imageLink}
-                    title={book.title}
                     author={book.author}
+                    title={book.title}
                     subTitle={book.subTitle}
+                    imageLink={book.imageLink}
+                    audioLink={book.audioLink}
+                    totalRating={book.totalRating}
+                    averageRating={book.averageRating}
+                    keyIdeas={book.keyIdeas}
+                    type={book.type}
+                    status={book.status}
                     subscriptionRequired={book.subscriptionRequired}
+                    summary={book.summary}
+                    tags={book.tags}
+                    bookDescription={book.bookDescription}
+                    authorDescription={book.authorDescription}
+                    key={book.title}
                   />
                 ))}
               </div>
@@ -151,12 +162,22 @@ export default function forYou({
                 {sugBooks?.map((book: BookProps) => (
                   <BookTemplate
                     id={book.id}
-                    key={book.title}
-                    imgLink={book.imageLink}
-                    title={book.title}
                     author={book.author}
+                    title={book.title}
                     subTitle={book.subTitle}
+                    imageLink={book.imageLink}
+                    audioLink={book.audioLink}
+                    totalRating={book.totalRating}
+                    averageRating={book.averageRating}
+                    keyIdeas={book.keyIdeas}
+                    type={book.type}
+                    status={book.status}
                     subscriptionRequired={book.subscriptionRequired}
+                    summary={book.summary}
+                    tags={book.tags}
+                    bookDescription={book.bookDescription}
+                    authorDescription={book.authorDescription}
+                    key={book.title}
                   />
                 ))}
               </div>

@@ -91,6 +91,7 @@ button:disabled {
   cursor: pointer;
   outline: none;
   appearance: none;
+  accent-color: white;
 }
 
 .audio__progress--bar::-webkit-slider-thumb {

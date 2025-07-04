@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
 import LoggedInSlice from './LoggedInSlice'
 import ToggleModalSlice from './ToggleModalSlice';
+import bookSlice from './bookSlice';
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       online: LoggedInSlice,
-      toggleModal: ToggleModalSlice
+      toggleModal: ToggleModalSlice,
+      myBook: bookSlice
     },
   })
 }

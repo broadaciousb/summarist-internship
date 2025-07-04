@@ -1,12 +1,15 @@
 import SideBarNav from "@/components/SideBarNav";
 import SearchBar from "@/components/SearchBar";
-import SideBarLogo from "@/components/SidebarLogo";
-import { useAppDispatch } from "@/redux/hooks";
+import SideBarLogo from "@/components/SideBarLogo"
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { increment as openModal } from "@/redux/ToggleModalSlice";
 import { useState } from "react";
 
+
+
 export default function Player() {
   const dispatch = useAppDispatch();
+  const currentBook = useAppSelector((state) => state.myBook.currentBook);
   const [audioProgress, setAudioProgress] = useState(0);
   const max = 204.048;
   const progressPercent = (audioProgress/max) * 100;
@@ -28,7 +31,7 @@ export default function Player() {
       <div className="summary relative w-full overflow-y-auto h-[calc(100% - 160px)]">
         <div className="audio__book--summary p-[24px] max-w-[800px] my-0 mx-auto whitespace-pre-line">
           <div className="audio__book--summary-title text-[#032b41] text-2xl border-b border-b-[#e1e7ea] mb-[32px] pb-[16px] leading-[1.5]">
-            How to Win Friends and Influence People in the Digital Age
+            {currentBook?.title}
           </div>
           <div className="settings__login--wrapper max-w-[460px] flex flex-col items-center my-0 mx-auto">
             <img
