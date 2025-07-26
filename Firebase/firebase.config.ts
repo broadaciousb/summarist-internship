@@ -62,6 +62,7 @@ export async function signIn(email: string, password: string): Promise<void> {
     );
     const user = userCredential.user;
     console.log("User signed in:", user);
+    alert(`${user} signed in.`)
   } catch (error: any) {
     const errorCode = error.code;
     const errorMessage = error.message;

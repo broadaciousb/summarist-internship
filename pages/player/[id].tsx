@@ -1,23 +1,23 @@
 import SideBarNav from "@/components/SideBarNav";
 import SearchBar from "@/components/SearchBar";
-import SideBarLogo from "@/components/SideBarLogo"
+import SideBarLogo from "@/components/SideBarLogo";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { increment as openModal } from "@/redux/ToggleModalSlice";
 import { useState } from "react";
 
-
-
 export default function Player() {
   const dispatch = useAppDispatch();
   const currentBook = useAppSelector((state) => state.myBook.currentBook);
-  const [audioProgress, setAudioProgress] = useState(0);
+  const isOnline: boolean = useAppSelector((state) => state.online.loggedIn);
+
+  // AUDIO PROGRESS BAR
   const max = 204.048;
-  const progressPercent = (audioProgress/max) * 100;
+  const [audioProgress, setAudioProgress] = useState(0);
+  const progressPercent = (audioProgress / max) * 100;
 
   function AudioProgressBar(prog: number) {
     setAudioProgress(prog);
   }
-
 
   return (
     <div className="relative flex flex-col ml-[200px] w-[calc(100% - 200px)]">
@@ -30,28 +30,31 @@ export default function Player() {
 
       <div className="summary relative w-full overflow-y-auto h-[calc(100% - 160px)]">
         <div className="audio__book--summary p-[24px] max-w-[800px] my-0 mx-auto whitespace-pre-line">
-          <div className="audio__book--summary-title text-[#032b41] text-2xl border-b border-b-[#e1e7ea] mb-[32px] pb-[16px] leading-[1.5]">
-            {currentBook?.title}
-          </div>
-          <div className="settings__login--wrapper max-w-[460px] flex flex-col items-center my-0 mx-auto">
-            <img
-              className="w-full h-full"
-              src="https://summarist.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogin.e313e580.png&w=1080&q=75"
-              alt=""
-            />
-            <div className="settings__login--text text-2xl font-[700] text-[] text-center mb-[16px]">
-              Log in to your account to read and listen to the book
+          {!isOnline ? (
+            <div className="settings__login--wrapper max-w-[460px] flex flex-col items-center my-0 mx-auto">
+              <img
+                className="w-full h-full"
+                src="https://summarist.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogin.e313e580.png&w=1080&q=75"
+                alt=""
+              />
+              <div className="settings__login--text text-2xl font-[700] text-[] text-center mb-[16px]">
+                Log in to your account to read and listen to the book
+              </div>
+              <button
+                className="btn max-w-[180px] text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
+                onClick={(e) => {
+                  e.preventDefault;
+                  dispatch(openModal());
+                }}
+              >
+                Login
+              </button>
             </div>
-            <button
-              className="btn max-w-[180px] text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
-              onClick={(e) => {
-                e.preventDefault;
-                dispatch(openModal());
-              }}
-            >
-              Login
-            </button>
-          </div>
+          ) : (
+            <div className="audio__book--summary-title text-[#032b41] text-2xl border-b border-b-[#e1e7ea] mb-[32px] pb-[16px] leading-[1.5]">
+              {currentBook?.title}
+            </div>
+          )}
         </div>
       </div>
 
@@ -135,10 +138,12 @@ export default function Player() {
             value={audioProgress}
             max={max}
             onChange={(e) => setAudioProgress(Number(e.target.value))}
-            style={{background: `linear-gradient(to right, rgb(43, 217, 124) ${progressPercent}%, rgb(109, 120, 125) ${progressPercent}%)`}}
+            style={{
+              background: `linear-gradient(to right, rgb(43, 217, 124) ${progressPercent}%, rgb(109, 120, 125) ${progressPercent}%)`,
+            }}
           ></input>
           <div className="audio__time text-[#fff] text-sm">03:24</div>
-        </div> 
+        </div>
       </div>
     </div>
   );

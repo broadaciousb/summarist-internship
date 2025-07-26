@@ -193,7 +193,7 @@ export default function Book() {
               </div>
               <div className="inner__book--tags-wrapper flex flex-wrap gap-[16px] mb-[16px]">
                 {currentBook?.tags.map((tag: string) => (
-                  <div className="inner__book--tag bg-[#f1f6f4] px-[16px] h-[48px] flex items-center cursor-not-allowed text-[#032b41] font-[500] rounded-sm">
+                  <div key={tag} className="inner__book--tag bg-[#f1f6f4] px-[16px] h-[48px] flex items-center cursor-not-allowed text-[#032b41] font-[500] rounded-sm">
                     {tag}
                   </div>
                 ))}

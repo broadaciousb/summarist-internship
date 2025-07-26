@@ -7,17 +7,54 @@ import { decrement as closeModal } from "@/redux/ToggleModalSlice";
 import { useEffect, useState } from "react";
 import { CreateAccount, signIn } from "@/Firebase/firebase.config";
 import { login } from "@/redux/LoggedInSlice";
+import { useRouter } from "next/router";
+
+
 
 export default function LoginModal() {
   const isOnline: boolean = useAppSelector((state) => state.online.loggedIn);
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const [needUserSignUp, setneedUserSignUp] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   function signUp() {
     !needUserSignUp ? setneedUserSignUp(true) : setneedUserSignUp(false);
+  }
+
+  async function handleCreateAccount() {
+    try {
+      await CreateAccount(email, password);
+      dispatch(closeModal());
+      setEmail("");
+      setPassword("");
+      signUp();
+
+    } catch (error: any) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error("Error creating account:", errorCode, errorMessage);
+      alert(`Error creating account: ${errorMessage}`); // Display more informative error
+      // Handle specific error codes (e.g., weak-password, email-already-in-use) for better UI feedback
+    }
+  }
+
+  async function handleLogin() {
+    try {
+      await signIn(email, password);
+      dispatch(login());
+      dispatch(closeModal());
+      router.push('/for-you');
+
+    } catch (error: any) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error("Error creating account:", errorCode, errorMessage);
+      alert(`Error creating account: ${errorMessage}`); // Display more informative error
+      // Handle specific error codes (e.g., weak-password, email-already-in-use) for better UI feedback
+    }
   }
 
   useEffect(() => {
@@ -72,7 +109,7 @@ export default function LoginModal() {
                     src={googleImg}
                     className="bg-white rounded-sm"
                     fill={true}
-                    style={{objectFit: "contain"}}
+                    style={{ objectFit: "contain" }}
                     alt="google img"
                   />
                 </figure>
@@ -126,33 +163,25 @@ export default function LoginModal() {
             />
             {!needUserSignUp ? (
               <button
-              className="btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
-              onClick={(e) => {
-                e.preventDefault();
-                signIn(email, password);
-                setEmail('');
-                setPassword('');
-                dispatch(login());
-                dispatch(closeModal());
-              }}
-            >
-              Login
-            </button>
+                className="btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleLogin();
+                }}
+              >
+                Login
+              </button>
             ) : (
               <button
-              className="btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
-              onClick={(e) => {
-                e.preventDefault();
-                CreateAccount(email, password);
-                setEmail('');
-                setPassword('');
-                signUp();
-              }}
-            >
-              Create Account
-            </button>
+                className="btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleCreateAccount();
+                }}
+              >
+                Create Account
+              </button>
             )}
-            
           </form>
         </div>
         <div className="auth__forgot--password text-center text-[#116be9] font-[300] text-sm mt-[0] mx-auto mb-[16px]">

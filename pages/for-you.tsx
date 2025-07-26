@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import BookTemplate from "@/components/BookTemplate";
 import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
 import { setBook } from "@/redux/bookSlice";
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 
 interface BookProps {
   id: string;
@@ -57,7 +58,13 @@ export default function forYou({
   recBooks,
   sugBooks,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const isOnline: boolean = useAppSelector((state) => state.online.loggedIn);
   console.log(recBooks);
+
+  useEffect(() => {
+    console.log(isOnline);
+  }, [isOnline]);
+  
   return (
     <div className="flex flex-col ml-[200px] w-[calc(100% - 200px)]">
       <div className="sidebar bg-[#f7faf9] w-[200px] fixed top-[0] h-[100vh] left-[0] z-[1000]">
@@ -106,7 +113,7 @@ export default function forYou({
                         className="w-full h-full pr-[4px] pl-[6px] py-[4px]"
                         stroke="#fff"
                         fill="#fff"
-                        stroke-width="0"
+                        strokeWidth="0"
                         viewBox="0 0 16 16"
                         xmlns="http://www.w3.org/2000/svg"
                       >

@@ -17,7 +17,7 @@ export default function SearchBar() {
                 <svg
                   stroke="#03314b"
                   fill="#03314b"
-                  stroke-width="0"
+                  strokeWidth="0"
                   viewBox="0 0 1024 1024"
                   height="24px"
                   width="24px"
