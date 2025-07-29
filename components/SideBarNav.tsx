@@ -1,8 +1,21 @@
 import Link from "next/link";
+import { increment as openModal } from "@/redux/ToggleModalSlice";
+import LoginModal from "./LoginModal";
+import { login, logout } from "@/redux/LoggedInSlice";
+import { signUserOut } from "@/Firebase/firebase.config";
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { sign } from "crypto";
 
 export default function SideBarNav() {
+  const dispatch = useAppDispatch();
+  const isOnline: boolean = useAppSelector((state) => state.online.loggedIn);
+  const isModalOpen: boolean = useAppSelector(
+    (state) => state.toggleModal.isModalOpen
+  );
+
   return (
     <div className="sidebar__wrapper flex flex-col justify-between pb-[20px] h-full overflow-y-auto">
+      {isModalOpen && <LoginModal />}
       <div className="sidebar__top mt-[40px]">
         <Link
           href=""
@@ -138,7 +151,12 @@ export default function SideBarNav() {
           </div>
           <div className="sider__link--text ">Help & Support</div>
         </Link>
-        <Link
+        {!isOnline ? (
+          <Link
+          onClick={(e) => {
+            e.preventDefault();
+            dispatch(openModal());
+          }}
           href=""
           className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-pointer"
         >
@@ -162,6 +180,38 @@ export default function SideBarNav() {
           </div>
           <div className="sider__link--text ">Login</div>
         </Link>
+        ) : (
+          <Link
+          href=""
+          onClick={(e) => {
+            e.preventDefault();
+            signUserOut();
+            dispatch(logout());
+          }}
+          className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-pointer"
+        >
+          <div className="sidebar__link--line w-[5px] h-full mr-[16px]"></div>
+          <div className="siderbar__icon--wrapper flex items-center justify-center mr-[8px]">
+            <svg
+              stroke="#032b41"
+              fill="none"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              height="24px"
+              width="24px"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+          </div>
+          <div className="sider__link--text ">Logout</div>
+        </Link>
+        )}
+        
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import { useState } from "react";
 import LoginModal from "./LoginModal";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { increment as openModal } from "@/redux/ToggleModalSlice";
+import { signUserOut } from "@/Firebase/firebase.config";
 import { logout } from "@/redux/LoggedInSlice";
 
 export default function Navbar() {
@@ -63,6 +64,7 @@ export default function Navbar() {
           hover:text-[#2bd97c]"
               onClick={(e) => {
                 e.preventDefault;
+                signUserOut();
                 dispatch(logout());
                 console.log(isOnline);
               }}

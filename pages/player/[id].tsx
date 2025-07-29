@@ -51,8 +51,13 @@ export default function Player() {
               </button>
             </div>
           ) : (
-            <div className="audio__book--summary-title text-[#032b41] text-2xl border-b border-b-[#e1e7ea] mb-[32px] pb-[16px] leading-[1.5]">
-              {currentBook?.title}
+            <div>
+              <div className="audio__book--summary-title text-[#032b41] text-2xl border-b border-b-[#e1e7ea] mb-[32px] pb-[16px] leading-[1.5]">
+                {currentBook?.title}
+              </div>
+              <div className="inner__book--description flex items-center w-full text-sm text-[#032b41] font-[500]">
+                {currentBook?.summary}
+              </div>
             </div>
           )}
         </div>
