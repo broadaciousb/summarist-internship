@@ -19,6 +19,9 @@ export default function Player() {
     setAudioProgress(prog);
   }
 
+  // TEXT SIZE CONTROL
+  const [textSize, setTextSize] = useState("18px");
+
   return (
     <div className="relative flex flex-col ml-[200px] w-[calc(100% - 200px)]">
       <div className="sidebar bg-[#f7faf9] w-[200px] fixed top-[0] h-[calc(100vh-60px)] left-[0] pb-[70px] z-[1000]">
@@ -51,11 +54,11 @@ export default function Player() {
               </button>
             </div>
           ) : (
-            <div>
+            <div className="">
               <div className="audio__book--summary-title text-[#032b41] text-2xl border-b border-b-[#e1e7ea] mb-[32px] pb-[16px] leading-[1.5]">
                 {currentBook?.title}
               </div>
-              <div className="inner__book--description flex items-center w-full text-sm text-[#032b41] font-[500]">
+              <div className="inner__book--description flex items-center w-full text-[#032b41] font-[500]" style={{ fontSize: textSize}}>
                 {currentBook?.summary}
               </div>
             </div>

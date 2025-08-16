@@ -1,10 +1,10 @@
 import Link from "next/link";
+import { usePathname } from 'next/navigation';
 import { increment as openModal } from "@/redux/ToggleModalSlice";
 import LoginModal from "./LoginModal";
 import { login, logout } from "@/redux/LoggedInSlice";
 import { signUserOut } from "@/Firebase/firebase.config";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
-import { sign } from "crypto";
 
 export default function SideBarNav() {
   const dispatch = useAppDispatch();
@@ -13,12 +13,16 @@ export default function SideBarNav() {
     (state) => state.toggleModal.isModalOpen
   );
 
+  const route = usePathname();
+  const playerRouteRegex = /^\/player\[a-zA-z0-9_-]+$/;
+
+
   return (
     <div className="sidebar__wrapper flex flex-col justify-between pb-[20px] h-full overflow-y-auto">
       {isModalOpen && <LoginModal />}
       <div className="sidebar__top mt-[40px]">
         <Link
-          href=""
+          href="/for-you"
           className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-pointer"
         >
           <div className="sidebar__link--line w-[5px] h-full mr-[16px] bg-[#2bd97c]"></div>
