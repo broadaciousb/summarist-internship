@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useAppSelector } from "@/redux/hooks";
 import {
   BsFillFastForwardFill,
@@ -16,12 +16,11 @@ export default function AudioPlayer() {
 
   // AUDIO PLAY/PAUSE
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
   function togglePlay() {
     if (!audioRef.current) return;
 
     if (!isPlaying) {
-      setMax(audioRef.current?.duration);
       audioRef.current.play();
       setIsPlaying(true);
     } else {
@@ -31,14 +30,24 @@ export default function AudioPlayer() {
   }
 
   // AUDIO PROGRESS BAR
-  const [max, setMax] = useState(200);
+  const max = Number(audioRef.current?.duration)
   const [audioProgress, setAudioProgress] = useState(0);
+  const progressBarRef = useRef<HTMLAudioElement>(null);
+
+  function handleProgressChange() {
+    if (audioRef.current && progressBarRef) {
+      const newTime = Number(progressBarRef.current.value);
+      audioRef.current.currentTime = newTime;
+      setAudioProgress(newTime);
+      
+    }
+  }
 
   const progressPercent = (audioProgress / max) * 100;
 
-  function AudioProgressBar(prog: number) {
-    setAudioProgress(prog);
-  }
+  useEffect(() => {
+    handleProgressChange();
+  }, [audioRef.current?.currentTime])
 
   
 
@@ -87,9 +96,10 @@ export default function AudioPlayer() {
         <input
           type="range"
           className="audio__progress--bar"
-          value={audioProgress}
+          ref={progressBarRef}
+          value={audioRef?.current?.currentTime}
           max={max}
-          onChange={(e) => setAudioProgress(Number(e.target.value))}
+          onChange={handleProgressChange}
           style={{
             background: `linear-gradient(to right, rgb(43, 217, 124) ${progressPercent}%, rgb(109, 120, 125) ${progressPercent}%)`,
           }}
