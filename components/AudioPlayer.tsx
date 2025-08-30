@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useAppSelector } from "@/redux/hooks";
 import {
   BsFillFastForwardFill,
@@ -17,44 +17,109 @@ export default function AudioPlayer() {
   // AUDIO PLAY/PAUSE
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const playAnimationRef = useRef<number | null>(null);
+
   function togglePlay() {
     if (!audioRef.current) return;
 
     if (!isPlaying) {
-      audioRef.current.play();
       setIsPlaying(true);
     } else {
-      audioRef.current.pause();
       setIsPlaying(false);
     }
   }
 
-  // AUDIO PROGRESS BAR
-  const max = Number(audioRef.current?.duration)
-  const [audioProgress, setAudioProgress] = useState(0);
-  const progressBarRef = useRef<HTMLAudioElement>(null);
-
-  function handleProgressChange() {
-    if (audioRef.current && progressBarRef) {
-      const newTime = Number(progressBarRef.current.value);
-      audioRef.current.currentTime = newTime;
-      setAudioProgress(newTime);
-      
+  const startAnimation = useCallback(() => {
+    if (audioRef.current && progressBarRef.current && duration) {
+      const animate = () => {
+        updateProgress();
+        playAnimationRef.current = requestAnimationFrame(animate);
+      };
+      playAnimationRef.current = requestAnimationFrame(animate);
     }
-  }
+  });
 
-  const progressPercent = (audioProgress / max) * 100;
+  const updateProgress = useCallback(() => {
+    if (audioRef.current && progressBarRef.current && duration) {
+      const currentTime = audioRef.current.currentTime;
+      setTimeProgress(currentTime);
+      progressBarRef.current.value = currentTime.toString();
+      setAudioProgress(currentTime);
+    }
+  })
 
   useEffect(() => {
-    handleProgressChange();
-  }, [audioRef.current?.currentTime])
+    if (isPlaying) {
+      audioRef.current?.play();
+      startAnimation();
+    } else {
+      audioRef.current?.pause();
+      if (playAnimationRef.current !== null) {
+        cancelAnimationFrame(playAnimationRef.current);
+        playAnimationRef.current = null;
+      }
+      updateProgress();
+    }
+    return () => {
+      if (playAnimationRef.current !== null) {
+        cancelAnimationFrame(playAnimationRef.current);
+      }
+    };
+  }, [isPlaying, audioRef]);
+
+  // AUDIO PROGRESS BAR
+  const [audioProgress, setAudioProgress] = useState(0);
+  const progressBarRef = useRef<HTMLInputElement>(null);
+
+  const [duration, setDuration] = useState<number>(0);
+
+  const [timeProgress, setTimeProgress] = useState<number>(0);
+
+  const onLoadedMetaData = () => {
+    const newDuration: number | undefined = audioRef.current?.duration;
+    if (newDuration !== undefined) {
+      setDuration(newDuration);
+    }
+
+    if (progressBarRef.current && newDuration) {
+      progressBarRef.current.max = newDuration?.toString();
+    }
+
+  };
+
+  const formatTime = (time: number | undefined): string => {
+    if (typeof time === 'number' && !isNaN(time)) {
+      const minutes = Math.floor(time / 60);
+      const seconds = Math.floor(time % 60);
+
+      const formatMinutes = minutes.toString().padStart(2, '0');
+      const formatSeconds = seconds.toString().padStart(2, '0');
+      return `${formatMinutes}:${formatSeconds}`;
+    }
+    return '00:00';
+  }
 
   
 
+  function handleProgressChange() {
+    if (audioRef.current && progressBarRef.current) {
+      const newTime = Number(progressBarRef.current.value);
+      audioRef.current.currentTime = newTime;
+      setTimeProgress(newTime);
+      setAudioProgress(newTime);
+    }
+    console.log("handlProgress called");
+  }
+
+  const progressPercent = (audioProgress / duration) * 100;
 
   return (
     <div className="audio__wrapper w-full z-1500 h-[80px] mt-auto flex items-center justify-between bg-[#042330] py-0 px-[40px] fixed bottom-0 right-0">
-      <audio ref={audioRef} src={currentBook?.audioLink} />
+      <audio
+        ref={audioRef}
+        src={currentBook?.audioLink}
+        onLoadedMetadata={onLoadedMetaData}
+      />
       <div className="audio__track--wrapper w-[calc(100%/3)] flex gap-[12px]">
         <figure className="audio__track--image-mask flex max-w[48px]">
           <figure className="book__img--wrapper w-[48px] h-[48px] min-w-[48px]">
@@ -92,19 +157,23 @@ export default function AudioPlayer() {
         </div>
       </div>
       <div className="audio__progress--wrapper w-[calc(100%/3)] flex items-center gap-[16px]">
-        <div className="audio__time text-[#fff] text-sm">00:00</div>
+        <div className="audio__time text-[#fff] text-sm">
+          {formatTime(timeProgress)}
+        </div>
         <input
           type="range"
           className="audio__progress--bar"
           ref={progressBarRef}
-          value={audioRef?.current?.currentTime}
-          max={max}
+          defaultValue={0}
+          value={timeProgress}
           onChange={handleProgressChange}
           style={{
             background: `linear-gradient(to right, rgb(43, 217, 124) ${progressPercent}%, rgb(109, 120, 125) ${progressPercent}%)`,
           }}
         ></input>
-        <div className="audio__time text-[#fff] text-sm">03:24</div>
+        <div className="audio__time text-[#fff] text-sm">
+          {formatTime(duration)}
+        </div>
       </div>
     </div>
   );
