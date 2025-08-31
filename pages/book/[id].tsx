@@ -30,6 +30,7 @@ type Data = BookProps;
 
 export default function Book() {
   const currentBook = useAppSelector((state) => state.myBook.currentBook);
+  console.log(currentBook?.audioLink);
 
   return (
     <div className="flex flex-col ml-[200px] w-[calc(100% - 200px)]">
@@ -151,24 +152,25 @@ export default function Book() {
                   </div>
                   <div className="inner__book--read-text">Read</div>
                 </button>
-                <button className="inner__book--read--btn flex items-center justify-center w-[144px] h-[48px] bg-[#032b41] text-white text-base cursor-pointer gap-[8px] rounded-sm">
-                  <div className="inner__book--read-icon flex">
-                    <svg
-                      stroke="currentColor"
-                      fill="currentColor"
-                      stroke-width="0"
-                      viewBox="0 0 1024 1024"
-                      height="24px"
-                      width="24px"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M842 454c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8 0 140.3-113.7 254-254 254S258 594.3 258 454c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8 0 168.7 126.6 307.9 290 327.6V884H326.7c-13.7 0-24.7 14.3-24.7 32v36c0 4.4 2.8 8 6.2 8h407.6c3.4 0 6.2-3.6 6.2-8v-36c0-17.7-11-32-24.7-32H548V782.1c165.3-18 294-158 294-328.1zM512 624c93.9 0 170-75.2 170-168V232c0-92.8-76.1-168-170-168s-170 75.2-170 168v224c0 92.8 76.1 168 170 168zm-94-392c0-50.6 41.9-92 94-92s94 41.4 94 92v224c0 50.6-41.9 92-94 92s-94-41.4-94-92V232z"></path>
-                    </svg>
-                  </div>
-                  <Link href={"/player/" + currentBook?.id}>
+                <Link href={"/player/" + currentBook?.id}>
+                  <button className="inner__book--read--btn flex items-center justify-center w-[144px] h-[48px] bg-[#032b41] text-white text-base cursor-pointer gap-[8px] rounded-sm">
+                    <div className="inner__book--read-icon flex">
+                      <svg
+                        stroke="currentColor"
+                        fill="currentColor"
+                        stroke-width="0"
+                        viewBox="0 0 1024 1024"
+                        height="24px"
+                        width="24px"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path d="M842 454c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8 0 140.3-113.7 254-254 254S258 594.3 258 454c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8 0 168.7 126.6 307.9 290 327.6V884H326.7c-13.7 0-24.7 14.3-24.7 32v36c0 4.4 2.8 8 6.2 8h407.6c3.4 0 6.2-3.6 6.2-8v-36c0-17.7-11-32-24.7-32H548V782.1c165.3-18 294-158 294-328.1zM512 624c93.9 0 170-75.2 170-168V232c0-92.8-76.1-168-170-168s-170 75.2-170 168v224c0 92.8 76.1 168 170 168zm-94-392c0-50.6 41.9-92 94-92s94 41.4 94 92v224c0 50.6-41.9 92-94 92s-94-41.4-94-92V232z"></path>
+                      </svg>
+                    </div>
+
                     <div className="inner__book--read-text">Listen</div>
-                  </Link>
-                </button>
+                  </button>
+                </Link>
               </div>
               <div className="inner__book--bookmark flex items-center gap-[8px] text-[#0365f2] font-[500] cursor-pointer mb-[40px] text-lg">
                 <div className="inner__book--bookmark-icon flex w-[20px] h-[20px]">
@@ -193,7 +195,10 @@ export default function Book() {
               </div>
               <div className="inner__book--tags-wrapper flex flex-wrap gap-[16px] mb-[16px]">
                 {currentBook?.tags.map((tag: string) => (
-                  <div key={tag} className="inner__book--tag bg-[#f1f6f4] px-[16px] h-[48px] flex items-center cursor-not-allowed text-[#032b41] font-[500] rounded-sm">
+                  <div
+                    key={tag}
+                    className="inner__book--tag bg-[#f1f6f4] px-[16px] h-[48px] flex items-center cursor-not-allowed text-[#032b41] font-[500] rounded-sm"
+                  >
                     {tag}
                   </div>
                 ))}

@@ -9,8 +9,6 @@ import { CreateAccount, signIn } from "@/Firebase/firebase.config";
 import { login } from "@/redux/LoggedInSlice";
 import { useRouter } from "next/router";
 
-
-
 export default function LoginModal() {
   const isOnline: boolean = useAppSelector((state) => state.online.loggedIn);
   const dispatch = useAppDispatch();
@@ -31,7 +29,6 @@ export default function LoginModal() {
       setEmail("");
       setPassword("");
       signUp();
-
     } catch (error: any) {
       const errorCode = error.code;
       const errorMessage = error.message;
@@ -46,14 +43,28 @@ export default function LoginModal() {
       await signIn(email, password);
       dispatch(login());
       dispatch(closeModal());
-      router.push('/for-you');
-
+      router.push("/for-you");
     } catch (error: any) {
       const errorCode = error.code;
       const errorMessage = error.message;
       console.error("Error creating account:", errorCode, errorMessage);
       alert(`Error creating account: ${errorMessage}`); // Display more informative error
       // Handle specific error codes (e.g., weak-password, email-already-in-use) for better UI feedback
+    }
+  }
+
+  async function handleGuestLogin() {
+    console.log("guest proc");
+    try {
+      await signIn("guestemail@gmail.com", "dolphin33legs!");
+      dispatch(login());
+      dispatch(closeModal());
+      router.push("/for-you");
+      console.log("guest logged");
+    } catch (error: any) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error("Error with guest sign-in.", errorCode, errorMessage);
     }
   }
 
@@ -84,7 +95,13 @@ export default function LoginModal() {
           </div>
           {!needUserSignUp && (
             <div>
-              <button className="btn relative text-white bg-[#3a579d] hover:bg-[#25396b]">
+              <button
+                className="btn relative text-white bg-[#3a579d] hover:bg-[#25396b]"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleGuestLogin();
+                }}
+              >
                 <div>Login as a Guest</div>
                 <figure className="icon--mask bg-transparent flex items-center justify-center w-[36px] h-[36px] left-[2px] absolute">
                   <BsPersonFill className="w-full h-full" />
@@ -156,7 +173,7 @@ export default function LoginModal() {
               onChange={(e) => setEmail(e.target.value)}
             />
             <input
-              type="text"
+              type="password"
               className="auth__main--input h-[40px] py-[0] px-[12px] text-[#394547] border-[2px] border-[#bac8ce] rounded-sm"
               placeholder="Password"
               onChange={(e) => setPassword(e.target.value)}

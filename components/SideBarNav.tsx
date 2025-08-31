@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { usePathname } from 'next/navigation';
+import { useRouter } from "next/router";
 import { increment as openModal } from "@/redux/ToggleModalSlice";
 import LoginModal from "./LoginModal";
 import { login, logout } from "@/redux/LoggedInSlice";
@@ -13,7 +14,9 @@ export default function SideBarNav() {
     (state) => state.toggleModal.isModalOpen
   );
 
-  const route = usePathname();
+  const route = useRouter();
+
+  const pathName = usePathname();
   const playerRouteRegex = /^\/player\[a-zA-z0-9_-]+$/;
 
 
@@ -191,6 +194,7 @@ export default function SideBarNav() {
             e.preventDefault();
             signUserOut();
             dispatch(logout());
+            route.replace("/");
           }}
           className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-pointer"
         >
