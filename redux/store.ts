@@ -6,6 +6,7 @@ import { combineReducers } from "@reduxjs/toolkit";
 import LoggedInSlice from "./LoggedInSlice";
 import ToggleModalSlice from "./ToggleModalSlice";
 import bookSlice from "./bookSlice";
+import FontSizeSlice from "./FontSizeSlice";
 
 const persistConfig = {
   key: "root",
@@ -18,6 +19,7 @@ const reducer = combineReducers({
   online: LoggedInSlice,
   toggleModal: ToggleModalSlice,
   myBook: bookSlice,
+  toggleFontSize: FontSizeSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

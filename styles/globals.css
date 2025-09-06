@@ -31,7 +31,6 @@ ul {
 button {
   cursor: pointer;
   outline: none;
-  border: none;
 }
 
 button:active {

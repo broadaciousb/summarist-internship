@@ -10,6 +10,9 @@ export default function Player() {
   const dispatch = useAppDispatch();
   const currentBook = useAppSelector((state) => state.myBook.currentBook);
   const isOnline: boolean = useAppSelector((state) => state.online.loggedIn);
+  const textSize = useAppSelector((state) => state.toggleFontSize.fontSize);
+
+  console.log(textSize);
 
   // AUDIO PROGRESS BAR
   const max = 204.048;
@@ -21,7 +24,7 @@ export default function Player() {
   }
 
   // TEXT SIZE CONTROL
-  const [textSize, setTextSize] = useState("18px");
+  
 
   return (
     <div className="relative flex flex-col ml-[200px] w-[calc(100% - 200px)]">
@@ -56,10 +59,10 @@ export default function Player() {
             </div>
           ) : (
             <div className="">
-              <div className="audio__book--summary-title text-[#032b41] text-2xl border-b border-b-[#e1e7ea] mb-[32px] pb-[16px] leading-[1.5]">
+              <div className="audio__book--summary-title text-[#032b41] text-3xl border-b border-b-[#e1e7ea] mb-[32px] pb-[16px] leading-[1.5] font-[700]">
                 {currentBook?.title}
               </div>
-              <div className="inner__book--description flex items-center w-full text-[#032b41] font-[500]" style={{ fontSize: textSize}}>
+              <div className={`inner__book--description flex items-center w-full text-${textSize} text-[#032b41] font-[500] leading-[1.5]`}>
                 {currentBook?.summary}
               </div>
             </div>

@@ -1,11 +1,13 @@
 import Link from "next/link";
-import { usePathname } from 'next/navigation';
+import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
 import { increment as openModal } from "@/redux/ToggleModalSlice";
 import LoginModal from "./LoginModal";
 import { login, logout } from "@/redux/LoggedInSlice";
 import { signUserOut } from "@/Firebase/firebase.config";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { RiFontSize } from "react-icons/ri";
+import { setFontSize } from "@/redux/FontSizeSlice";
 
 export default function SideBarNav() {
   const dispatch = useAppDispatch();
@@ -13,16 +15,18 @@ export default function SideBarNav() {
   const isModalOpen: boolean = useAppSelector(
     (state) => state.toggleModal.isModalOpen
   );
+  const textSize = useAppSelector((state) => state.toggleFontSize.fontSize);
 
   const route = useRouter();
 
   const pathName = usePathname();
   const playerRouteRegex = /^\/player\[a-zA-z0-9_-]+$/;
 
-
   return (
     <div className="sidebar__wrapper flex flex-col justify-between pb-[20px] h-full overflow-y-auto">
       {isModalOpen && <LoginModal />}
+
+      {/* TOP HALF OF SIDEBAR */}
       <div className="sidebar__top mt-[40px]">
         <Link
           href="/for-you"
@@ -107,7 +111,60 @@ export default function SideBarNav() {
           </div>
           <div className="sider__link--text ">Search</div>
         </Link>
+
+        {/* FONT SIZE CONTROL */}
+
+        {!pathName.startsWith("/player") ? null : (
+          <div className="sidebar_link--wrapper flex items-center gap-[8px] ml-[24px]">
+            <button
+              className={`size__option--button flex items-center justify-center w-[32px] border-b-3 ${
+                textSize === "lg" ? "border-[#2bd97c]" : "border-transparent"
+              }`}
+              onClick={(e) => {
+                e.preventDefault;
+                dispatch(setFontSize("lg"));
+              }}
+            >
+              <RiFontSize className="w-[18px] h-[18px]" />
+            </button>
+            <button
+              className={`size__option--button flex items-center justify-center w-[32px] border-b-3 ${
+                textSize === "xl" ? "border-[#2bd97c]" : "border-transparent"
+              }`}
+              onClick={(e) => {
+                e.preventDefault;
+                dispatch(setFontSize("xl"));
+              }}
+            >
+              <RiFontSize className="w-[20px] h-[20px]" />
+            </button>
+            <button
+              className={`size__option--button flex items-center justify-center w-[32px] border-b-3 ${
+                textSize === "2xl" ? "border-[#2bd97c]" : "border-transparent"
+              }`}
+              onClick={(e) => {
+                e.preventDefault;
+                dispatch(setFontSize("2xl"));
+              }}
+            >
+              <RiFontSize className="w-[24px] h-[24px]" />
+            </button>
+            <button
+              className={`size__option--button flex items-center justify-center w-[32px] border-b-3 ${
+                textSize === "3xl" ? "border-[#2bd97c]" : "border-transparent"
+              }`}
+              onClick={(e) => {
+                e.preventDefault;
+                dispatch(setFontSize("3xl"));
+              }}
+            >
+              <RiFontSize className="w-[30px] h-[30px]" />
+            </button>
+          </div>
+        )}
       </div>
+
+      {/* BOTTOM HALF OF SIDEBAR */}
       <div className="sidebar__bottom">
         <Link
           href=""
@@ -132,7 +189,7 @@ export default function SideBarNav() {
               ></path>
             </svg>
           </div>
-          <div className="sider__link--text ">Search</div>
+          <div className="sider__link--text ">Settings</div>
         </Link>
         <Link
           href=""
@@ -160,66 +217,65 @@ export default function SideBarNav() {
         </Link>
         {!isOnline ? (
           <Link
-          onClick={(e) => {
-            e.preventDefault();
-            dispatch(openModal());
-          }}
-          href=""
-          className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-pointer"
-        >
-          <div className="sidebar__link--line w-[5px] h-full mr-[16px]"></div>
-          <div className="siderbar__icon--wrapper flex items-center justify-center mr-[8px]">
-            <svg
-              stroke="#032b41"
-              fill="none"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              height="24px"
-              width="24px"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-              <polyline points="16 17 21 12 16 7"></polyline>
-              <line x1="21" y1="12" x2="9" y2="12"></line>
-            </svg>
-          </div>
-          <div className="sider__link--text ">Login</div>
-        </Link>
+            onClick={(e) => {
+              e.preventDefault();
+              dispatch(openModal());
+            }}
+            href=""
+            className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-pointer"
+          >
+            <div className="sidebar__link--line w-[5px] h-full mr-[16px]"></div>
+            <div className="siderbar__icon--wrapper flex items-center justify-center mr-[8px]">
+              <svg
+                stroke="#032b41"
+                fill="none"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                height="24px"
+                width="24px"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+            </div>
+            <div className="sider__link--text ">Login</div>
+          </Link>
         ) : (
           <Link
-          href=""
-          onClick={(e) => {
-            e.preventDefault();
-            signUserOut();
-            dispatch(logout());
-            route.replace("/");
-          }}
-          className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-pointer"
-        >
-          <div className="sidebar__link--line w-[5px] h-full mr-[16px]"></div>
-          <div className="siderbar__icon--wrapper flex items-center justify-center mr-[8px]">
-            <svg
-              stroke="#032b41"
-              fill="none"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              height="24px"
-              width="24px"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-              <polyline points="16 17 21 12 16 7"></polyline>
-              <line x1="21" y1="12" x2="9" y2="12"></line>
-            </svg>
-          </div>
-          <div className="sider__link--text ">Logout</div>
-        </Link>
+            href=""
+            onClick={(e) => {
+              e.preventDefault();
+              signUserOut();
+              dispatch(logout());
+              route.replace("/");
+            }}
+            className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-pointer"
+          >
+            <div className="sidebar__link--line w-[5px] h-full mr-[16px]"></div>
+            <div className="siderbar__icon--wrapper flex items-center justify-center mr-[8px]">
+              <svg
+                stroke="#032b41"
+                fill="none"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                height="24px"
+                width="24px"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+            </div>
+            <div className="sider__link--text ">Logout</div>
+          </Link>
         )}
-        
       </div>
     </div>
   );
