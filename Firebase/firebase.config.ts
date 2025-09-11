@@ -5,7 +5,8 @@ import {
   createUserWithEmailAndPassword,
   Auth,
   signInWithEmailAndPassword,
-  signOut
+  signOut,
+  User
 } from "firebase/auth";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { login, logout } from "@/redux/LoggedInSlice";
@@ -31,7 +32,7 @@ const auth: Auth = getAuth(app);
 export async function CreateAccount(
   email: string,
   password: string
-): Promise<void> {
+): Promise<any> {
 
   try {
     const userCredential = await createUserWithEmailAndPassword(
@@ -40,9 +41,15 @@ export async function CreateAccount(
       password
     );
     const user = userCredential.user;
+
+    
     console.log("Account created:", user);
     alert("Account created successfully");
+
     // You might want to return the user object or dispatch an action here
+    
+    
+
   } catch (error: any) {
     const errorCode = error.code;
     const errorMessage = error.message;
@@ -53,16 +60,20 @@ export async function CreateAccount(
 }
 
 // Sign In User
-export async function signIn(email: string, password: string): Promise<void> {
+export async function signIn(email: string, password: string): Promise<any> {
   try {
     const userCredential = await signInWithEmailAndPassword(
       auth,
       email,
       password
     );
+
     const user = userCredential.user;
-    console.log("User signed in:", user);
-    alert(`${user} signed in.`)
+  
+    console.log("User signed in:", user.displayName);
+    alert(`Sign in successful.`)
+    return user;
+
   } catch (error: any) {
     const errorCode = error.code;
     const errorMessage = error.message;
