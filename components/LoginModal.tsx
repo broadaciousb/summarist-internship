@@ -8,6 +8,16 @@ import { useEffect, useState } from "react";
 import { CreateAccount, signIn } from "@/Firebase/firebase.config";
 import { login } from "@/redux/LoggedInSlice";
 import { useRouter } from "next/router";
+import { getAuth } from "firebase/auth";
+
+const auth = getAuth();
+const user = auth.currentUser;
+
+if (user !== null) {
+  // The user object has basic properties such as display name, email, etc.
+  const uid = user.uid;
+  console.log(uid)
+}
 
 export default function LoginModal() {
   const isOnline: boolean = useAppSelector((state) => state.online.loggedIn);

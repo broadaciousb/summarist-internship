@@ -1,15 +1,19 @@
 // Import the functions you need from the SDKs you need
 import { FirebaseApp, initializeApp } from "firebase/app";
+import { getFirestore, addDoc, collection, doc } from "firebase/firestore";
 import {
   getAuth,
+  onAuthStateChanged,
   createUserWithEmailAndPassword,
   Auth,
   signInWithEmailAndPassword,
   signOut,
   User
 } from "firebase/auth";
+import { Store } from "@reduxjs/toolkit";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { login, logout } from "@/redux/LoggedInSlice";
+import { setUser } from "@/redux/userSlice";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -25,10 +29,13 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app: FirebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 // Create User
 const auth: Auth = getAuth(app);
 
+
+// POSSIBLY IMPORT CREATEUSERIWTHEMAILANDPASSWORD TO LOGIN MODAL AND MOVE CREATEACCOUNT FUNCTION THERE.
 export async function CreateAccount(
   email: string,
   password: string
@@ -41,12 +48,14 @@ export async function CreateAccount(
       password
     );
     const user = userCredential.user;
-
     
+
     console.log("Account created:", user);
     alert("Account created successfully");
 
     // You might want to return the user object or dispatch an action here
+    
+
     
     
 
@@ -69,9 +78,10 @@ export async function signIn(email: string, password: string): Promise<any> {
     );
 
     const user = userCredential.user;
+    const uid = user.uid;
   
-    console.log("User signed in:", user.displayName);
-    alert(`Sign in successful.`)
+    console.log("User signed in:", user.email);
+    alert(`Sign in successful.`);
     return user;
 
   } catch (error: any) {
@@ -94,3 +104,15 @@ export async function signUserOut(): Promise<void> {
     alert(`Error signing out account: ${errorMessage}`);
   }
 }
+
+
+// AUTH OBSERVER
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // user is signed in
+    const uid = user.uid;
+  } else {
+    // User is signed out
+  }
+})
