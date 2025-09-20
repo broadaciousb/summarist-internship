@@ -3,7 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from './store'
 
 interface User {
-  uid: string;
+  uid: string | null;
 }
 
 // Define a type for the slice state
@@ -37,6 +37,6 @@ export const userSlice = createSlice({
 export const { setUser, clearUser, incrementByAmount } = userSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
-export const currentUser = (state: RootState) => state.myBook.currentBook
+export const currentUser = (state: RootState) => state.user.currentUser
 
 export default userSlice.reducer

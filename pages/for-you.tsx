@@ -7,7 +7,6 @@ import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 import BookTemplate from "@/components/BookTemplate";
 import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
-import { setBook } from "@/redux/bookSlice";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 
 interface BookProps {
@@ -58,11 +57,12 @@ export default function forYou({
   sugBooks,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const isOnline: boolean = useAppSelector((state) => state.online.loggedIn);
+  const userId: any = useAppSelector((state) => state.user.currentUser);
   console.log(recBooks);
 
   useEffect(() => {
-    console.log(isOnline);
-  }, [isOnline]);
+    console.log(userId);
+  }, [userId]);
 
   return (
     <div className="flex flex-col ml-[200px] w-[calc(100% - 200px)]">

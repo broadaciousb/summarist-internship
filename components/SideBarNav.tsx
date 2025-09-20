@@ -207,7 +207,6 @@ export default function SideBarNav() {
                 onClick={(e) => {
                   e.preventDefault();
                   signUserOut();
-                  dispatch(logout());
                   route.replace("/");
                 }}
                 className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-pointer"

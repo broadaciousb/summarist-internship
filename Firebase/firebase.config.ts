@@ -32,7 +32,7 @@ const app: FirebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // Create User
-const auth: Auth = getAuth(app);
+export const auth: Auth = getAuth(app);
 
 
 // POSSIBLY IMPORT CREATEUSERIWTHEMAILANDPASSWORD TO LOGIN MODAL AND MOVE CREATEACCOUNT FUNCTION THERE.
@@ -109,6 +109,7 @@ export async function signUserOut(): Promise<void> {
 // AUTH OBSERVER
 
 onAuthStateChanged(auth, (user) => {
+
   if (user) {
     // user is signed in
     const uid = user.uid;

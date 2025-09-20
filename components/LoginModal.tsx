@@ -51,7 +51,6 @@ export default function LoginModal() {
   async function handleLogin() {
     try {
       await signIn(email, password);
-      dispatch(login());
       dispatch(closeModal());
       router.push("/for-you");
     } catch (error: any) {
@@ -67,7 +66,6 @@ export default function LoginModal() {
     console.log("guest proc");
     try {
       await signIn("guestemail@gmail.com", "dolphin33legs!");
-      dispatch(login());
       dispatch(closeModal());
       router.push("/for-you");
       console.log("guest logged");
