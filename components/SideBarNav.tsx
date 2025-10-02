@@ -10,6 +10,7 @@ import { RiFontSize } from "react-icons/ri";
 import { setFontSize } from "@/redux/FontSizeSlice";
 import FontSizeControl from "./FontSizeControl";
 import SideBarLogo from "./SideBarLogo";
+import { useState } from "react";
 
 export default function SideBarNav() {
   const dispatch = useAppDispatch();
@@ -22,6 +23,10 @@ export default function SideBarNav() {
   const route = useRouter();
 
   const pathName = usePathname();
+  const [path, setPath] = useState("");
+
+  if (!pathName) return null;
+
   const playerRouteRegex = /^\/player\[a-zA-z0-9_-]+$/;
 
   return (
@@ -37,7 +42,11 @@ export default function SideBarNav() {
               href="/for-you"
               className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-pointer"
             >
-              <div className="sidebar__link--line w-[5px] h-full mr-[16px] bg-[#2bd97c]"></div>
+              <div className="sidebar__link--line w-[5px] h-full mr-[16px]">
+                {pathName.startsWith("/for-you") && (
+                  <div className="w-full h-full bg-[#2bd97c]"></div>
+                )}
+              </div>
               <div className="siderbar__icon--wrapper flex items-center justify-center mr-[8px]">
                 <svg
                   stroke="#032b41"
@@ -57,7 +66,11 @@ export default function SideBarNav() {
               href="/library"
               className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-pointer"
             >
-              <div className="sidebar__link--line w-[5px] h-full mr-[16px]"></div>
+              <div className="sidebar__link--line w-[5px] h-full mr-[16px]">
+                {pathName.startsWith("/library") && (
+                  <div className="w-full h-full bg-[#2bd97c]"></div>
+                )}
+              </div>
               <div className="siderbar__icon--wrapper flex items-center justify-center mr-[8px]">
                 <svg
                   stroke="#032b41"
@@ -77,7 +90,11 @@ export default function SideBarNav() {
               href=""
               className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-pointer"
             >
-              <div className="sidebar__link--line w-[5px] h-full mr-[16px]"></div>
+              <div className="sidebar__link--line w-[5px] h-full mr-[16px]">
+                {pathName.startsWith("/highligts") && (
+                  <div className="w-full h-full bg-[#2bd97c]"></div>
+                )}
+              </div>
               <div className="siderbar__icon--wrapper flex items-center justify-center mr-[8px]">
                 <svg
                   stroke="#032b41"
@@ -100,7 +117,11 @@ export default function SideBarNav() {
               href=""
               className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-pointer"
             >
-              <div className="sidebar__link--line w-[5px] h-full mr-[16px]"></div>
+              <div className="sidebar__link--line w-[5px] h-full mr-[16px]">
+                {pathName.startsWith("/search") && (
+                  <div className="w-full h-full bg-[#2bd97c]"></div>
+                )}
+              </div>
               <div className="siderbar__icon--wrapper flex items-center justify-center mr-[8px]">
                 <svg
                   stroke="#032b41"
