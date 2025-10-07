@@ -7,6 +7,9 @@ import Image from "next/image";
 import { InferGetServerSidePropsType } from "next";
 import { useAppSelector } from "@/redux/hooks";
 
+import { getFirestore, setDoc, addDoc, collection, doc } from "firebase/firestore";
+import { db } from "@/Firebase/firebase.config";
+
 interface BookProps {
   id: string;
   author: string;
@@ -30,7 +33,14 @@ type Data = BookProps;
 
 export default function Book() {
   const currentBook = useAppSelector((state) => state.myBook.currentBook);
+  const user = useAppSelector((state) => state.user.currentUser);
   console.log(currentBook?.audioLink);
+
+  async function addToLibrary(book: Data | null) {
+    if (!user) return;
+    
+    await addDoc(collection(db, user?.uid), book);
+  }
 
   return (
     <div className="flex flex-col ml-[200px] w-[calc(100% - 200px)]">
@@ -187,7 +197,10 @@ export default function Book() {
                   </svg>
                 </div>
                 <div className="inner__book--bookmark-text">
-                  Add title to My Library
+                  <Link href="" onClick={(e) => {
+                    e.preventDefault();
+                    addToLibrary(currentBook);
+                  }}>Add title to My Library</Link>
                 </div>
               </div>
               <div className="inner__book--secondary-title text-lg text-[#032b41] mb-[16px] font-[600]">

@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { FirebaseApp, initializeApp } from "firebase/app";
-import { getFirestore, addDoc, collection, doc } from "firebase/firestore";
+import { getFirestore, setDoc, collection, doc } from "firebase/firestore";
 import {
   getAuth,
   onAuthStateChanged,
@@ -29,7 +29,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app: FirebaseApp = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+export const db = getFirestore(app);
 
 // Create User
 export const auth: Auth = getAuth(app);
@@ -48,9 +48,8 @@ export async function CreateAccount(
       password
     );
     const user = userCredential.user;
-    
 
-    console.log("Account created:", user);
+    console.log("Account created:", user.email);
     alert("Account created successfully");
 
     // You might want to return the user object or dispatch an action here
@@ -105,15 +104,3 @@ export async function signUserOut(): Promise<void> {
   }
 }
 
-
-// AUTH OBSERVER
-
-onAuthStateChanged(auth, (user) => {
-
-  if (user) {
-    // user is signed in
-    const uid = user.uid;
-  } else {
-    // User is signed out
-  }
-})

@@ -3,7 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from './store'
 
 interface User {
-  uid: string | null;
+  uid: string;
 }
 
 // Define a type for the slice state
