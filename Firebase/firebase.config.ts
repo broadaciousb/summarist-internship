@@ -13,7 +13,6 @@ import {
 import { Store } from "@reduxjs/toolkit";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { login, logout } from "@/redux/LoggedInSlice";
-import { setUser } from "@/redux/userSlice";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 

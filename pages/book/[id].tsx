@@ -8,7 +8,8 @@ import { InferGetServerSidePropsType } from "next";
 import { useAppSelector } from "@/redux/hooks";
 
 import { getFirestore, setDoc, addDoc, collection, doc } from "firebase/firestore";
-import { db } from "@/Firebase/firebase.config";
+import { db, auth } from "@/Firebase/firebase.config";
+import firebase from "firebase/compat/app";
 
 interface BookProps {
   id: string;
@@ -33,13 +34,23 @@ type Data = BookProps;
 
 export default function Book() {
   const currentBook = useAppSelector((state) => state.myBook.currentBook);
-  const user = useAppSelector((state) => state.user.currentUser);
   console.log(currentBook?.audioLink);
 
-  async function addToLibrary(book: Data | null) {
-    if (!user) return;
+  const user = auth.currentUser;
+
+  // async function addToLibrary(book: Data | null) {
+  //   if (!user || !book) return;
     
-    await addDoc(collection(db, user?.uid), book);
+  //   try {
+  //     await addDoc(collection(db, "users", user.uid, "library"));
+  //     console.log("Book added to library successfully.")
+  //   } catch (error) {
+  //     console.error("Error adding book to library:", error);
+  //   }
+  // }
+
+  function test() {
+    console.log(user?.uid);
   }
 
   return (
@@ -199,7 +210,8 @@ export default function Book() {
                 <div className="inner__book--bookmark-text">
                   <Link href="" onClick={(e) => {
                     e.preventDefault();
-                    addToLibrary(currentBook);
+                    // addToLibrary(currentBook);
+                    test();
                   }}>Add title to My Library</Link>
                 </div>
               </div>

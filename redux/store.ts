@@ -7,7 +7,6 @@ import LoggedInSlice from "./LoggedInSlice";
 import ToggleModalSlice from "./ToggleModalSlice";
 import bookSlice from "./bookSlice";
 import FontSizeSlice from "./FontSizeSlice";
-import userSlice from "./userSlice";
 
 const persistConfig = {
   key: "root",
@@ -18,7 +17,6 @@ const persistConfig = {
 
 const reducer = combineReducers({
   online: LoggedInSlice,
-  user: userSlice,
   toggleModal: ToggleModalSlice,
   myBook: bookSlice,
   toggleFontSize: FontSizeSlice,
