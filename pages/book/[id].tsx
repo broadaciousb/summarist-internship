@@ -38,19 +38,15 @@ export default function Book() {
 
   const user = auth.currentUser;
 
-  // async function addToLibrary(book: Data | null) {
-  //   if (!user || !book) return;
+  async function addToLibrary(book: Data | null, user: any) {
+    if (!user || !book) return;
     
-  //   try {
-  //     await addDoc(collection(db, "users", user.uid, "library"));
-  //     console.log("Book added to library successfully.")
-  //   } catch (error) {
-  //     console.error("Error adding book to library:", error);
-  //   }
-  // }
-
-  function test() {
-    console.log(user?.uid);
+    try {
+      await addDoc(collection(db, "users", user.uid, "library"), book);
+      console.log("Book added to library successfully.")
+    } catch (error) {
+      console.error("Error adding book to library:", error);
+    }
   }
 
   return (
@@ -210,8 +206,7 @@ export default function Book() {
                 <div className="inner__book--bookmark-text">
                   <Link href="" onClick={(e) => {
                     e.preventDefault();
-                    // addToLibrary(currentBook);
-                    test();
+                    addToLibrary(currentBook, user);
                   }}>Add title to My Library</Link>
                 </div>
               </div>

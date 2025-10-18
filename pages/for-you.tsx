@@ -80,7 +80,7 @@ export default function forYou({
               <div className="selected__book--sub-title text-[#032b41] w-[40%]">
                 How Constant Innovation Creates Radically Successful Business
               </div>
-              <div className="sselected__book--line w-[1px] bg-[#bac8ce]"></div>
+              <div className="selected__book--line w-[1px] bg-[#bac8ce]"></div>
               <div className="selected__book--content flex gap-[16px] w-[60%]">
                 <figure className="book__image--wrapper relative h-[140px] w-[140px] min-w-[140px]">
                   <Image
