@@ -62,7 +62,7 @@ export default function library() {
       setMyBooks(books);
     });
 
-    return () => unsubscribe();
+    return unsubscribe;
   }, []);
   
   return (

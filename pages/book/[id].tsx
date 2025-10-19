@@ -7,9 +7,10 @@ import Image from "next/image";
 import { InferGetServerSidePropsType } from "next";
 import { useAppSelector } from "@/redux/hooks";
 
-import { getFirestore, setDoc, addDoc, collection, doc } from "firebase/firestore";
+import { getFirestore, setDoc, addDoc, collection, doc, onSnapshot, deleteDoc } from "firebase/firestore";
 import { db, auth } from "@/Firebase/firebase.config";
 import firebase from "firebase/compat/app";
+import { useEffect, useState } from "react";
 
 interface BookProps {
   id: string;
@@ -33,21 +34,47 @@ interface BookProps {
 type Data = BookProps;
 
 export default function Book() {
-  const currentBook = useAppSelector((state) => state.myBook.currentBook);
-  console.log(currentBook?.audioLink);
-
   const user = auth.currentUser;
+  const currentBook = useAppSelector((state) => state.myBook.currentBook);
+  const [myBooks, setMybooks] = useState<string[]>([]);
+  const [bookInLibrary, setBookInLibrary] = useState(false);
 
   async function addToLibrary(book: Data | null, user: any) {
-    if (!user || !book) return;
+    if (!user || !book || !currentBook) return;
     
     try {
-      await addDoc(collection(db, "users", user.uid, "library"), book);
+      await setDoc(doc(collection(db, "users", user.uid, "library"), currentBook.id), book);
       console.log("Book added to library successfully.")
     } catch (error) {
       console.error("Error adding book to library:", error);
     }
   }
+
+  async function removeFromLibrary() {
+    if (!user || !currentBook) return;
+
+    try {
+      await deleteDoc(doc(collection(db, "users", user.uid, "library"), currentBook?.id));
+      console.log("Book removed from library successfully.");
+    } catch(error) {
+      console.error("Error removing book from library:", error);
+    }
+  }
+
+  useEffect(() => {
+    if (!user) return;
+
+    const unsubscribe = onSnapshot(collection(db, "users", user?.uid, "library"), (snapshot) => {
+      const books = snapshot.docs.map((doc) => doc.data().id);
+
+      if (books.includes(currentBook?.id)) {
+        setBookInLibrary(true);
+      } else {
+        setBookInLibrary(false);
+      }
+
+    })
+  }, []);
 
   return (
     <div className="flex flex-col ml-[200px] w-[calc(100% - 200px)]">
@@ -189,7 +216,8 @@ export default function Book() {
                   </button>
                 </Link>
               </div>
-              <div className="inner__book--bookmark flex items-center gap-[8px] text-[#0365f2] font-[500] cursor-pointer mb-[40px] text-lg">
+              {
+                !bookInLibrary ? (<div className="inner__book--bookmark flex items-center gap-[8px] text-[#0365f2] font-[500] cursor-pointer mb-[40px] text-lg">
                 <div className="inner__book--bookmark-icon flex w-[20px] h-[20px]">
                   <svg
                     stroke="currentColor"
@@ -209,7 +237,31 @@ export default function Book() {
                     addToLibrary(currentBook, user);
                   }}>Add title to My Library</Link>
                 </div>
+              </div>) : (
+                <div className="inner__book--bookmark flex items-center gap-[8px] text-[#0365f2] font-[500] cursor-pointer mb-[40px] text-lg">
+                <div className="inner__book--bookmark-icon flex w-[20px] h-[20px]">
+                  <svg
+                    stroke="currentColor"
+                    fill="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 16 16"
+                    height="100%"
+                    width="100%"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"></path>
+                  </svg>
+                </div>
+                <div className="inner__book--bookmark-text">
+                  <Link href="" onClick={(e) => {
+                    e.preventDefault();
+                    removeFromLibrary();
+                  }}>Remove From My Library</Link>
+                </div>
               </div>
+              )
+              }
+              
               <div className="inner__book--secondary-title text-lg text-[#032b41] mb-[16px] font-[600]">
                 What's it about?
               </div>
