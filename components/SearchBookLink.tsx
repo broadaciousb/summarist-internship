@@ -77,7 +77,7 @@ export default function SearchBookLink({
   return (
     <Link
       href={"/book/" + id}
-      className="book__link w-full flex items-center p-[16px] gap-[24px] h-[120px] border-b border-[#e1e7ea]"
+      className="book__link w-full flex items-center p-[16px] gap-[24px] h-[120px] border-b border-[#e1e7ea] hover__effect"
       onClick={(e) => {
         e.preventDefault;
         dispatch(

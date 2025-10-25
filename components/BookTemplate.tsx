@@ -78,7 +78,7 @@ export default function BookTemplate({
   return (
     <Link
       href={"/book/" + id}
-      className="for-you__recommended--books-link relative pt-[32px] pb-[12px] px-[12px] rounded-sm max-w-[200px] w-full snap-start"
+      className="for-you__recommended--books-link relative pt-[32px] pb-[12px] px-[12px] rounded-sm max-w-[200px] w-full snap-start hover__effect"
       onClick={(e) => {
         e.preventDefault;
         dispatch(
