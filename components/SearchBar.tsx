@@ -1,10 +1,38 @@
+import { useState, useEffect } from "react";
+import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
+import Link from "next/link";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { setBook } from "@/redux/bookSlice";
+import SearchBookLink from "./SearchBookLink";
+import SearchResults from "./SearchResults";
+
+interface Book {
+  id: string;
+  author: string;
+  title: string;
+  subTitle: string;
+  imageLink: string;
+  audioLink: string;
+  totalRating: number;
+  averageRating: number;
+  keyIdeas: number;
+  type: string;
+  status: string;
+  subscriptionRequired: boolean;
+  summary: string;
+  tags: string[];
+  bookDescription: string;
+  authorDescription: string;
+}
+
 export default function SearchBar() {
+  const [searchRef, setSearchRef] = useState("");
+
   return (
     <div className="search__background bg-[#fff] border-b border-[#e1e7ea] h-[80px]">
-      <div className="search__wrapper flex justify-between items-center px-[32px] max-w-[1070px] h-full mx-auto relative">
-        <figure>
-
-        </figure>
+      <div className="search__wrapper relative flex justify-between items-center px-[32px] max-w-[1070px] h-full mx-auto relative">
+        <figure></figure>
+        {searchRef && (<SearchResults searchRef={searchRef}/>)}
         <div className="search__content flex items-center gap-[24px] max-w-[340px] w-full">
           <div className="search flex items-center w-full">
             <div className="search__input--wrapper relative gap-[8px] flex items-center w-full">
@@ -12,6 +40,9 @@ export default function SearchBar() {
                 type="text"
                 placeholder="Search for books"
                 className="search__input h-[40px] w-full px-[16px] bg-[#f1f6f4] text-[#042330] border-[2px] border-[#e1e7ea] outline-none rounded-lg"
+                onChange={(e) => {
+                  setSearchRef(e.target.value);
+                }}
               />
               <div className="search__icon flex items-center absolute h-full right-[8px] pl-[8px] justify-end border-l-[#e1e7ea] border-l-[2px]">
                 <svg

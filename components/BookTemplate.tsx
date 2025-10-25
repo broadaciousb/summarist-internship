@@ -1,7 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useState } from "react";
-import HowToWinFriends from "../assets/how-to-win-friends.png";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setBook } from "@/redux/bookSlice";
 
@@ -43,9 +41,9 @@ export default function BookTemplate({
   authorDescription,
 }: Book) {
 
+  // USEEFFECT FOR DISPLAYING AUDIO DURATION
   const dispatch = useAppDispatch();
   const [duration, setDuration] = useState<number | null>(null);
-  
   
   useEffect(() => {
     if (!audioLink) return;
@@ -62,8 +60,10 @@ export default function BookTemplate({
       audio.removeEventListener("loadedmetadata", handleLoadedMetaData);
     }
   }, [audioLink]);
-  
-  const formatTime = (time: number | undefined): string => {
+
+
+  // FORMAT DURATION
+  const formatTime = (time: number | null): string => {
     if (typeof time === 'number' && !isNaN(time)) {
       const minutes = Math.floor(time / 60);
       const seconds = Math.floor(time % 60);
