@@ -38,6 +38,7 @@ export default function Book() {
   const currentBook = useAppSelector((state) => state.myBook.currentBook);
   const [myBooks, setMybooks] = useState<string[]>([]);
   const [bookInLibrary, setBookInLibrary] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   async function addToLibrary(book: Data | null, user: any) {
     if (!user || !book || !currentBook) return;
@@ -63,7 +64,6 @@ export default function Book() {
 
   useEffect(() => {
     if (!user) return;
-
     const unsubscribe = onSnapshot(collection(db, "users", user?.uid, "library"), (snapshot) => {
       const books = snapshot.docs.map((doc) => doc.data().id);
 
@@ -72,9 +72,12 @@ export default function Book() {
       } else {
         setBookInLibrary(false);
       }
-
     })
   }, []);
+
+  useEffect(() => {
+
+  }, [currentBook])
 
   return (
     <div className="flex flex-col ml-[200px] w-[calc(100% - 200px)]">

@@ -102,6 +102,18 @@ button:disabled {
 }
 
 
+@keyframes spin{
+  to { transform: rotate(360deg); }
+}
+
+.loader{
+  animation: spin 1s linear infinite;
+  /* performance hint */
+  will-change: transform;
+}
+
+
+
 
 
 

@@ -3,12 +3,11 @@ import SearchBar from "@/components/SearchBar";
 import Link from "next/link";
 import Image from "next/image";
 import LeanStartup from "../assets/the-lean-startup.png";
-import axios, { AxiosResponse } from "axios";
-import { useEffect, useState } from "react";
 import BookTemplate from "@/components/BookTemplate";
 import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
-import { auth } from "@/Firebase/firebase.config";
+import LoadingSkeleton from "@/components/LoadingSkeleton";
+import { Suspense } from "react";
 
 interface BookProps {
   id: string;
@@ -30,6 +29,8 @@ interface BookProps {
 }
 
 type Data = BookProps[];
+
+
 
 export const getServerSideProps = (async () => {
   const res1 = await fetch(

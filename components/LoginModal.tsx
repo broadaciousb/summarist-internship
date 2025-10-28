@@ -2,6 +2,7 @@ import Image from "next/image";
 import googleImg from "../assets/google.png";
 import { BsPersonFill } from "react-icons/bs";
 import { RxCross2 } from "react-icons/rx";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { decrement as closeModal } from "@/redux/ToggleModalSlice";
 import { useEffect, useState } from "react";
@@ -16,7 +17,7 @@ const user = auth.currentUser;
 if (user !== null) {
   // The user object has basic properties such as display name, email, etc.
   const uid = user.uid;
-  console.log(uid)
+  console.log(uid);
 }
 
 export default function LoginModal() {
@@ -27,6 +28,8 @@ export default function LoginModal() {
   const [needUserSignUp, setneedUserSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [guestLoading, setGuestLoading] = useState(false);
 
   function signUp() {
     !needUserSignUp ? setneedUserSignUp(true) : setneedUserSignUp(false);
@@ -50,10 +53,12 @@ export default function LoginModal() {
 
   async function handleLogin() {
     try {
+      setLoginLoading(true);
       await signIn(email, password);
       dispatch(closeModal());
       router.push("/for-you");
     } catch (error: any) {
+      setLoginLoading(false);
       const errorCode = error.code;
       const errorMessage = error.message;
       console.error("Error creating account:", errorCode, errorMessage);
@@ -65,11 +70,13 @@ export default function LoginModal() {
   async function handleGuestLogin() {
     console.log("guest proc");
     try {
+      setGuestLoading(true);
       await signIn("guestemail@gmail.com", "dolphin33legs!");
       dispatch(closeModal());
       router.push("/for-you");
       console.log("guest logged");
     } catch (error: any) {
+      setGuestLoading(false);
       const errorCode = error.code;
       const errorMessage = error.message;
       console.error("Error with guest sign-in.", errorCode, errorMessage);
@@ -110,7 +117,11 @@ export default function LoginModal() {
                   handleGuestLogin();
                 }}
               >
-                <div>Login as a Guest</div>
+                {!guestLoading ? (
+                  "Login as a Guest"
+                ) : (
+                  <AiOutlineLoading3Quarters className="loader" />
+                )}
                 <figure className="icon--mask bg-transparent flex items-center justify-center w-[36px] h-[36px] left-[2px] absolute">
                   <BsPersonFill className="w-full h-full" />
                 </figure>
@@ -194,7 +205,11 @@ export default function LoginModal() {
                   handleLogin();
                 }}
               >
-                Login
+                {!loginLoading ? (
+                  "Login"
+                ) : (
+                  <AiOutlineLoading3Quarters className="loader" />
+                )}
               </button>
             ) : (
               <button
