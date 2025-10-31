@@ -55,8 +55,8 @@ export default function LoginModal() {
     try {
       setLoginLoading(true);
       await signIn(email, password);
-      dispatch(closeModal());
       router.push("/for-you");
+      dispatch(closeModal());
     } catch (error: any) {
       setLoginLoading(false);
       const errorCode = error.code;

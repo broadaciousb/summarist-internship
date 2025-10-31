@@ -88,7 +88,7 @@ export default function SideBarNav() {
             </Link>
             <Link
               href=""
-              className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-pointer"
+              className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-not-allowed"
             >
               <div className="sidebar__link--line w-[5px] h-full mr-[16px]">
                 {pathName.startsWith("/highligts") && (
@@ -115,7 +115,7 @@ export default function SideBarNav() {
             </Link>
             <Link
               href=""
-              className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-pointer"
+              className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-not-allowed"
             >
               <div className="sidebar__link--line w-[5px] h-full mr-[16px]">
                 {pathName.startsWith("/search") && (
@@ -171,7 +171,7 @@ export default function SideBarNav() {
             </Link>
             <Link
               href=""
-              className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-pointer"
+              className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-not-allowed"
             >
               <div className="sidebar__link--line w-[5px] h-full mr-[16px]"></div>
               <div className="siderbar__icon--wrapper flex items-center justify-center mr-[8px]">
