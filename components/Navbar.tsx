@@ -29,7 +29,7 @@ export default function Navbar() {
         mx-auto
         px-[24px]"
       >
-        <figure className="max-w-[200px] w-full h-full relative">
+        <figure className="max-w-[200px] min-w-[200px] w-full h-full relative">
           <Image
             src={Logo}
             alt="logo"
@@ -73,9 +73,9 @@ export default function Navbar() {
             </li>
           )}
 
-          <li className="text-[#032b41] cursor-not-allowed">About</li>
-          <li className="text-[#032b41] cursor-not-allowed">Contact</li>
-          <li className="text-[#032b41] cursor-not-allowed">Help</li>
+          <li className="text-[#032b41] cursor-not-allowed hidden sm:block">About</li>
+          <li className="text-[#032b41] cursor-not-allowed hidden sm:block">Contact</li>
+          <li className="text-[#032b41] cursor-not-allowed hidden sm:block">Help</li>
         </ul>
       </div>
     </nav>

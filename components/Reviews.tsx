@@ -16,7 +16,7 @@ export default function Reviews() {
                 <div className="review__name">Hanna M.</div>
                 <div className="review__stars flex"><BsStarFill className="fill-[#0564f1] w-[16px] h-[16px]" /></div>
               </div>
-              <div className="review__body text-[#394547] tracking-[0.3px] leading-[1.4]">
+              <div className="review__body text-sm md:text-base text-[#394547] tracking-[0.3px] leading-[1.4]">
                 This app has been a <b>game-changer</b> for me! It's saved me so
                 much time and effort in reading and comprehending books. Highly
                 recommend it to all book lovers.
@@ -27,7 +27,7 @@ export default function Reviews() {
                 <div className="review__name">David B.</div>
                 <div className="review__stars flex"><BsStarFill className="fill-[#0564f1] w-[16px] h-[16px]" /></div>
               </div>
-              <div className="review__body text-[#394547] tracking-[0.3px] leading-[1.4]">
+              <div className="review__body text-sm md:text-base text-[#394547] tracking-[0.3px] leading-[1.4]">
                 I love this app! It provides
                 <b> concise and accurate summaries</b> of books in a way that is
                 easy to understand. It's also very user-friendly and intuitive.
@@ -38,7 +38,7 @@ export default function Reviews() {
                 <div className="review__name">Nathan S.</div>
                 <div className="review__stars flex"><BsStarFill className="fill-[#0564f1] w-[16px] h-[16px]" /></div>
               </div>
-              <div className="review__body text-[#394547] tracking-[0.3px] leading-[1.4]">
+              <div className="review__body text-sm md:text-base text-[#394547] tracking-[0.3px] leading-[1.4]">
                 This app is a great way to get the main takeaways from a book
                 without having to read the entire thing.
                 <b>The summaries are well-written and informative. </b>
@@ -50,7 +50,7 @@ export default function Reviews() {
                 <div className="review__name">Ryan R.</div>
                 <div className="review__stars flex"><BsStarFill className="fill-[#0564f1] w-[16px] h-[16px]" /></div>
               </div>
-              <div className="review__body text-[#394547] tracking-[0.3px] leading-[1.4]">
+              <div className="review__body text-sm md:text-base text-[#394547] tracking-[0.3px] leading-[1.4]">
                 If you're a busy person who
                 <b> loves reading but doesn't have the time</b> to read every
                 book in full, this app is for you! The summaries are thorough

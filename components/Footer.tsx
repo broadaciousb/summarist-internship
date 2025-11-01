@@ -3,7 +3,7 @@ export default function Footer() {
     <section id="footer" className="bg-[#f1f6f4]">
       <div className="w-full py-[40px]">
         <div className="row">
-          <div className="footer__top--wrapper flex justify-between relative text-sm mt-[32px] mx-auto mb-[64px]">
+          <div className="footer__top--wrapper flex flex-wrap md:flex-row justify-between gap-[12px] relative text-sm mt-[32px] mx-auto mb-[64px]">
             <div className="footer__block z-1">
               <div className="footer__link--title font-[600] mb-[16px] text-lg text-[#032b41]">Actions</div>
               <div>

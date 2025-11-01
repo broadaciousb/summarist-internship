@@ -12,12 +12,13 @@ export default function Landing() {
       <div className="w-full py-[40px]">
         <div className="row">
           <div className="landing__wrapper flex m-[0px]">
-            <div className="landing__content w-full">
+            <div className="landing__content w-full text-center md:text-left flex flex-col items-center md:items-start">
               <div
                 className="
                 landing__content__title
                 text-[#032b41]
-                text-[40px]
+                text-[24px]
+                md:text-[40px]
                 font-bold
                 mb-[24px]
                 "
@@ -50,7 +51,7 @@ export default function Landing() {
                 Login
               </button>
             </div>
-            <figure className="flex justify-end w-[800px] h-[400px] relative">
+            <figure className="flex justify-end w-[800px] h-[400px] relative hidden md:flex">
               <Image
                 src={LandingImg}
                 className="absolute w-[400px]"

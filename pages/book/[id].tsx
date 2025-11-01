@@ -1,15 +1,10 @@
-import { NextRouter, useRouter } from "next/router";
 import SideBarNav from "@/components/SideBarNav";
 import SideBarLogo from "@/components/SideBarLogo";
 import SearchBar from "@/components/SearchBar";
 import Link from "next/link";
-import Image from "next/image";
-import { InferGetServerSidePropsType } from "next";
 import { useAppSelector } from "@/redux/hooks";
-
 import { getFirestore, setDoc, addDoc, collection, doc, onSnapshot, deleteDoc } from "firebase/firestore";
 import { db, auth } from "@/Firebase/firebase.config";
-import firebase from "firebase/compat/app";
 import { useEffect, useState } from "react";
 
 interface BookProps {
