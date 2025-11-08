@@ -3,9 +3,18 @@ import SideBarLogo from "@/components/SideBarLogo";
 import SearchBar from "@/components/SearchBar";
 import Link from "next/link";
 import { useAppSelector } from "@/redux/hooks";
-import { getFirestore, setDoc, addDoc, collection, doc, onSnapshot, deleteDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  setDoc,
+  addDoc,
+  collection,
+  doc,
+  onSnapshot,
+  deleteDoc,
+} from "firebase/firestore";
 import { db, auth } from "@/Firebase/firebase.config";
 import { useEffect, useState } from "react";
+import MobileSideBarNav from "@/components/MobileSideBar";
 
 interface BookProps {
   id: string;
@@ -31,16 +40,22 @@ type Data = BookProps;
 export default function Book() {
   const user = auth.currentUser;
   const currentBook = useAppSelector((state) => state.myBook.currentBook);
+  const isSideBarOpen: boolean = useAppSelector(
+    (state) => state.toggleSideBar.isSideBarOpen
+  );
   const [myBooks, setMybooks] = useState<string[]>([]);
   const [bookInLibrary, setBookInLibrary] = useState(false);
   const [loading, setLoading] = useState(false);
 
   async function addToLibrary(book: Data | null, user: any) {
     if (!user || !book || !currentBook) return;
-    
+
     try {
-      await setDoc(doc(collection(db, "users", user.uid, "library"), currentBook.id), book);
-      console.log("Book added to library successfully.")
+      await setDoc(
+        doc(collection(db, "users", user.uid, "library"), currentBook.id),
+        book
+      );
+      console.log("Book added to library successfully.");
     } catch (error) {
       console.error("Error adding book to library:", error);
     }
@@ -50,42 +65,45 @@ export default function Book() {
     if (!user || !currentBook) return;
 
     try {
-      await deleteDoc(doc(collection(db, "users", user.uid, "library"), currentBook?.id));
+      await deleteDoc(
+        doc(collection(db, "users", user.uid, "library"), currentBook?.id)
+      );
       console.log("Book removed from library successfully.");
-    } catch(error) {
+    } catch (error) {
       console.error("Error removing book from library:", error);
     }
   }
 
   useEffect(() => {
     if (!user) return;
-    const unsubscribe = onSnapshot(collection(db, "users", user?.uid, "library"), (snapshot) => {
-      const books = snapshot.docs.map((doc) => doc.data().id);
+    const unsubscribe = onSnapshot(
+      collection(db, "users", user?.uid, "library"),
+      (snapshot) => {
+        const books = snapshot.docs.map((doc) => doc.data().id);
 
-      if (books.includes(currentBook?.id)) {
-        setBookInLibrary(true);
-      } else {
-        setBookInLibrary(false);
+        if (books.includes(currentBook?.id)) {
+          setBookInLibrary(true);
+        } else {
+          setBookInLibrary(false);
+        }
       }
-    })
+    );
   }, []);
 
-  useEffect(() => {
-
-  }, [currentBook])
+  useEffect(() => {}, [currentBook]);
 
   return (
-    <div className="flex flex-col ml-[200px] w-[calc(100% - 200px)]">
-      <div className="sidebar bg-[#f7faf9] w-[200px] fixed top-[0] h-[100vh] left-[0] z-[1000]">
-        <SideBarLogo />
-        <div className="h-[calc(100vh-60px)]">
+    <div className="flex flex-col m-[0] md:ml-[200px] w-[calc(100% - 200px)]">
+      <div className="sidebar bg-[#f7faf9] w-[200px] invisible md:visible fixed top-[0] bottom-[60px] left-[0] z-[1000]">
           <SideBarNav />
-        </div>
       </div>
+      {/* SMALL SCREEN SIDEBAR */}
+      {isSideBarOpen && <MobileSideBarNav />}
+      {/* SEARCH BAR */}
       <SearchBar />
       <div className="row">
         <div className="w-full py-[40px]">
-          <div className="inner_wrapper flex gap-[8px]">
+          <div className="inner_wrapper flex flex-col-reverse lg:flex-row gap-[16px] lg:gap-[32px]">
             <div className="inner__book w-full">
               <div className="inner_book--title text-[#032b41] text-[32px] mb-[16px] font-[600]">
                 {currentBook?.title}
@@ -214,52 +232,62 @@ export default function Book() {
                   </button>
                 </Link>
               </div>
-              {
-                !bookInLibrary ? (<div className="inner__book--bookmark flex items-center gap-[8px] text-[#0365f2] font-[500] cursor-pointer mb-[40px] text-lg">
-                <div className="inner__book--bookmark-icon flex w-[20px] h-[20px]">
-                  <svg
-                    stroke="currentColor"
-                    fill="currentColor"
-                    stroke-width="0"
-                    viewBox="0 0 16 16"
-                    height="100%"
-                    width="100%"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"></path>
-                  </svg>
-                </div>
-                <div className="inner__book--bookmark-text">
-                  <Link href="" onClick={(e) => {
-                    e.preventDefault();
-                    addToLibrary(currentBook, user);
-                  }}>Add title to My Library</Link>
-                </div>
-              </div>) : (
+              {!bookInLibrary ? (
                 <div className="inner__book--bookmark flex items-center gap-[8px] text-[#0365f2] font-[500] cursor-pointer mb-[40px] text-lg">
-                <div className="inner__book--bookmark-icon flex w-[20px] h-[20px]">
-                  <svg
-                    stroke="currentColor"
-                    fill="currentColor"
-                    stroke-width="0"
-                    viewBox="0 0 16 16"
-                    height="100%"
-                    width="100%"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"></path>
-                  </svg>
+                  <div className="inner__book--bookmark-icon flex w-[20px] h-[20px]">
+                    <svg
+                      stroke="currentColor"
+                      fill="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 16 16"
+                      height="100%"
+                      width="100%"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"></path>
+                    </svg>
+                  </div>
+                  <div className="inner__book--bookmark-text">
+                    <Link
+                      href=""
+                      onClick={(e) => {
+                        e.preventDefault();
+                        addToLibrary(currentBook, user);
+                      }}
+                    >
+                      Add title to My Library
+                    </Link>
+                  </div>
                 </div>
-                <div className="inner__book--bookmark-text">
-                  <Link href="" onClick={(e) => {
-                    e.preventDefault();
-                    removeFromLibrary();
-                  }}>Remove From My Library</Link>
+              ) : (
+                <div className="inner__book--bookmark flex items-center gap-[8px] text-[#0365f2] font-[500] cursor-pointer mb-[40px] text-lg">
+                  <div className="inner__book--bookmark-icon flex w-[20px] h-[20px]">
+                    <svg
+                      stroke="currentColor"
+                      fill="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 16 16"
+                      height="100%"
+                      width="100%"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"></path>
+                    </svg>
+                  </div>
+                  <div className="inner__book--bookmark-text">
+                    <Link
+                      href=""
+                      onClick={(e) => {
+                        e.preventDefault();
+                        removeFromLibrary();
+                      }}
+                    >
+                      Remove From My Library
+                    </Link>
+                  </div>
                 </div>
-              </div>
-              )
-              }
-              
+              )}
+
               <div className="inner__book--secondary-title text-lg text-[#032b41] mb-[16px] font-[600]">
                 What's it about?
               </div>
@@ -283,7 +311,7 @@ export default function Book() {
                 {currentBook?.authorDescription}
               </div>
             </div>
-            <div className="inner__book-img--wrapper">
+            <div className="inner__book-img--wrapper flex justify-center">
               <figure className="book__image--wrapper h-[300px] w-[300px] min-w-[300px]">
                 <img
                   className="book__image w-full h-full"

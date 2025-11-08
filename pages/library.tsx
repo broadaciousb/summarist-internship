@@ -8,8 +8,7 @@ import Link from "next/link";
 import { auth, db } from "@/Firebase/firebase.config";
 import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
-
-
+import MobileSideBarNav from "@/components/MobileSideBar";
 
 interface BookProps {
   id: string;
@@ -34,42 +33,50 @@ type Data = BookProps[];
 
 export default function library() {
   const user = auth.currentUser;
-
+  const isSideBarOpen: boolean = useAppSelector(
+    (state) => state.toggleSideBar.isSideBarOpen
+  );
   const [myBooks, setMyBooks] = useState<Data>([]);
 
   useEffect(() => {
     if (!user) return;
 
-    const unsubscribe = onSnapshot(collection(db, "users", user?.uid, "library"), (snapshot) => {
-      const books = snapshot.docs.map((doc) => ({
-        id: doc.data().id,
-        author: doc.data().author,
-        title: doc.data().title,
-        subTitle: doc.data().subTitle,
-        imageLink: doc.data().imageLink,
-        audioLink: doc.data().audioLink,
-        totalRating: doc.data().totalRating,
-        averageRating: doc.data().averageRating,
-        keyIdeas: doc.data().keyIdeas,
-        type: doc.data().type,
-        status: doc.data().status,
-        subscriptionRequired: doc.data().subscriptionRequired,
-        summary: doc.data().summary,
-        tags: doc.data().tags,
-        bookDescription: doc.data().bookDescription,
-        authorDescription: doc.data().authorDescription,
-      }));
-      setMyBooks(books);
-    });
+    const unsubscribe = onSnapshot(
+      collection(db, "users", user?.uid, "library"),
+      (snapshot) => {
+        const books = snapshot.docs.map((doc) => ({
+          id: doc.data().id,
+          author: doc.data().author,
+          title: doc.data().title,
+          subTitle: doc.data().subTitle,
+          imageLink: doc.data().imageLink,
+          audioLink: doc.data().audioLink,
+          totalRating: doc.data().totalRating,
+          averageRating: doc.data().averageRating,
+          keyIdeas: doc.data().keyIdeas,
+          type: doc.data().type,
+          status: doc.data().status,
+          subscriptionRequired: doc.data().subscriptionRequired,
+          summary: doc.data().summary,
+          tags: doc.data().tags,
+          bookDescription: doc.data().bookDescription,
+          authorDescription: doc.data().authorDescription,
+        }));
+        setMyBooks(books);
+      }
+    );
 
     return unsubscribe;
   }, []);
-  
+
   return (
-    <div className="flex flex-col ml-[200px] w-[calc(100% - 200px)]">
-      <div className="sidebar bg-[#f7faf9] w-[200px] fixed top-[0] h-[100vh] left-[0] z-[1000]">
+    <div className="flex flex-col m-[0] md:ml-[200px] w-[calc(100% - 200px)]">
+      <div className="sidebar bg-[#f7faf9] w-[200px] invisible md:visible fixed top-[0] bottom-[60px] left-[0] z-[1000]">
         <SideBarNav />
       </div>
+      {/* SMALL SCREEN SIDEBAR */}
+      {isSideBarOpen && <MobileSideBarNav />}
+      {/* SEARCH BAR */}
       <SearchBar />
       <div className="row">
         <div className="w-full px-[40px]">

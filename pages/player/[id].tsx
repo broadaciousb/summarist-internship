@@ -5,12 +5,16 @@ import AudioPlayer from "@/components/AudioPlayer";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { increment as openModal } from "@/redux/ToggleModalSlice";
 import { useState } from "react";
+import MobileSideBarNav from "@/components/MobileSideBar";
 
 export default function Player() {
   const dispatch = useAppDispatch();
   const currentBook = useAppSelector((state) => state.myBook.currentBook);
   const isOnline: boolean = useAppSelector((state) => state.online.loggedIn);
   const textSize = useAppSelector((state) => state.toggleFontSize.fontSize);
+  const isSideBarOpen: boolean = useAppSelector(
+    (state) => state.toggleSideBar.isSideBarOpen
+  );
 
   console.log(textSize);
 
@@ -24,17 +28,16 @@ export default function Player() {
   }
 
   // TEXT SIZE CONTROL
-  
 
   return (
-    <div className="relative flex flex-col ml-[200px] w-[calc(100% - 200px)]">
-      <div className="sidebar bg-[#f7faf9] w-[200px] fixed top-[0] h-[calc(100vh-60px)] left-[0] pb-[70px] z-[1000]">
-        <SideBarLogo />
+    <div className="relative flex flex-col md:ml-[200px] w-[calc(100% - 200px)]">
+      <div className="sidebar bg-[#f7faf9] w-[200px] invisible md:visible fixed top-[0] bottom-[140px] left-[0] z-[1000]">
         <SideBarNav />
       </div>
-
+      {/* SMALL SCREEN SIDEBAR */}
+      {isSideBarOpen && <MobileSideBarNav />}
+      {/* SEARCH BAR */}
       <SearchBar />
-
       <div className="summary relative w-full overflow-y-auto h-[calc(100% - 160px)]">
         <div className="audio__book--summary p-[24px] max-w-[800px] my-0 mx-auto whitespace-pre-line">
           {!isOnline ? (
@@ -62,7 +65,9 @@ export default function Player() {
               <div className="audio__book--summary-title text-[#032b41] text-3xl border-b border-b-[#e1e7ea] mb-[32px] pb-[16px] leading-[1.5] font-[700]">
                 {currentBook?.title}
               </div>
-              <div className={`inner__book--description flex items-center w-full text-${textSize} text-[#032b41] font-[500] leading-[1.5]`}>
+              <div
+                className={`inner__book--description flex items-center w-full text-${textSize} text-[#032b41] font-[500] leading-[1.5]`}
+              >
                 {currentBook?.summary}
               </div>
             </div>

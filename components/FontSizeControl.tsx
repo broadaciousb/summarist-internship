@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { RiFontSize } from "react-icons/ri";
 import { setFontSize } from "@/redux/FontSizeSlice";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { decrement as closeSideBar } from "@/redux/ToggleSideBarSlice";
 
 export default function FontSizeControl() {
   const dispatch = useAppDispatch();
@@ -21,8 +22,8 @@ export default function FontSizeControl() {
                 textSize === "lg" ? "border-[#2bd97c]" : "border-transparent"
               }`}
               onClick={(e) => {
-                e.preventDefault;
                 dispatch(setFontSize("lg"));
+                dispatch(closeSideBar());
               }}
             >
               <RiFontSize className="w-[18px] h-[18px]" />
@@ -32,8 +33,8 @@ export default function FontSizeControl() {
                 textSize === "xl" ? "border-[#2bd97c]" : "border-transparent"
               }`}
               onClick={(e) => {
-                e.preventDefault;
                 dispatch(setFontSize("xl"));
+                dispatch(closeSideBar());
               }}
             >
               <RiFontSize className="w-[20px] h-[20px]" />
@@ -43,8 +44,8 @@ export default function FontSizeControl() {
                 textSize === "2xl" ? "border-[#2bd97c]" : "border-transparent"
               }`}
               onClick={(e) => {
-                e.preventDefault;
                 dispatch(setFontSize("2xl"));
+                dispatch(closeSideBar());
               }}
             >
               <RiFontSize className="w-[24px] h-[24px]" />
@@ -54,8 +55,8 @@ export default function FontSizeControl() {
                 textSize === "3xl" ? "border-[#2bd97c]" : "border-transparent"
               }`}
               onClick={(e) => {
-                e.preventDefault;
                 dispatch(setFontSize("3xl"));
+                dispatch(closeSideBar());
               }}
             >
               <RiFontSize className="w-[30px] h-[30px]" />

@@ -8,6 +8,7 @@ import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import LoadingSkeleton from "@/components/LoadingSkeleton";
 import { Suspense } from "react";
+import MobileSideBarNav from "@/components/MobileSideBar";
 
 interface BookProps {
   id: string;
@@ -29,8 +30,6 @@ interface BookProps {
 }
 
 type Data = BookProps[];
-
-
 
 export const getServerSideProps = (async () => {
   const res1 = await fetch(
@@ -59,30 +58,34 @@ export default function forYou({
   sugBooks,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const isOnline: boolean = useAppSelector((state) => state.online.loggedIn);
+  const isSideBarOpen: boolean = useAppSelector((state) => state.toggleSideBar.isSideBarOpen);
   console.log(recBooks);
-
+  
 
   return (
-    <div className="flex flex-col ml-[200px] w-[calc(100% - 200px)]">
-      <div className="sidebar bg-[#f7faf9] w-[200px] fixed top-[0] h-[100vh] left-[0] z-[1000]">
+    <div className="flex flex-col m-[0] md:ml-[200px] w-[calc(100% - 200px)]">
+      <div className="sidebar bg-[#f7faf9] w-[200px] invisible md:visible fixed top-[0] bottom-[60px] left-[0] z-[1000]">
         <SideBarNav />
       </div>
+      {/* SMALL SCREEN SIDEBAR */}
+      {isSideBarOpen && (<MobileSideBarNav />)}
+      {/* SEARCH BAR */}
       <SearchBar />
       <div className="row">
-        <div className="w-full px-[40px]">
-          <div className="for-you__wrapper my-[40px]">
+        <div className="container m-[0]">
+          <div className="for-you__wrapper">
             <div className="for-you__title text-[22px] text-[#032b41] font-[700] mb-[16px]">
               Selected just for you
             </div>
             <Link
               href=""
-              className="selected__book flex justify-between bg-[#fbefd6] p-[24px] rounded-sm mb-[24px] gap-[24px] w-[67%]"
+              className="selected__book flex flex-col md:flex-row md:justify-between bg-[#fbefd6] p-[24px] rounded-sm mb-[24px] gap-[24px] w-full xl:w-[67%]"
             >
-              <div className="selected__book--sub-title text-[#032b41] w-[40%]">
+              <div className="selected__book--sub-title text-[#032b41] sm:w-full md:w-[40%]">
                 How Constant Innovation Creates Radically Successful Business
               </div>
               <div className="selected__book--line w-[1px] bg-[#bac8ce]"></div>
-              <div className="selected__book--content flex gap-[16px] w-[60%]">
+              <div className="selected__book--content flex gap-[16px] sm:w-full md:w-[60%]">
                 <figure className="book__image--wrapper relative h-[140px] w-[140px] min-w-[140px]">
                   <Image
                     className="book__image w-full h-full absolute"

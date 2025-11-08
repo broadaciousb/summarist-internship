@@ -4,9 +4,10 @@ import { PersistGate } from "redux-persist/integration/react";
 import storage from "redux-persist/lib/storage";
 import { combineReducers } from "@reduxjs/toolkit";
 import LoggedInSlice from "./LoggedInSlice";
-import ToggleModalSlice from "./ToggleModalSlice";
+import modalSlice from "./ToggleModalSlice";
 import bookSlice from "./bookSlice";
 import FontSizeSlice from "./FontSizeSlice";
+import  sideBarSlice from "./ToggleSideBarSlice";
 
 const persistConfig = {
   key: "root",
@@ -17,9 +18,10 @@ const persistConfig = {
 
 const reducer = combineReducers({
   online: LoggedInSlice,
-  toggleModal: ToggleModalSlice,
+  toggleModal: modalSlice,
   myBook: bookSlice,
   toggleFontSize: FontSizeSlice,
+  toggleSideBar: sideBarSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

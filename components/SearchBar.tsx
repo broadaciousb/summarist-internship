@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setBook } from "@/redux/bookSlice";
 import SearchBookLink from "./SearchBookLink";
 import SearchResults from "./SearchResults";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { increment as openSideBar } from "@/redux/ToggleSideBarSlice";
 
 interface Book {
   id: string;
@@ -27,13 +29,15 @@ interface Book {
 
 export default function SearchBar() {
   const [searchRef, setSearchRef] = useState("");
+  const dispatch = useAppDispatch();
+
 
   return (
-    <div className="search__background bg-[#fff] border-b border-[#e1e7ea] h-[80px]">
-      <div className="search__wrapper relative flex justify-between items-center px-[32px] max-w-[1070px] h-full mx-auto relative">
+    <div className="search__background bg-[#fff] border-b border-[#e1e7ea] h-[80px] w-full">
+      <div className="search__wrapper relative flex justify-between items-center px-[32px] max-w-[1070px] h-full mx-auto">
         <figure></figure>
-        {searchRef && (<SearchResults searchRef={searchRef}/>)}
-        <div className="search__content flex items-center gap-[24px] max-w-[340px] w-full">
+        {searchRef && <SearchResults searchRef={searchRef} />}
+        <div className="search__content flex items-center gap-[24px] max-w-[340px] w-full relative">
           <div className="search flex items-center w-full">
             <div className="search__input--wrapper relative gap-[8px] flex items-center w-full">
               <input
@@ -58,6 +62,12 @@ export default function SearchBar() {
                 </svg>
               </div>
             </div>
+            <button className="hamburger_wrapper ml-[24px] md:hidden w-[36px] flex" onClick={(e) => {
+              e.preventDefault()
+              dispatch(openSideBar());
+            }}>
+              <RxHamburgerMenu className="w-full h-full" />
+            </button>
           </div>
         </div>
       </div>

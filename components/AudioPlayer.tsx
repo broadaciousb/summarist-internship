@@ -114,13 +114,13 @@ export default function AudioPlayer() {
   const progressPercent = (audioProgress / duration) * 100;
 
   return (
-    <div className="audio__wrapper w-full z-1500 h-[80px] mt-auto flex items-center justify-between bg-[#042330] py-0 px-[40px] fixed bottom-0 right-0">
+    <div className="audio__wrapper w-full z-1500 h-[180px] md:h-[80px] mt-auto flex flex-col md:flex-row items-center justify-between bg-[#042330] py-[16px] md:py-0 px-[24px] md:px-[40px] fixed bottom-0 right-0">
       <audio
         ref={audioRef}
         src={currentBook?.audioLink}
         onLoadedMetadata={onLoadedMetaData}
       />
-      <div className="audio__track--wrapper w-[calc(100%/3)] flex gap-[12px]">
+      <div className="audio__track--wrapper w-full md:w-[calc(100%/3)] flex justify-center items-center gap-[12px]">
         <figure className="audio__track--image-mask flex max-w[48px]">
           <figure className="book__img--wrapper w-[48px] h-[48px] min-w-[48px]">
             <img
@@ -137,7 +137,7 @@ export default function AudioPlayer() {
           </div>
         </div>
       </div>
-      <div className="audio__controls--wrapper w-[calc(100%/3)]">
+      <div className="audio__controls--wrapper w-full md:w-[calc(100%/3)]">
         <div className="audio__controls flex justify-center items-center gap-[24px]">
           <div className="rewind__btn rounded-[50%] cursor-pointer flex justify-center items-center">
             <BsFillRewindFill size={30} color="white" />
@@ -156,7 +156,7 @@ export default function AudioPlayer() {
           </div>
         </div>
       </div>
-      <div className="audio__progress--wrapper w-[calc(100%/3)] flex items-center gap-[16px]">
+      <div className="audio__progress--wrapper w-full md:w-[calc(100%/3)] flex justify-center items-center gap-[16px]">
         <div className="audio__time text-[#fff] text-sm">
           {formatTime(timeProgress)}
         </div>
