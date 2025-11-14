@@ -105,7 +105,7 @@ export default function Book() {
         <div className="w-full py-[40px]">
           <div className="inner_wrapper flex flex-col-reverse lg:flex-row gap-[16px] lg:gap-[32px]">
             <div className="inner__book w-full">
-              <div className="inner_book--title text-[#032b41] text-[32px] mb-[16px] font-[600]">
+              <div className="inner_book--title text-[#032b41] text-[24px] md:text-[32px] mb-[16px] font-[600]">
                 {currentBook?.title}
               </div>
               <div className="inner__book--author text-[#032b41] mb-[16px] font-[600]">

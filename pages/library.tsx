@@ -32,7 +32,7 @@ interface BookProps {
 type Data = BookProps[];
 
 export default function library() {
-  const user = auth.currentUser;
+  const user = useAppSelector( (state) => state.user.currentUser);
   const isSideBarOpen: boolean = useAppSelector(
     (state) => state.toggleSideBar.isSideBarOpen
   );
@@ -67,7 +67,7 @@ export default function library() {
     );
 
     return unsubscribe;
-  }, []);
+  }, [user]);
 
   return (
     <div className="flex flex-col m-[0] md:ml-[200px] w-[calc(100% - 200px)]">

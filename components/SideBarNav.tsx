@@ -154,7 +154,7 @@ export default function SideBarNav() {
         {/* BOTTOM HALF OF SIDEBAR */}
         <div className="sidebar__bottom">
           <Link
-            href=""
+            href="/settings"
             className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-pointer"
           >
             <div className="sidebar__link--line w-[5px] h-full mr-[16px]"></div>
