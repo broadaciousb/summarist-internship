@@ -1,14 +1,20 @@
-import SideBarNav from "@/components/SideBarNav";
-import SearchBar from "@/components/SearchBar";
+// NEXT
 import Link from "next/link";
 import Image from "next/image";
-import LeanStartup from "../assets/the-lean-startup.png";
-import BookTemplate from "@/components/BookTemplate";
 import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
+// REACT
+import { useState } from "react";
+// REDUX
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
-import LoadingSkeleton from "@/components/LoadingSkeleton";
-import { Suspense } from "react";
+import { startLoading, stopLoading } from "@/redux/LoadingSlice";
+// COMPONENTS
+import SideBarNav from "@/components/SideBarNav";
+import SearchBar from "@/components/SearchBar";
+import BookTemplate from "@/components/BookTemplate";
 import MobileSideBarNav from "@/components/MobileSideBar";
+import LoadScreen from "@/components/LoadScreen";
+// ASSETS
+import LeanStartup from "../assets/the-lean-startup.png";
 
 interface BookProps {
   id: string;
@@ -58,17 +64,22 @@ export default function forYou({
   sugBooks,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const isOnline: boolean = useAppSelector((state) => state.online.loggedIn);
-  const isSideBarOpen: boolean = useAppSelector((state) => state.toggleSideBar.isSideBarOpen);
+  const isSideBarOpen: boolean = useAppSelector(
+    (state) => state.toggleSideBar.isSideBarOpen
+  );
+  // const [loading, setLoading] = useState(false);
+  const loading = useAppSelector((state) => state.loading.loading);
+  const dispatch = useAppDispatch();
+  dispatch(stopLoading());
   console.log(recBooks);
-  
-
   return (
     <div className="flex flex-col m-[0] md:ml-[200px] w-[calc(100% - 200px)]">
+      {loading && <LoadScreen />}
       <div className="sidebar bg-[#f7faf9] w-[200px] invisible md:visible fixed top-[0] bottom-[60px] left-[0] z-[1000]">
         <SideBarNav />
       </div>
       {/* SMALL SCREEN SIDEBAR */}
-      {isSideBarOpen && (<MobileSideBarNav />)}
+      {isSideBarOpen && <MobileSideBarNav />}
       {/* SEARCH BAR */}
       <SearchBar />
       <div className="row">

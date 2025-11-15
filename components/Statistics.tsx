@@ -1,28 +1,61 @@
 import ActiveHeading from "./ActiveHeading";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Statistics() {
+  const [highlight, setHighlight] = useState(1);
+
+  function setHighlights() {
+    if (highlight == 6) {
+      setHighlight(1);
+    } else {
+      setHighlight(highlight + 1);
+    }
+  }
+
+  useEffect(() => {
+  const interval = setInterval(() => {
+    setHighlight(prev => (prev === 6 ? 1 : prev + 1));
+  }, 3000);
+
+  return () => clearInterval(interval);
+}, []);
+
   return (
     <div className="w-full">
       <div className="row">
         <div className="statistics__wrapper flex flex-col md:flex-row gap-[80px] mb-[96px]">
           <div className="statistics__content--header w-full flex justify-center flex-col">
-            <div className="statistics__heading text-[32px] text-[#6b757b] font-[500] mb-[16px]">
-               <div id="1">Enhance your knowledge</div>
+            <div className={`heading1 text-[32px] text-[#6b757b] font-[500] mb-[16px] ${highlight === 1 ? "active__heading" : ""}`}>
+              <div id="1">Enhance your knowledge</div>
             </div>
-            <div id="2" className="statistics__heading text-[24px] md:text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+            <div
+              id="2"
+              className={`heading2 text-[32px] text-[#6b757b] font-[500] mb-[16px] ${highlight === 2 ? "active__heading" : ""}`}
+            >
               Achieve greater success
             </div>
-            <div id="3" className="statistics__heading text-[24px] md:text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+            <div
+              id="3"
+              className={`heading3 text-[32px] text-[#6b757b] font-[500] mb-[16px] ${highlight === 3 ? "active__heading" : ""}`}
+            >
               Improve your health
             </div>
-            <div id="4" className="statistics__heading text-[24px] md:text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+            <div
+              id="4"
+              className={`heading4 text-[32px] text-[#6b757b] font-[500] mb-[16px] ${highlight === 4 ? "active__heading" : ""}`}
+            >
               Develop better parenting skills
             </div>
-            <div id="5" className="statistics__heading text-[24px] md:text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+            <div
+              id="5"
+              className={`heading5 text-[32px] text-[#6b757b] font-[500] mb-[16px] ${highlight === 5 ? "active__heading" : ""}`}
+            >
               Increase happiness
             </div>
-            <div id="6" className="statistics__heading text-[24px] md:text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+            <div
+              id="6"
+              className={`heading6 text-[32px] text-[#6b757b] font-[500] mb-[16px] ${highlight === 6 ? "active__heading" : ""}`}
+            >
               Be the best version of yourself!
             </div>
           </div>
@@ -85,22 +118,40 @@ export default function Statistics() {
             </div>
           </div>
           <div className="statistics__content--header statistics__content--header-second  w-full flex justify-center flex-col items-start md:items-end">
-            <div id="1" className="statistics__heading text-[24px] md:text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+            <div
+              id="1"
+              className={`heading1 text-[32px] text-[#6b757b] font-[500] mb-[16px] ${highlight === 1 ? "active__heading" : ""}`}
+            >
               Expand your learning
             </div>
-            <div id="2" className="statistics__heading text-[24px] md:text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+            <div
+              id="2"
+              className={`heading2 text-[32px] text-[#6b757b] font-[500] mb-[16px] ${highlight === 2 ? "active__heading" : ""}`}
+            >
               Accomplish your goals
             </div>
-            <div id="3" className="statistics__heading text-[24px] md:text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+            <div
+              id="3"
+              className={`heading3 text-[32px] text-[#6b757b] font-[500] mb-[16px] ${highlight === 3 ? "active__heading" : ""}`}
+            >
               Strengthen your vitality
             </div>
-            <div id="4" className="statistics__heading text-[24px] md:text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+            <div
+              id="4"
+              className={`heading4 text-[32px] text-[#6b757b] font-[500] mb-[16px] ${highlight === 4 ? "active__heading" : ""}`}
+            >
               Become a better caregiver
             </div>
-            <div id="5" className="statistics__heading text-[24px] md:text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+            <div
+              id="5"
+              className={`heading5 text-[32px] text-[#6b757b] font-[500] mb-[16px] ${highlight === 5 ? "active__heading" : ""}`}
+            >
               Improve your mood
             </div>
-            <div id="6" className="statistics__heading text-[24px] md:text-[32px] text-[#6b757b] font-[500] mb-[16px]">
+            <div
+              id="6"
+              className={`heading6 text-[32px] text-[#6b757b] font-[500] mb-[16px] ${highlight === 6 ? "active__heading" : ""}`}
+            >
               Maximize your abilities
             </div>
           </div>

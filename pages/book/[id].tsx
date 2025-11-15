@@ -1,8 +1,11 @@
-import SideBarNav from "@/components/SideBarNav";
-import SideBarLogo from "@/components/SideBarLogo";
-import SearchBar from "@/components/SearchBar";
+// NEXT
 import Link from "next/link";
-import { useAppSelector } from "@/redux/hooks";
+// REACT
+import { useEffect, useState } from "react";
+// REDUX
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { startLoading, stopLoading } from "@/redux/LoadingSlice";
+// FIREBASE
 import {
   getFirestore,
   setDoc,
@@ -12,9 +15,12 @@ import {
   onSnapshot,
   deleteDoc,
 } from "firebase/firestore";
+// COMPONENTS
+import SideBarNav from "@/components/SideBarNav";
+import SearchBar from "@/components/SearchBar";
 import { db, auth } from "@/Firebase/firebase.config";
-import { useEffect, useState } from "react";
 import MobileSideBarNav from "@/components/MobileSideBar";
+import LoadScreen from "@/components/LoadScreen";
 
 interface BookProps {
   id: string;
@@ -39,13 +45,14 @@ type Data = BookProps;
 
 export default function Book() {
   const user = auth.currentUser;
+  const dispatch = useAppDispatch();
   const currentBook = useAppSelector((state) => state.myBook.currentBook);
   const isSideBarOpen: boolean = useAppSelector(
     (state) => state.toggleSideBar.isSideBarOpen
   );
   const [myBooks, setMybooks] = useState<string[]>([]);
   const [bookInLibrary, setBookInLibrary] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const loading = useAppSelector((state) => state.loading.loading);
 
   async function addToLibrary(book: Data | null, user: any) {
     if (!user || !book || !currentBook) return;
@@ -91,9 +98,9 @@ export default function Book() {
   }, []);
 
   useEffect(() => {}, [currentBook]);
-
   return (
     <div className="flex flex-col m-[0] md:ml-[200px] w-[calc(100% - 200px)]">
+      {loading && <LoadScreen />}
       <div className="sidebar bg-[#f7faf9] w-[200px] invisible md:visible fixed top-[0] bottom-[60px] left-[0] z-[1000]">
           <SideBarNav />
       </div>
@@ -212,7 +219,9 @@ export default function Book() {
                   </div>
                   <div className="inner__book--read-text">Read</div>
                 </button>
-                <Link href={"/player/" + currentBook?.id}>
+                <Link href={"/player/" + currentBook?.id} onClick={() => {
+                  dispatch(startLoading());
+                }}>
                   <button className="inner__book--read--btn flex items-center justify-center w-[144px] h-[48px] bg-[#032b41] text-white text-base cursor-pointer gap-[8px] rounded-sm">
                     <div className="inner__book--read-icon flex">
                       <svg

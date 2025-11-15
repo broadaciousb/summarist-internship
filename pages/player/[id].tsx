@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { increment as openModal } from "@/redux/ToggleModalSlice";
 import { useState } from "react";
 import MobileSideBarNav from "@/components/MobileSideBar";
+import LoadScreen from "@/components/LoadScreen";
+import { stopLoading } from "@/redux/LoadingSlice";
 
 export default function Player() {
   const dispatch = useAppDispatch();
@@ -15,6 +17,7 @@ export default function Player() {
   const isSideBarOpen: boolean = useAppSelector(
     (state) => state.toggleSideBar.isSideBarOpen
   );
+  const loading = useAppSelector((state) => state.loading.loading);
 
   console.log(textSize);
 
@@ -26,11 +29,11 @@ export default function Player() {
   function AudioProgressBar(prog: number) {
     setAudioProgress(prog);
   }
-
-  // TEXT SIZE CONTROL
-
+  
+  dispatch(stopLoading());
   return (
     <div className="relative flex flex-col md:ml-[200px] w-[calc(100% - 200px)]">
+      {loading && <LoadScreen />}
       <div className="sidebar bg-[#f7faf9] w-[200px] invisible md:visible fixed top-[0] bottom-[140px] left-[0] z-[1000]">
         <SideBarNav />
       </div>

@@ -1,14 +1,19 @@
-import BookTemplate from "@/components/BookTemplate";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
-import SideBarNav from "@/components/SideBarNav";
-import SideBarLogo from "@/components/SideBarLogo";
-import SearchBar from "@/components/SearchBar";
+// NEXT
 import Link from "next/link";
+// REACT
+import { useEffect, useState } from "react";
+// REDUX
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+// FIREBASE
 import { auth, db } from "@/Firebase/firebase.config";
 import { addDoc, collection, onSnapshot } from "firebase/firestore";
-import { useEffect, useState } from "react";
+// COMPONENTS
+import BookTemplate from "@/components/BookTemplate";
+import SideBarNav from "@/components/SideBarNav";
+import SearchBar from "@/components/SearchBar";
 import MobileSideBarNav from "@/components/MobileSideBar";
+import LoadScreen from "@/components/LoadScreen";
+import { startLoading, stopLoading } from "@/redux/LoadingSlice";
 
 interface BookProps {
   id: string;
@@ -33,10 +38,12 @@ type Data = BookProps[];
 
 export default function library() {
   const user = useAppSelector( (state) => state.user.currentUser);
+  const dispatch = useAppDispatch();
   const isSideBarOpen: boolean = useAppSelector(
     (state) => state.toggleSideBar.isSideBarOpen
   );
   const [myBooks, setMyBooks] = useState<Data>([]);
+  const loading = useAppSelector((state) => state.loading.loading);
 
   useEffect(() => {
     if (!user) return;
@@ -64,13 +71,16 @@ export default function library() {
         }));
         setMyBooks(books);
       }
+      
     );
 
     return unsubscribe;
   }, [user]);
 
+  
   return (
     <div className="flex flex-col m-[0] md:ml-[200px] w-[calc(100% - 200px)]">
+      {loading && <LoadScreen />}
       <div className="sidebar bg-[#f7faf9] w-[200px] invisible md:visible fixed top-[0] bottom-[60px] left-[0] z-[1000]">
         <SideBarNav />
       </div>

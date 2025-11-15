@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setBook } from "@/redux/bookSlice";
+import { startLoading, stopLoading } from "@/redux/LoadingSlice";
 
 interface Book {
   id: string;
@@ -74,13 +75,12 @@ export default function BookTemplate({
     }
     return '00:00';
   }
-
   return (
     <Link
       href={"/book/" + id}
       className="for-you__recommended--books-link relative pt-[32px] pb-[12px] px-[12px] rounded-sm max-w-[200px] w-full snap-start hover__effect"
-      onClick={(e) => {
-        e.preventDefault;
+      onClick={() => {
+        dispatch(startLoading());
         dispatch(
           setBook({
             id: id,

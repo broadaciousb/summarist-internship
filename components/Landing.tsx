@@ -1,10 +1,12 @@
 import Image from "next/image";
+import Link from "next/link";
 import LandingImg from "/assets/landing.png";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { increment as openModal } from "@/redux/ToggleModalSlice";
 
 export default function Landing() {
   const dispatch = useAppDispatch();
+  const user = useAppSelector( (state) => state.user.currentUser);
 
 
   return (
@@ -43,13 +45,20 @@ export default function Landing() {
                 <br className="remove--tablet" />
                 and even people who don't like to read.
               </div>
-              <button className="btn home__cta--btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
+              {
+                !user ? (<button className="btn home__cta--btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
                 onClick={(e) => {
                   e.preventDefault;
                   dispatch(openModal());
                 }}>
                 Login
-              </button>
+              </button>) : (
+                <Link href="/settings" className="btn home__cta--btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]">
+                  See Your Subscription
+                </Link>
+              )
+              }
+              
             </div>
             <figure className="flex justify-end w-[800px] h-[400px] relative hidden md:flex">
               <Image

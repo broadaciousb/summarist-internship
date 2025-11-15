@@ -1,17 +1,21 @@
+// NEXT
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
+// REACT
+import { useState } from "react";
+// REDUX
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { increment as openModal } from "@/redux/ToggleModalSlice";
 import { decrement as closeSideBar } from "@/redux/ToggleSideBarSlice";
-import LoginModal from "./LoginModal";
-import { login, logout } from "@/redux/LoggedInSlice";
+import { startLoading, stopLoading } from "@/redux/LoadingSlice";
+// FIREBASE
 import { signUserOut } from "@/Firebase/firebase.config";
-import { useAppSelector, useAppDispatch } from "@/redux/hooks";
-import { RiFontSize } from "react-icons/ri";
-import { setFontSize } from "@/redux/FontSizeSlice";
+// COMPONENTS
+import LoginModal from "./LoginModal";
 import FontSizeControl from "./FontSizeControl";
 import SideBarLogo from "./SideBarLogo";
-import { useState } from "react";
+
 
 export default function SideBarNav() {
   const dispatch = useAppDispatch();
@@ -19,6 +23,7 @@ export default function SideBarNav() {
   const isModalOpen: boolean = useAppSelector(
     (state) => state.toggleModal.isModalOpen
   );
+  const loading = useAppSelector((state) => state.loading.loading);
   const textSize = useAppSelector((state) => state.toggleFontSize.fontSize);
 
   const route = useRouter();
@@ -29,7 +34,6 @@ export default function SideBarNav() {
   if (!pathName) return null;
 
   const playerRouteRegex = /^\/player\[a-zA-z0-9_-]+$/;
-
   return (
     <div className="sidebar bg-[#f7faf9] w-[200px] h-full z-[1000]">
       <SideBarLogo />
@@ -40,7 +44,8 @@ export default function SideBarNav() {
         <div className="sidebar__top mt-[40px]">
           <Link
             href="/for-you"
-            onClick={(e) => {
+            onClick={() => {
+              dispatch(startLoading());
               dispatch(closeSideBar());
             }}
             className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-pointer"
@@ -67,7 +72,8 @@ export default function SideBarNav() {
           </Link>
           <Link
             href="/library"
-            onClick={(e) => {
+            onClick={() => {
+              dispatch(startLoading());
               dispatch(closeSideBar());
             }}
             className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-pointer"
@@ -94,7 +100,8 @@ export default function SideBarNav() {
           </Link>
           <Link
             href=""
-            onClick={(e) => {
+            onClick={() => {
+              dispatch(startLoading());
               dispatch(closeSideBar());
             }}
             className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-not-allowed"
@@ -155,6 +162,9 @@ export default function SideBarNav() {
         <div className="sidebar__bottom">
           <Link
             href="/settings"
+            onClick={() => {
+              dispatch(startLoading());
+            }}
             className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-pointer"
           >
             <div className="sidebar__link--line w-[5px] h-full mr-[16px]"></div>
@@ -204,8 +214,7 @@ export default function SideBarNav() {
           </Link>
           {!isOnline ? (
             <Link
-              onClick={(e) => {
-                e.preventDefault();
+              onClick={() => {
                 dispatch(openModal());
               }}
               href=""
@@ -233,9 +242,9 @@ export default function SideBarNav() {
             </Link>
           ) : (
             <Link
-              href=""
-              onClick={(e) => {
-                e.preventDefault();
+              href="/"
+              onClick={() => {
+                dispatch(startLoading());
                 signUserOut();
                 route.replace("/");
                 dispatch(closeSideBar());

@@ -4,15 +4,21 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import MobileSideBarNav from "@/components/MobileSideBar";
 import SearchBar from "@/components/SearchBar";
 import SideBarNav from "@/components/SideBarNav";
+import LoadScreen from "@/components/LoadScreen";
+import { stopLoading } from "@/redux/LoadingSlice";
 
 export default function settings() {
   const user = useAppSelector((state) => state.user.currentUser);
+  const dispatch = useAppDispatch();
   const isSideBarOpen: boolean = useAppSelector(
     (state) => state.toggleSideBar.isSideBarOpen
   );
+  const loading = useAppSelector((state) => state.loading.loading);
 
+  dispatch(stopLoading());
   return (
     <div className="flex flex-col m-[0] md:ml-[200px] w-[calc(100% - 200px)]">
+      {loading && <LoadScreen />}
       <div className="sidebar bg-[#f7faf9] w-[200px] invisible md:visible fixed top-[0] bottom-[60px] left-[0] z-[1000]">
         <SideBarNav />
       </div>

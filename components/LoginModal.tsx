@@ -1,15 +1,20 @@
+// NEXT
+import { useRouter } from "next/router";
 import Image from "next/image";
-import googleImg from "../assets/google.png";
+// REACT
+import { useEffect, useState } from "react";
 import { BsPersonFill } from "react-icons/bs";
 import { RxCross2 } from "react-icons/rx";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+// REDUX
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { decrement as closeModal } from "@/redux/ToggleModalSlice";
-import { useEffect, useState } from "react";
+import { startLoading, stopLoading } from "@/redux/LoadingSlice";
+// FIREBASE
 import { CreateAccount, signIn } from "@/Firebase/firebase.config";
-import { login } from "@/redux/LoggedInSlice";
-import { useRouter } from "next/router";
 import { getAuth } from "firebase/auth";
+// ASSETS
+import googleImg from "../assets/google.png";
 
 const auth = getAuth();
 const user = auth.currentUser;
@@ -55,8 +60,9 @@ export default function LoginModal() {
     try {
       setLoginLoading(true);
       await signIn(email, password);
-      router.push("/for-you");
       dispatch(closeModal());
+      dispatch(startLoading());
+      router.push("/for-you");
     } catch (error: any) {
       setLoginLoading(false);
       const errorCode = error.code;
@@ -73,6 +79,7 @@ export default function LoginModal() {
       setGuestLoading(true);
       await signIn("guestemail@gmail.com", "dolphin33legs!");
       dispatch(closeModal());
+      dispatch(startLoading());
       router.push("/for-you");
       console.log("guest logged");
     } catch (error: any) {
