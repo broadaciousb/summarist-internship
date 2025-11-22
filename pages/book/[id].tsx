@@ -98,6 +98,7 @@ export default function Book() {
   }, []);
 
   useEffect(() => {}, [currentBook]);
+  dispatch(stopLoading());
   return (
     <div className="flex flex-col m-[0] md:ml-[200px] w-[calc(100% - 200px)]">
       {loading && <LoadScreen />}

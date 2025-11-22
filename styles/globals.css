@@ -4,7 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @theme {
   --font-roboto: "Roboto", sans-serif;
 }
@@ -41,7 +40,6 @@ button:disabled {
   cursor: not-allowed;
   opacity: 0.65;
 }
-
 
 .row {
   max-width: 1070px;
@@ -83,7 +81,7 @@ button:disabled {
 }
 
 .hover__effect:hover {
-  background-color: #f1f6f4;;
+  background-color: #f1f6f4;
 }
 
 .audio__progress--bar {
@@ -101,23 +99,52 @@ button:disabled {
   color: white;
 }
 
-
-@keyframes spin{
-  to { transform: rotate(360deg); }
+.plan__header--wrapper:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  background-color: #032b41;
+  border-bottom-right-radius: 16rem;
+  border-bottom-left-radius: 16rem;
 }
 
-.loader{
+.plan__card--separator:before {
+  content: "";
+  flex-grow: 1;
+  height: 1px;
+  background: #bac8ce;
+}
+
+.plan__card--separator:after {
+  content: "";
+  flex-grow: 1;
+  height: 1px;
+  background: #bac8ce;
+}
+
+.plan__card--active {
+  border: 4px solid #2be080;
+}
+.section__title {
+  font-size: 32px;
+  color: #032b41;
+  text-align: center;
+  margin-bottom: 32px;
+  font-weight: 700;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loader {
   animation: spin 1s linear infinite;
   /* performance hint */
   will-change: transform;
 }
-
-
-
-
-
-
-
-
-
-

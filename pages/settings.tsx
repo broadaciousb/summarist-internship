@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { auth, db } from "@/Firebase/firebase.config";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -37,14 +38,13 @@ export default function settings() {
             </div>
             <div className="settings_text">Basic</div>
             <div className="w-[180px]">
-              <button
+              <Link
+              href="/choose-plan"
                 className="btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
-                onClick={(e) => {
-                  e.preventDefault;
-                }}
+                
               >
                 Upgrade to Premium
-              </button>
+              </Link>
             </div>
           </div>
           <div className="settings_content flex flex-col gap-[8px] pb-[16px] mb-[32px]">
