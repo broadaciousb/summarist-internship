@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
 // REACT
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // REDUX
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { startLoading, stopLoading } from "@/redux/LoadingSlice";
@@ -70,7 +70,11 @@ export default function forYou({
   // const [loading, setLoading] = useState(false);
   const loading = useAppSelector((state) => state.loading.loading);
   const dispatch = useAppDispatch();
-  dispatch(stopLoading());
+
+  useEffect(() => {
+    dispatch(stopLoading());
+  }, [dispatch]);
+
   console.log(recBooks);
   return (
     <div className="flex flex-col m-[0] md:ml-[200px] w-[calc(100% - 200px)]">

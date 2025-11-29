@@ -53,8 +53,8 @@ export default function Landing() {
                 }}>
                 Login
               </button>) : (
-                <Link href="/settings" className="btn home__cta--btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]">
-                  See Your Subscription
+                <Link href="/for-you" className="btn home__cta--btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]">
+                  Books for You
                 </Link>
               )
               }

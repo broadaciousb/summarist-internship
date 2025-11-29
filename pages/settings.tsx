@@ -16,7 +16,10 @@ export default function settings() {
   );
   const loading = useAppSelector((state) => state.loading.loading);
 
-  dispatch(stopLoading());
+  useEffect(() => {
+    dispatch(stopLoading());
+  }, [dispatch]);
+  
   return (
     <div className="flex flex-col m-[0] md:ml-[200px] w-[calc(100% - 200px)]">
       {loading && <LoadScreen />}

@@ -9,10 +9,15 @@ import Footer from "@/components/Footer";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { startLoading, stopLoading } from "@/redux/LoadingSlice";
 import LoadScreen from "@/components/LoadScreen";
-
+import { useEffect } from "react";
 export default function Home() {
   const dispatch = useAppDispatch();
   const loading = useAppSelector((state) => state.loading.loading);
+  
+
+  useEffect(() => {
+    dispatch(stopLoading());
+  }, [dispatch]);
 
   return (
     <>

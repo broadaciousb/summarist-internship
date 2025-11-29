@@ -1,3 +1,4 @@
+import Link from "next/link";
 import SideBarNav from "@/components/SideBarNav";
 import SearchBar from "@/components/SearchBar";
 import SideBarLogo from "@/components/SideBarLogo";
@@ -12,7 +13,6 @@ import { stopLoading } from "@/redux/LoadingSlice";
 export default function Player() {
   const dispatch = useAppDispatch();
   const currentBook = useAppSelector((state) => state.myBook.currentBook);
-  const isOnline: boolean = useAppSelector((state) => state.online.loggedIn);
   const textSize = useAppSelector((state) => state.toggleFontSize.fontSize);
   const isSideBarOpen: boolean = useAppSelector(
     (state) => state.toggleSideBar.isSideBarOpen
@@ -29,7 +29,7 @@ export default function Player() {
   function AudioProgressBar(prog: number) {
     setAudioProgress(prog);
   }
-  
+
   dispatch(stopLoading());
   return (
     <div className="relative flex flex-col md:ml-[200px] w-[calc(100% - 200px)]">
@@ -43,7 +43,7 @@ export default function Player() {
       <SearchBar />
       <div className="summary relative w-full overflow-y-auto h-[calc(100% - 160px)]">
         <div className="audio__book--summary p-[24px] max-w-[800px] my-0 mx-auto whitespace-pre-line">
-          {!isOnline ? (
+          {currentBook?.subscriptionRequired ? (
             <div className="settings__login--wrapper max-w-[460px] flex flex-col items-center my-0 mx-auto">
               <img
                 className="w-full h-full"
@@ -53,15 +53,12 @@ export default function Player() {
               <div className="settings__login--text text-2xl font-[700] text-[] text-center mb-[16px]">
                 Log in to your account to read and listen to the book
               </div>
-              <button
+              <Link
+                href="/choose-plan"
                 className="btn max-w-[180px] text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
-                onClick={(e) => {
-                  e.preventDefault;
-                  dispatch(openModal());
-                }}
               >
-                Login
-              </button>
+                Upgrade to Premium
+              </Link>
             </div>
           ) : (
             <div className="">

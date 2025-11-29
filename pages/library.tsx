@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 // REDUX
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { increment as openModal } from "@/redux/ToggleModalSlice";
 // FIREBASE
 import { auth, db } from "@/Firebase/firebase.config";
 import { addDoc, collection, onSnapshot } from "firebase/firestore";
@@ -37,7 +38,7 @@ interface BookProps {
 type Data = BookProps[];
 
 export default function library() {
-  const user = useAppSelector( (state) => state.user.currentUser);
+  const user = useAppSelector((state) => state.user.currentUser);
   const dispatch = useAppDispatch();
   const isSideBarOpen: boolean = useAppSelector(
     (state) => state.toggleSideBar.isSideBarOpen
@@ -71,13 +72,15 @@ export default function library() {
         }));
         setMyBooks(books);
       }
-      
     );
 
     return unsubscribe;
   }, [user]);
 
-  
+  useEffect(() => {
+    dispatch(stopLoading());
+  }, [dispatch]);
+
   return (
     <div className="flex flex-col m-[0] md:ml-[200px] w-[calc(100% - 200px)]">
       {loading && <LoadScreen />}
@@ -91,37 +94,58 @@ export default function library() {
       <div className="row">
         <div className="w-full px-[40px]">
           <div className="container px-[40px]">
-            <div className="saved__books">
-              <div className="title text-[22px] text-[#032b41] font-[700] mb-[16px]">
-                Saved Books
+            {!user ? (
+              <div className="settings__login--wrapper max-w-[460px] flex flex-col items-center my-0 mx-auto">
+                <img
+                  className="w-full h-full"
+                  src="https://summarist.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogin.e313e580.png&w=1080&q=75"
+                  alt=""
+                />
+                <div className="settings__login--text text-2xl font-[700] text-[] text-center mb-[16px]">
+                  Log in to your account to read and listen to the book
+                </div>
+                <button
+                  onClick={() => {
+                    dispatch(openModal());
+                  }}
+                  className="btn max-w-[180px] text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
+                >
+                  Login
+                </button>
               </div>
-              <div className="for-you__sub--title text-[#394547] mb-[16px] font-[300]">
-                4 Items
+            ) : (
+              <div className="saved__books">
+                <div className="title text-[22px] text-[#032b41] font-[700] mb-[16px]">
+                  Saved Books
+                </div>
+                <div className="for-you__sub--title text-[#394547] mb-[16px] font-[300]">
+                  4 Items
+                </div>
+                <div className="saved__books--list flex overflow-x-auto gap-[16px] mb-[32px] snap-x">
+                  {myBooks?.map((book: BookProps) => (
+                    <BookTemplate
+                      id={book.id}
+                      author={book.author}
+                      title={book.title}
+                      subTitle={book.subTitle}
+                      imageLink={book.imageLink}
+                      audioLink={book.audioLink}
+                      totalRating={book.totalRating}
+                      averageRating={book.averageRating}
+                      keyIdeas={book.keyIdeas}
+                      type={book.type}
+                      status={book.status}
+                      subscriptionRequired={book.subscriptionRequired}
+                      summary={book.summary}
+                      tags={book.tags}
+                      bookDescription={book.bookDescription}
+                      authorDescription={book.authorDescription}
+                      key={book.title}
+                    />
+                  ))}
+                </div>
               </div>
-              <div className="saved__books--list flex overflow-x-auto gap-[16px] mb-[32px] snap-x">
-                {myBooks?.map((book: BookProps) => (
-                  <BookTemplate
-                    id={book.id}
-                    author={book.author}
-                    title={book.title}
-                    subTitle={book.subTitle}
-                    imageLink={book.imageLink}
-                    audioLink={book.audioLink}
-                    totalRating={book.totalRating}
-                    averageRating={book.averageRating}
-                    keyIdeas={book.keyIdeas}
-                    type={book.type}
-                    status={book.status}
-                    subscriptionRequired={book.subscriptionRequired}
-                    summary={book.summary}
-                    tags={book.tags}
-                    bookDescription={book.bookDescription}
-                    authorDescription={book.authorDescription}
-                    key={book.title}
-                  />
-                ))}
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

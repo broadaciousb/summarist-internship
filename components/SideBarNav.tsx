@@ -101,8 +101,6 @@ export default function SideBarNav() {
           <Link
             href=""
             onClick={() => {
-              dispatch(startLoading());
-              dispatch(closeSideBar());
             }}
             className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-not-allowed"
           >
@@ -164,6 +162,7 @@ export default function SideBarNav() {
             href="/settings"
             onClick={() => {
               dispatch(startLoading());
+              dispatch(closeSideBar());
             }}
             className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-pointer"
           >
@@ -217,7 +216,7 @@ export default function SideBarNav() {
               onClick={() => {
                 dispatch(openModal());
               }}
-              href=""
+              href="#"
               className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-pointer"
             >
               <div className="sidebar__link--line w-[5px] h-full mr-[16px]"></div>

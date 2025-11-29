@@ -27,7 +27,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app: FirebaseApp = initializeApp(firebaseConfig);
+export const app: FirebaseApp = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 
 // Create User

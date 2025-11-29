@@ -1,5 +1,5 @@
 // NEXT
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 // REACT
 import { useEffect, useState } from "react";
@@ -16,26 +16,19 @@ import { getAuth } from "firebase/auth";
 // ASSETS
 import googleImg from "../assets/google.png";
 
-const auth = getAuth();
-const user = auth.currentUser;
-
-if (user !== null) {
-  // The user object has basic properties such as display name, email, etc.
-  const uid = user.uid;
-  console.log(uid);
-}
-
 export default function LoginModal() {
   const isOnline: boolean = useAppSelector((state) => state.online.loggedIn);
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const pathName = usePathname();
+  const auth = getAuth();
+  const user = auth.currentUser;
 
   const [needUserSignUp, setneedUserSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginLoading, setLoginLoading] = useState(false);
   const [guestLoading, setGuestLoading] = useState(false);
-  
 
   function signUp() {
     !needUserSignUp ? setneedUserSignUp(true) : setneedUserSignUp(false);
@@ -52,25 +45,25 @@ export default function LoginModal() {
       const errorCode = error.code;
       const errorMessage = error.message;
       console.error("Error creating account:", errorCode, errorMessage);
-      alert(`Error creating account: ${errorMessage}`); // Display more informative error
-      // Handle specific error codes (e.g., weak-password, email-already-in-use) for better UI feedback
+      alert(`Error creating account: ${errorMessage}`);
     }
   }
 
   async function handleLogin() {
+    setLoginLoading(true);
+
     try {
-      setLoginLoading(true);
       await signIn(email, password);
       dispatch(closeModal());
       dispatch(startLoading());
-      router.push("/for-you");
+      if (pathName === "/") {
+        router.push("/for-you");
+      }
     } catch (error: any) {
+      console.error(error);
+      alert(error.message);
+    } finally {
       setLoginLoading(false);
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.error("Error creating account:", errorCode, errorMessage);
-      alert(`Error creating account: ${errorMessage}`); // Display more informative error
-      // Handle specific error codes (e.g., weak-password, email-already-in-use) for better UI feedback
     }
   }
 
@@ -79,9 +72,14 @@ export default function LoginModal() {
     try {
       setGuestLoading(true);
       await signIn("guestemail@gmail.com", "dolphin33legs!");
+
       dispatch(closeModal());
+      setGuestLoading(false);
       dispatch(startLoading());
-      router.push("/for-you");
+      if (pathName === "/") {
+        router.push("/for-you");
+      }
+
       console.log("guest logged");
     } catch (error: any) {
       setGuestLoading(false);
@@ -209,7 +207,6 @@ export default function LoginModal() {
               <button
                 className="btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
                 onClick={(e) => {
-                  e.preventDefault();
                   handleLogin();
                 }}
               >
@@ -223,7 +220,6 @@ export default function LoginModal() {
               <button
                 className="btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
                 onClick={(e) => {
-                  e.preventDefault();
                   handleCreateAccount();
                 }}
               >

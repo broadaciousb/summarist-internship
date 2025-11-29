@@ -1,5 +1,8 @@
 // REACT
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { app } from "@/Firebase/firebase.config";
+import { getCheckoutUrl } from "@/Stripe Payments/stripePayment";
 import { IoDocumentText } from "react-icons/io5";
 import { RiPlantFill } from "react-icons/ri";
 import { FaHandshake } from "react-icons/fa";
@@ -11,13 +14,30 @@ export default function settings() {
   const [plan, setPlan] = useState("yearly");
   const [openFAQs, setOpenFAQs] = useState<number[]>([]);
 
- const toggleFAQ = (index: number) => {
-  setOpenFAQs((prev) =>
-    prev?.includes(index)
-      ? prev?.filter((i) => i !== index)        // REMOVE index
-      : [...prev, index]                       // ADD index (spread works here)
-  );
-};
+  const router = useRouter();
+
+  const upgradeToYearly = async () => {
+    const priceId= "price_1SYp7OPi81VILnPFzVj4N4Sg";
+    const checkoutUrl = await getCheckoutUrl(app, priceId);
+    router.push(checkoutUrl);
+    console.log("Upgrade to Yearly");
+  }
+
+  const upgradeToMonthly = async () => {
+    const priceId= "price_1SYp8DPi81VILnPFDQ6m8ikN";
+    const checkoutUrl = await getCheckoutUrl(app, priceId);
+    router.push(checkoutUrl);
+    console.log("Upgrade to Yearly");
+  }
+
+  const toggleFAQ = (index: number) => {
+    setOpenFAQs(
+      (prev) =>
+        prev?.includes(index)
+          ? prev?.filter((i) => i !== index) // REMOVE index
+          : [...prev, index] // ADD index (spread works here)
+    );
+  };
 
   const faqs = [
     {
@@ -148,8 +168,8 @@ export default function settings() {
                 {plan == "yearly" ? (
                   <button
                     className="btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68] w-[300px]"
-                    onClick={(e) => {
-                      e.preventDefault;
+                    onClick={() => {
+                      upgradeToYearly();
                     }}
                   >
                     Start your free 7-day trial
@@ -157,8 +177,8 @@ export default function settings() {
                 ) : (
                   <button
                     className="btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68] w-[300px]"
-                    onClick={(e) => {
-                      e.preventDefault;
+                    onClick={() => {
+                      upgradeToMonthly();
                     }}
                   >
                     Start your first month
