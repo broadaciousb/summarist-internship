@@ -7,6 +7,9 @@ import { IoDocumentText } from "react-icons/io5";
 import { RiPlantFill } from "react-icons/ri";
 import { FaHandshake } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import LoadScreen from "@/components/LoadScreen";
+import { startLoading, stopLoading } from "@/redux/LoadingSlice";
 // COMPONENTS
 import Footer from "@/components/Footer";
 
@@ -15,6 +18,8 @@ export default function settings() {
   const [openFAQs, setOpenFAQs] = useState<number[]>([]);
 
   const router = useRouter();
+  const dispatch = useAppDispatch();
+  const loading = useAppSelector((state) => state.loading.loading);
 
   const upgradeToYearly = async () => {
     const priceId= "price_1SYp7OPi81VILnPFzVj4N4Sg";
@@ -58,9 +63,14 @@ export default function settings() {
     },
   ];
 
+  useEffect(() => {
+    dispatch(stopLoading());
+  }, [dispatch]);
+
   return (
     <>
       <div className="plan w-full">
+        {loading && <LoadScreen />}
         <div className="plan__header--wrapper relative text-center w-full pt-[48px] mb-[24px]">
           <div className="plan__header max-w-[1000px] my-0 mx-auto text-[#fff] px-[24px]">
             <div className="plan__title text-[48px] font-[700] mb-[40px]">
@@ -169,6 +179,7 @@ export default function settings() {
                   <button
                     className="btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68] w-[300px]"
                     onClick={() => {
+                      dispatch(startLoading());
                       upgradeToYearly();
                     }}
                   >
@@ -178,6 +189,7 @@ export default function settings() {
                   <button
                     className="btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68] w-[300px]"
                     onClick={() => {
+                      dispatch(startLoading());
                       upgradeToMonthly();
                     }}
                   >

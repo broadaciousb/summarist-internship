@@ -56,9 +56,7 @@ export default function LoginModal() {
       await signIn(email, password);
       dispatch(closeModal());
       dispatch(startLoading());
-      if (pathName === "/") {
-        router.push("/for-you");
-      }
+      router.push("/for-you");
     } catch (error: any) {
       console.error(error);
       alert(error.message);
@@ -76,9 +74,7 @@ export default function LoginModal() {
       dispatch(closeModal());
       setGuestLoading(false);
       dispatch(startLoading());
-      if (pathName === "/") {
-        router.push("/for-you");
-      }
+      router.push("/for-you");
 
       console.log("guest logged");
     } catch (error: any) {

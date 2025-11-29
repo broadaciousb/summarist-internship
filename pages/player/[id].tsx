@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useEffect } from "react";
 import SideBarNav from "@/components/SideBarNav";
 import SearchBar from "@/components/SearchBar";
 import SideBarLogo from "@/components/SideBarLogo";
@@ -8,7 +9,7 @@ import { increment as openModal } from "@/redux/ToggleModalSlice";
 import { useState } from "react";
 import MobileSideBarNav from "@/components/MobileSideBar";
 import LoadScreen from "@/components/LoadScreen";
-import { stopLoading } from "@/redux/LoadingSlice";
+import { stopLoading, startLoading } from "@/redux/LoadingSlice";
 
 export default function Player() {
   const dispatch = useAppDispatch();
@@ -30,10 +31,13 @@ export default function Player() {
     setAudioProgress(prog);
   }
 
-  dispatch(stopLoading());
+  useEffect(() => {
+      dispatch(stopLoading());
+    }, [dispatch]);
   return (
+    <>
+    {loading && <LoadScreen />}
     <div className="relative flex flex-col md:ml-[200px] w-[calc(100% - 200px)]">
-      {loading && <LoadScreen />}
       <div className="sidebar bg-[#f7faf9] w-[200px] invisible md:visible fixed top-[0] bottom-[140px] left-[0] z-[1000]">
         <SideBarNav />
       </div>
@@ -42,6 +46,7 @@ export default function Player() {
       {/* SEARCH BAR */}
       <SearchBar />
       <div className="summary relative w-full overflow-y-auto h-[calc(100% - 160px)]">
+        
         <div className="audio__book--summary p-[24px] max-w-[800px] my-0 mx-auto whitespace-pre-line">
           {currentBook?.subscriptionRequired ? (
             <div className="settings__login--wrapper max-w-[460px] flex flex-col items-center my-0 mx-auto">
@@ -51,10 +56,13 @@ export default function Player() {
                 alt=""
               />
               <div className="settings__login--text text-2xl font-[700] text-[] text-center mb-[16px]">
-                Log in to your account to read and listen to the book
+                Upgrade your subscription to access this book
               </div>
               <Link
                 href="/choose-plan"
+                onClick={(e) => {
+                  dispatch(startLoading());
+                }}
                 className="btn max-w-[180px] text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
               >
                 Upgrade to Premium
@@ -77,5 +85,6 @@ export default function Player() {
 
       <AudioPlayer />
     </div>
+    </>
   );
 }

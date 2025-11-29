@@ -4,13 +4,18 @@ import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import MobileSideBarNav from "@/components/MobileSideBar";
 import SearchBar from "@/components/SearchBar";
+import LoginModal from "@/components/LoginModal";
 import SideBarNav from "@/components/SideBarNav";
 import LoadScreen from "@/components/LoadScreen";
-import { stopLoading } from "@/redux/LoadingSlice";
+import { stopLoading, startLoading } from "@/redux/LoadingSlice";
+import { increment as openModal } from "@/redux/ToggleModalSlice";
 
 export default function settings() {
   const user = useAppSelector((state) => state.user.currentUser);
   const dispatch = useAppDispatch();
+  const isModalOpen: boolean = useAppSelector(
+    (state) => state.toggleModal.isModalOpen
+  );
   const isSideBarOpen: boolean = useAppSelector(
     (state) => state.toggleSideBar.isSideBarOpen
   );
@@ -22,6 +27,7 @@ export default function settings() {
   
   return (
     <div className="flex flex-col m-[0] md:ml-[200px] w-[calc(100% - 200px)]">
+      {isModalOpen && <LoginModal />}
       {loading && <LoadScreen />}
       <div className="sidebar bg-[#f7faf9] w-[200px] invisible md:visible fixed top-[0] bottom-[60px] left-[0] z-[1000]">
         <SideBarNav />
@@ -41,13 +47,28 @@ export default function settings() {
             </div>
             <div className="settings_text">Basic</div>
             <div className="w-[180px]">
-              <Link
+              {
+                user ? (
+                  <Link
               href="/choose-plan"
+              onClick={(e) => {
+                dispatch(startLoading());
+              }}
                 className="btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
                 
               >
                 Upgrade to Premium
               </Link>
+                ) : (
+                  <button className="btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]" onClick={(e) => {
+                    e.preventDefault();
+                    dispatch(openModal());
+                  }}>
+                    Login
+                  </button>
+                )
+              }
+              
             </div>
           </div>
           <div className="settings_content flex flex-col gap-[8px] pb-[16px] mb-[32px]">

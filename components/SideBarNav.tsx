@@ -1,7 +1,7 @@
 // NEXT
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
+
 // REACT
 import { useState } from "react";
 // REDUX
@@ -245,7 +245,6 @@ export default function SideBarNav() {
               onClick={() => {
                 dispatch(startLoading());
                 signUserOut();
-                route.replace("/");
                 dispatch(closeSideBar());
               }}
               className="sidebar_link--wrapper hover:bg-[#f0efef] flex items-center h-[56px] text-[#032b41] mb-[8px] cursor-pointer"

@@ -1,3 +1,4 @@
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useAppDispatch } from "@/redux/hooks";
 import { onAuthStateChanged } from "firebase/auth";
@@ -11,6 +12,8 @@ export default function AuthListener({
   children: React.ReactNode;
 }) {
   const dispatch = useAppDispatch();
+  const route = useRouter();
+  const pathName = usePathname();
 
   useEffect(() => {
     const authStatus = onAuthStateChanged(auth, (user) => {
@@ -21,6 +24,7 @@ export default function AuthListener({
       } else {
         dispatch(clearUser());
         dispatch(logout());
+        route.replace("/");
         console.log("authstate changed to false");
       }
     });
