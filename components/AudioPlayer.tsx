@@ -14,7 +14,7 @@ import {
 export default function AudioPlayer() {
   const currentBook = useAppSelector((state) => state.myBook.currentBook);
 
-  // AUDIO PLAY/PAUSE
+  // AUDIO REFERENCE AND ANIMATION
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const playAnimationRef = useRef<number | null>(null);
@@ -48,6 +48,25 @@ export default function AudioPlayer() {
     }
   });
 
+  const skipForward = useCallback(() => {
+    if (audioRef.current && progressBarRef.current && duration) {
+      const newTime = audioRef.current.currentTime + 15;
+      audioRef.current.currentTime = newTime;
+      setTimeProgress(newTime);
+      setAudioProgress(newTime);
+    }
+  });
+
+  const skipBackward = useCallback(() => {
+    if (audioRef.current && progressBarRef.current && duration) {
+      const newTime = audioRef.current.currentTime - 15;
+      audioRef.current.currentTime = newTime;
+      setTimeProgress(newTime);
+      setAudioProgress(newTime);
+    }
+  });
+
+  // This useEffect controls the start/stop of the audio with the play button
   useEffect(() => {
     if (isPlaying) {
       audioRef.current?.play();
@@ -68,11 +87,10 @@ export default function AudioPlayer() {
   }, [isPlaying, audioRef]);
 
   // AUDIO PROGRESS BAR
-  const [audioProgress, setAudioProgress] = useState(0);
+  // This controls the audio bar UI, making it change as it plays
   const progressBarRef = useRef<HTMLInputElement>(null);
-
+  const [audioProgress, setAudioProgress] = useState(0);
   const [duration, setDuration] = useState<number>(0);
-
   const [timeProgress, setTimeProgress] = useState<number>(0);
 
   const onLoadedMetaData = () => {
@@ -139,7 +157,9 @@ export default function AudioPlayer() {
           <div className="audio__controls--wrapper w-full md:w-[calc(100%/3)]">
             <div className="audio__controls flex justify-center items-center gap-[24px]">
               <div className="rewind__btn rounded-[50%] cursor-pointer flex justify-center items-center">
-                <BsFillRewindFill size={30} color="white" />
+                <button onClick={skipBackward}>
+                  <BsFillRewindFill size={30} color="white" />
+                </button>
               </div>
               <div className="play__btn rounded-[50%] cursor-pointer flex justify-center items-center h-[40px] w-[40px] bg-white">
                 <button onClick={togglePlay}>
@@ -151,7 +171,9 @@ export default function AudioPlayer() {
                 </button>
               </div>
               <div className="fast-forward__btn rounded-[50%] cursor-pointer flex justify-center items-center">
-                <BsFillFastForwardFill size={30} color="white" />
+                <button onClick={skipForward}>
+                  <BsFillFastForwardFill size={30} color="white" />
+                </button>
               </div>
             </div>
           </div>
