@@ -2,12 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import LandingImg from "/assets/landing.png";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { startLoading, stopLoading } from "@/redux/LoadingSlice";
 import { increment as openModal } from "@/redux/ToggleModalSlice";
 
 export default function Landing() {
   const dispatch = useAppDispatch();
-  const user = useAppSelector( (state) => state.user.currentUser);
-
+  const user = useAppSelector((state) => state.user.currentUser);
 
   return (
     <section id="landing">
@@ -45,20 +45,27 @@ export default function Landing() {
                 <br className="remove--tablet" />
                 and even people who don't like to read.
               </div>
-              {
-                !user ? (<button className="btn home__cta--btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
-                onClick={(e) => {
-                  e.preventDefault;
-                  dispatch(openModal());
-                }}>
-                Login
-              </button>) : (
-                <Link href="/for-you" className="btn home__cta--btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]">
+              {!user ? (
+                <button
+                  className="btn home__cta--btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
+                  onClick={(e) => {
+                    e.preventDefault;
+                    dispatch(openModal());
+                  }}
+                >
+                  Login
+                </button>
+              ) : (
+                <Link
+                  href="/for-you"
+                  onClick={() => {
+                    dispatch(startLoading());
+                  }}
+                  className="btn home__cta--btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
+                >
                   Books for You
                 </Link>
-              )
-              }
-              
+              )}
             </div>
             <figure className="flex justify-end w-[800px] h-[400px] relative hidden md:flex">
               <Image

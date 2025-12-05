@@ -1,22 +1,13 @@
-import ActiveHeading from "./ActiveHeading";
 import { useEffect, useState } from "react";
 
 export default function Statistics() {
   const [highlight, setHighlight] = useState(1);
 
-  function setHighlights() {
-    if (highlight == 6) {
-      setHighlight(1);
-    } else {
-      setHighlight(highlight + 1);
-    }
-  }
-
   useEffect(() => {
   const interval = setInterval(() => {
     setHighlight(prev => (prev === 6 ? 1 : prev + 1));
   }, 3000);
-
+ 
   return () => clearInterval(interval);
 }, []);
 

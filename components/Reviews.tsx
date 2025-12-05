@@ -1,5 +1,3 @@
-import Image from "next/image";
-import LandingImg from "/assets/landing.png";
 import { BsStar, BsStarFill } from "react-icons/bs";
 
 export default function Reviews() {

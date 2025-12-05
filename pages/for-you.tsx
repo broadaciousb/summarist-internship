@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 // REDUX
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { startLoading, stopLoading } from "@/redux/LoadingSlice";
+import { setBook } from "@/redux/bookSlice";
 // COMPONENTS
 import SideBarNav from "@/components/SideBarNav";
 import SearchBar from "@/components/SearchBar";
@@ -48,20 +49,28 @@ export const getServerSideProps = (async () => {
   );
   const data2: Data = await res2.json();
 
+  const res3 = await fetch(
+    "https://us-central1-summaristt.cloudfunctions.net/getBooks?status=selected"
+  );
+  const data3: Data = await res3.json();
+
   return {
     props: {
       recBooks: data1,
       sugBooks: data2,
+      selectedBook: data3,
     },
   };
 }) satisfies GetServerSideProps<{
   recBooks: BookProps[];
   sugBooks: BookProps[];
+  selectedBook: BookProps[];
 }>;
 
 export default function forYou({
   recBooks,
   sugBooks,
+  selectedBook,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const isOnline: boolean = useAppSelector((state) => state.online.loggedIn);
   const isSideBarOpen: boolean = useAppSelector(
@@ -93,18 +102,41 @@ export default function forYou({
               Selected just for you
             </div>
             <Link
-              href=""
+              href={"/book/" + selectedBook[0].id}
+              onClick={() => {
+                dispatch(startLoading());
+                dispatch(
+                  setBook({
+                    id: selectedBook[0].id,
+                    author: selectedBook[0].author,
+                    title: selectedBook[0].title,
+                    subTitle: selectedBook[0].subTitle,
+                    imageLink: selectedBook[0].imageLink,
+                    audioLink: selectedBook[0].audioLink,
+                    totalRating: selectedBook[0].totalRating,
+                    averageRating: selectedBook[0].averageRating,
+                    keyIdeas: selectedBook[0].keyIdeas,
+                    type: selectedBook[0].type,
+                    status: status,
+                    subscriptionRequired: selectedBook[0].subscriptionRequired,
+                    summary: selectedBook[0].summary,
+                    tags: selectedBook[0].tags,
+                    bookDescription: selectedBook[0].bookDescription,
+                    authorDescription: selectedBook[0].authorDescription,
+                  })
+                );
+              }}
               className="selected__book flex flex-col md:flex-row md:justify-between bg-[#fbefd6] p-[24px] rounded-sm mb-[24px] gap-[24px] w-full xl:w-[67%]"
             >
               <div className="selected__book--sub-title text-[#032b41] sm:w-full md:w-[40%]">
-                How Constant Innovation Creates Radically Successful Business
+                {selectedBook[0].subTitle}
               </div>
               <div className="selected__book--line w-[1px] bg-[#bac8ce]"></div>
               <div className="selected__book--content flex gap-[16px] sm:w-full md:w-[60%]">
                 <figure className="book__image--wrapper relative h-[140px] w-[140px] min-w-[140px]">
                   <Image
                     className="book__image w-full h-full absolute"
-                    src={LeanStartup}
+                    src={selectedBook[0].imageLink}
                     alt="book"
                     layout="fill"
                     objectFit="contain"
@@ -114,10 +146,10 @@ export default function forYou({
                 </figure>
                 <div className="selected__book--text w-full">
                   <div className="selected__book--title text-[#032b41] mb-[8px] font-[600]">
-                    The Lean Startup
+                    {selectedBook[0].title}
                   </div>
                   <div className="selected__book--author text-sm text-[#394547] mb-[16px]">
-                    Eric Ries
+                    {selectedBook[0].author}
                   </div>
                   <div className="selected__book--duration-wrapper flex items-center gap-[8px]">
                     <div className="selected__book--icon flex items-center justify-center w-[40px] min-w-[40px] h-[40px] bg-[#000] rounded-[50%]">

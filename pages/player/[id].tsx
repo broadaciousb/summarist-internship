@@ -1,15 +1,17 @@
+// NEXT
 import Link from "next/link";
+// REACT
 import { useEffect } from "react";
+import { useState } from "react";
+// REDUX
+import { stopLoading, startLoading } from "@/redux/LoadingSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+// COMPONENTS
 import SideBarNav from "@/components/SideBarNav";
 import SearchBar from "@/components/SearchBar";
-import SideBarLogo from "@/components/SideBarLogo";
 import AudioPlayer from "@/components/AudioPlayer";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { increment as openModal } from "@/redux/ToggleModalSlice";
-import { useState } from "react";
 import MobileSideBarNav from "@/components/MobileSideBar";
 import LoadScreen from "@/components/LoadScreen";
-import { stopLoading, startLoading } from "@/redux/LoadingSlice";
 
 export default function Player() {
   const dispatch = useAppDispatch();

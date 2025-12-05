@@ -1,14 +1,17 @@
+// NEXT
 import Link from "next/link";
-import { auth, db } from "@/Firebase/firebase.config";
+// REACT
 import { useEffect, useState } from "react";
+// REDUX
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { stopLoading, startLoading } from "@/redux/LoadingSlice";
+import { increment as openModal } from "@/redux/ToggleModalSlice";
+// COMPONENTS
 import MobileSideBarNav from "@/components/MobileSideBar";
 import SearchBar from "@/components/SearchBar";
 import LoginModal from "@/components/LoginModal";
 import SideBarNav from "@/components/SideBarNav";
 import LoadScreen from "@/components/LoadScreen";
-import { stopLoading, startLoading } from "@/redux/LoadingSlice";
-import { increment as openModal } from "@/redux/ToggleModalSlice";
 
 export default function settings() {
   const user = useAppSelector((state) => state.user.currentUser);

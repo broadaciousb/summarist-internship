@@ -1,12 +1,14 @@
-import { useState, useEffect } from "react";
+// NEXT
 import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
 import Link from "next/link";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { setBook } from "@/redux/bookSlice";
-import SearchBookLink from "./SearchBookLink";
-import SearchResults from "./SearchResults";
+// REACT
+import { useState, useEffect } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
+// REDUX
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { increment as openSideBar } from "@/redux/ToggleSideBarSlice";
+// COMPONENTS
+import SearchResults from "./SearchResults";
 
 interface Book {
   id: string;

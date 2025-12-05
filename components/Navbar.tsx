@@ -1,11 +1,10 @@
 import Image from "next/image";
 import Logo from "/assets/logo.png";
-import { useState } from "react";
-import LoginModal from "./LoginModal";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { increment as openModal } from "@/redux/ToggleModalSlice";
-import { signUserOut } from "@/Firebase/firebase.config";
 import { logout } from "@/redux/LoggedInSlice";
+import { signUserOut } from "@/Firebase/firebase.config";
+import LoginModal from "./LoginModal";
 
 export default function Navbar() {
   const isModalOpen: boolean = useAppSelector(

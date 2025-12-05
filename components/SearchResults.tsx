@@ -1,8 +1,7 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import SearchBookLink from "./SearchBookLink";
 import { useEffect, useState } from "react";
-import { useAppSelector } from "@/redux/hooks";
 import LoadingSkeleton from "./LoadingSkeleton";
+import SearchBookLink from "./SearchBookLink";
 
 interface BookProps {
   id: string;
