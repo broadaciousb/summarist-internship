@@ -112,6 +112,13 @@ button:disabled {
   border-bottom-left-radius: 16rem;
 }
 
+@media(max-width: 768px) {
+  .plan__header--wrapper:before {
+    border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  }
+}
+
 .plan__card--separator:before {
   content: "";
   flex-grow: 1;
@@ -135,6 +142,12 @@ button:disabled {
   text-align: center;
   margin-bottom: 32px;
   font-weight: 700;
+}
+
+@media(max-width: 768px) {
+  .section__title {
+    font-size: 24px;
+  }
 }
 
 @keyframes spin {

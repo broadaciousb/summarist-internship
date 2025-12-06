@@ -96,7 +96,7 @@ export default function forYou({
       {/* SEARCH BAR */}
       <SearchBar />
       <div className="row">
-        <div className="container m-[0]">
+        <div className="py-[40px] m-[0]">
           <div className="for-you__wrapper">
             <div className="for-you__title text-[22px] text-[#032b41] font-[700] mb-[16px]">
               Selected just for you

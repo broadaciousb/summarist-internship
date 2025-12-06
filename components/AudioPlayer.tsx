@@ -1,5 +1,5 @@
+// REACT
 import { useState, useRef, useEffect, useCallback } from "react";
-import { useAppSelector } from "@/redux/hooks";
 import {
   BsFillFastForwardFill,
   BsFillPauseFill,
@@ -10,9 +10,59 @@ import {
   BsShuffle,
   BsRepeat,
 } from "react-icons/bs";
+// REDUX
+import { useAppSelector } from "@/redux/hooks";
+// FIREBASE
+import { db, auth } from "@/Firebase/firebase.config";
+import {
+  getFirestore,
+  setDoc,
+  addDoc,
+  collection,
+  doc,
+  onSnapshot,
+  deleteDoc,
+} from "firebase/firestore";
 
 export default function AudioPlayer() {
+  const user = auth.currentUser;
   const currentBook = useAppSelector((state) => state.myBook.currentBook);
+
+  interface BookProps {
+  id: string;
+  author: string;
+  title: string;
+  subTitle: string;
+  imageLink: string;
+  audioLink: string;
+  totalRating: number;
+  averageRating: number;
+  keyIdeas: number;
+  type: string;
+  status: string;
+  subscriptionRequired: boolean;
+  summary: string;
+  tags: string[];
+  bookDescription: string;
+  authorDescription: string;
+}
+
+type Data = BookProps;
+
+  async function addToFinishedCollection(book: Data | null, user: any) {
+      if (!user || !book || !currentBook) return;
+  
+      try {
+        await setDoc(
+          doc(collection(db, "users", user.uid, "finished"), currentBook.id),
+          book
+        );
+        console.log("Book added to finished collection successfully.");
+      } catch (error) {
+        console.error("Error adding book to finished collection:", error);
+      }
+    }
+
 
   // AUDIO REFERENCE AND ANIMATION
   const [isPlaying, setIsPlaying] = useState(false);
@@ -29,7 +79,7 @@ export default function AudioPlayer() {
     }
   }
 
-  const startAnimation = useCallback(() => {
+  function startAnimation() {
     if (audioRef.current && progressBarRef.current && duration) {
       const animate = () => {
         updateProgress();
@@ -37,34 +87,34 @@ export default function AudioPlayer() {
       };
       playAnimationRef.current = requestAnimationFrame(animate);
     }
-  });
+  };
 
-  const updateProgress = useCallback(() => {
+  function updateProgress() {
     if (audioRef.current && progressBarRef.current && duration) {
       const currentTime = audioRef.current.currentTime;
       setTimeProgress(currentTime);
       progressBarRef.current.value = currentTime.toString();
       setAudioProgress(currentTime);
     }
-  });
+  };
 
-  const skipForward = useCallback(() => {
+  function skipForward() {
     if (audioRef.current && progressBarRef.current && duration) {
       const newTime = audioRef.current.currentTime + 15;
       audioRef.current.currentTime = newTime;
       setTimeProgress(newTime);
       setAudioProgress(newTime);
     }
-  });
+  };
 
-  const skipBackward = useCallback(() => {
+  function skipBackward() {
     if (audioRef.current && progressBarRef.current && duration) {
       const newTime = audioRef.current.currentTime - 15;
       audioRef.current.currentTime = newTime;
       setTimeProgress(newTime);
       setAudioProgress(newTime);
     }
-  });
+  };
 
   // This useEffect controls the start/stop of the audio with the play button
   useEffect(() => {
@@ -127,6 +177,13 @@ export default function AudioPlayer() {
   }
 
   const progressPercent = (audioProgress / duration) * 100;
+
+  useEffect(() => {
+    if (progressPercent == 100) {
+      console.log("finished book");
+      addToFinishedCollection(currentBook, user);
+    }
+  }, [progressPercent]);
 
   return (
     <div className="audio__wrapper w-full z-1500 h-[180px] md:h-[80px] mt-auto flex flex-col md:flex-row items-center justify-between bg-[#042330] py-[16px] md:py-0 px-[24px] md:px-[40px] fixed bottom-0 right-0">

@@ -40,7 +40,7 @@ export default function settings() {
       (prev) =>
         prev?.includes(index)
           ? prev?.filter((i) => i !== index) // REMOVE index
-          : [...prev, index] // ADD index (spread works here)
+          : [...prev, index] // ADD index
     );
   };
 
@@ -73,13 +73,13 @@ export default function settings() {
         {loading && <LoadScreen />}
         <div className="plan__header--wrapper relative text-center w-full pt-[48px] mb-[24px]">
           <div className="plan__header max-w-[1000px] my-0 mx-auto text-[#fff] px-[24px]">
-            <div className="plan__title text-[48px] font-[700] mb-[40px]">
+            <div className="plan__title text-[26px] md:text-[48px] font-[700] mb-[32px] md:mb-[40px]">
               Get unlimited access to many amazing books to read
             </div>
-            <div className="plan__sub--title text-[20px] mb-[32px]">
+            <div className="plan__sub--title text-[16px] md:text-[20px] mb-[32px]">
               Turn ordinary moments into amazing learning opportunities
             </div>
-            <figure className="plan__img--mask flwx justify-center max-w-[340px] rounded-t-[180px] overflow-hidden mx-auto">
+            <figure className="plan__img--mask flex justify-center max-w-[340px] rounded-t-[180px] overflow-hidden mx-auto">
               <img
                 alt="pricing"
                 src="https://summarist.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpricing-top.4d86e93a.png&w=1080&q=75"
@@ -89,14 +89,14 @@ export default function settings() {
             </figure>
           </div>
         </div>
-        <div className="row">
-          <div className="container">
-            <div className="plan__features--wrapper grid grid-cols-3 justify-center text-center gap-[24px] max-w-[800px] mx-auto mb-[56px]">
+        <div className="max-w-[1070px] w-full mx-auto pb-[24px]">
+          <div className="w-full py-[40px]">
+            <div className="plan__features--wrapper grid grid-cols-1 md:grid-cols-3 justify-center text-center gap-[24px] max-w-[800px] mx-auto mb-[56px]">
               <div className="plan__features">
                 <figure className="plan__features--icon flex justify-center mb-[12px] text-[#032b41]">
                   <IoDocumentText className="w-[60px] h-[60px]" />
                 </figure>
-                <div className="plan__features--text text-[394547] leading-[1.5]">
+                <div className="plan__features--text text-#394547] leading-[1.5]">
                   <b>Key ideas in few min</b> with many books to read
                 </div>
               </div>
@@ -212,7 +212,7 @@ export default function settings() {
                     className="accordion__header flex justify-between items-center cursor-pointer py-[24px] gap-[8px]"
                     onClick={() => toggleFAQ(index)}
                   >
-                    <div className="accordion__title font-[500] text-[24px] text-[#032b41]">
+                    <div className="accordion__title font-[500] text-[20px] md:text-[24px] text-[#032b41]">
                       {item.q}
                     </div>
 
@@ -228,7 +228,7 @@ export default function settings() {
                       openFAQs?.includes(index) ? "max-h-[300px]" : "max-h-0"
                     }`}
                   >
-                    <div className="accordion__body pb-[24px] text-[#394547] leading-[1.5]">
+                    <div className="accordion__body pb-[24px] text-[14px] md:text-[16px] text-[#394547] leading-[1.5]">
                       {item.a}
                     </div>
                   </div>

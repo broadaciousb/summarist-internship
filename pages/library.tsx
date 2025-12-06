@@ -15,6 +15,7 @@ import SearchBar from "@/components/SearchBar";
 import MobileSideBarNav from "@/components/MobileSideBar";
 import LoadScreen from "@/components/LoadScreen";
 import { startLoading, stopLoading } from "@/redux/LoadingSlice";
+import { finished } from "stream";
 
 interface BookProps {
   id: string;
@@ -43,39 +44,70 @@ export default function library() {
   const isSideBarOpen: boolean = useAppSelector(
     (state) => state.toggleSideBar.isSideBarOpen
   );
-  const [myBooks, setMyBooks] = useState<Data>([]);
+  const [savedBooks, setSavedBooks] = useState<Data>([]);
+  const [finishedBooks, setFinishedBooks] = useState<Data>([]);
   const loading = useAppSelector((state) => state.loading.loading);
 
   useEffect(() => {
-    if (!user) return;
+  if (!user) return;
 
-    const unsubscribe = onSnapshot(
-      collection(db, "users", user?.uid, "library"),
-      (snapshot) => {
-        const books = snapshot.docs.map((doc) => ({
-          id: doc.data().id,
-          author: doc.data().author,
-          title: doc.data().title,
-          subTitle: doc.data().subTitle,
-          imageLink: doc.data().imageLink,
-          audioLink: doc.data().audioLink,
-          totalRating: doc.data().totalRating,
-          averageRating: doc.data().averageRating,
-          keyIdeas: doc.data().keyIdeas,
-          type: doc.data().type,
-          status: doc.data().status,
-          subscriptionRequired: doc.data().subscriptionRequired,
-          summary: doc.data().summary,
-          tags: doc.data().tags,
-          bookDescription: doc.data().bookDescription,
-          authorDescription: doc.data().authorDescription,
-        }));
-        setMyBooks(books);
-      }
-    );
+  const unsubscribeSaved = onSnapshot(
+    collection(db, "users", user.uid, "library"),
+    (snapshot) => {
+      const books = snapshot.docs.map((doc) => ({
+        id: doc.data().id,
+        author: doc.data().author,
+        title: doc.data().title,
+        subTitle: doc.data().subTitle,
+        imageLink: doc.data().imageLink,
+        audioLink: doc.data().audioLink,
+        totalRating: doc.data().totalRating,
+        averageRating: doc.data().averageRating,
+        keyIdeas: doc.data().keyIdeas,
+        type: doc.data().type,
+        status: doc.data().status,
+        subscriptionRequired: doc.data().subscriptionRequired,
+        summary: doc.data().summary,
+        tags: doc.data().tags,
+        bookDescription: doc.data().bookDescription,
+        authorDescription: doc.data().authorDescription,
+      }));
+      setSavedBooks(books);
+    }
+  );
 
-    return unsubscribe;
-  }, [user]);
+  const unsubscribeFinished = onSnapshot(
+    collection(db, "users", user.uid, "finished"),
+    (snapshot) => {
+      const books = snapshot.docs.map((doc) => ({
+        id: doc.data().id,
+        author: doc.data().author,
+        title: doc.data().title,
+        subTitle: doc.data().subTitle,
+        imageLink: doc.data().imageLink,
+        audioLink: doc.data().audioLink,
+        totalRating: doc.data().totalRating,
+        averageRating: doc.data().averageRating,
+        keyIdeas: doc.data().keyIdeas,
+        type: doc.data().type,
+        status: doc.data().status,
+        subscriptionRequired: doc.data().subscriptionRequired,
+        summary: doc.data().summary,
+        tags: doc.data().tags,
+        bookDescription: doc.data().bookDescription,
+        authorDescription: doc.data().authorDescription,
+      }));
+      setFinishedBooks(books);
+    }
+  );
+
+  // CLEANUP — unsubscribe both listeners
+  return () => {
+    unsubscribeSaved();
+    unsubscribeFinished();
+  };
+}, [user]);
+
 
   useEffect(() => {
     dispatch(stopLoading());
@@ -92,61 +124,104 @@ export default function library() {
       {/* SEARCH BAR */}
       <SearchBar />
       <div className="row">
-        <div className="w-full px-[40px]">
-          <div className="container px-[40px]">
-            {!user ? (
-              <div className="settings__login--wrapper max-w-[460px] flex flex-col items-center my-0 mx-auto">
-                <img
-                  className="w-full h-full"
-                  src="https://summarist.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogin.e313e580.png&w=1080&q=75"
-                  alt=""
-                />
-                <div className="settings__login--text text-2xl font-[700] text-[] text-center mb-[16px]">
-                  Log in to your account to read and listen to the book
-                </div>
-                <button
-                  onClick={() => {
-                    dispatch(openModal());
-                  }}
-                  className="btn max-w-[180px] text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
-                >
-                  Login
-                </button>
+        <div className="container">
+          {!user ? (
+            <div className="settings__login--wrapper max-w-[460px] flex flex-col items-center my-0 mx-auto">
+              <img
+                className="w-full h-full"
+                src="https://summarist.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogin.e313e580.png&w=1080&q=75"
+                alt=""
+              />
+              <div className="settings__login--text text-2xl font-[700] text-[] text-center mb-[16px]">
+                Log in to your account to read and listen to the book
               </div>
-            ) : (
-              <div className="saved__books">
-                <div className="title text-[22px] text-[#032b41] font-[700] mb-[16px]">
-                  Saved Books
-                </div>
-                <div className="for-you__sub--title text-[#394547] mb-[16px] font-[300]">
-                  4 Items
-                </div>
-                <div className="saved__books--list flex overflow-x-auto gap-[16px] mb-[32px] snap-x">
-                  {myBooks?.map((book: BookProps) => (
-                    <BookTemplate
-                      id={book.id}
-                      author={book.author}
-                      title={book.title}
-                      subTitle={book.subTitle}
-                      imageLink={book.imageLink}
-                      audioLink={book.audioLink}
-                      totalRating={book.totalRating}
-                      averageRating={book.averageRating}
-                      keyIdeas={book.keyIdeas}
-                      type={book.type}
-                      status={book.status}
-                      subscriptionRequired={book.subscriptionRequired}
-                      summary={book.summary}
-                      tags={book.tags}
-                      bookDescription={book.bookDescription}
-                      authorDescription={book.authorDescription}
-                      key={book.title}
-                    />
-                  ))}
-                </div>
+              <button
+                onClick={() => {
+                  dispatch(openModal());
+                }}
+                className="btn max-w-[180px] text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
+              >
+                Login
+              </button>
+            </div>
+          ) : (
+            <>
+            <div className="saved__books">
+              <div className="title text-[22px] text-[#032b41] font-[700] mb-[16px]">
+                Saved Books
               </div>
-            )}
-          </div>
+              <div className="for-you__sub--title text-[#394547] mb-[16px] font-[300]">
+                {
+                  savedBooks.length !== 1 ? (
+                    `${savedBooks.length} Items`
+                  ) : (
+                    `${savedBooks.length} Item`
+                  )
+                }
+              </div>
+              <div className="saved__books--list flex overflow-x-auto gap-[16px] mb-[32px] snap-x">
+                {savedBooks?.map((book: BookProps) => (
+                  <BookTemplate
+                    id={book.id}
+                    author={book.author}
+                    title={book.title}
+                    subTitle={book.subTitle}
+                    imageLink={book.imageLink}
+                    audioLink={book.audioLink}
+                    totalRating={book.totalRating}
+                    averageRating={book.averageRating}
+                    keyIdeas={book.keyIdeas}
+                    type={book.type}
+                    status={book.status}
+                    subscriptionRequired={book.subscriptionRequired}
+                    summary={book.summary}
+                    tags={book.tags}
+                    bookDescription={book.bookDescription}
+                    authorDescription={book.authorDescription}
+                    key={book.title}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="saved__books">
+              <div className="title text-[22px] text-[#032b41] font-[700] mb-[16px]">
+                Finished Books
+              </div>
+              <div className="for-you__sub--title text-[#394547] mb-[16px] font-[300]">
+                {
+                  finishedBooks.length !== 1 ? (
+                    `${finishedBooks.length} Items`
+                  ) : (
+                    `${finishedBooks.length} Item`
+                  )
+                }
+              </div>
+              <div className="saved__books--list flex overflow-x-auto gap-[16px] mb-[32px] snap-x">
+                {finishedBooks?.map((book: BookProps) => (
+                  <BookTemplate
+                    id={book.id}
+                    author={book.author}
+                    title={book.title}
+                    subTitle={book.subTitle}
+                    imageLink={book.imageLink}
+                    audioLink={book.audioLink}
+                    totalRating={book.totalRating}
+                    averageRating={book.averageRating}
+                    keyIdeas={book.keyIdeas}
+                    type={book.type}
+                    status={book.status}
+                    subscriptionRequired={book.subscriptionRequired}
+                    summary={book.summary}
+                    tags={book.tags}
+                    bookDescription={book.bookDescription}
+                    authorDescription={book.authorDescription}
+                    key={book.title}
+                  />
+                ))}
+              </div>
+            </div>
+            </>
+          )}
         </div>
       </div>
     </div>
