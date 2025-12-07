@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import LandingImg from "/assets/landing.png";
+import LandingImg from "../assets/landing.png";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { startLoading, stopLoading } from "@/redux/LoadingSlice";
 import { increment as openModal } from "@/redux/ToggleModalSlice";

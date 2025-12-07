@@ -1,4 +1,4 @@
-import Logo from "/assets/logo.png";
+import Logo from "../assets/logo.png";
 import Image from "next/image";
 
 export default function SideBarLogo() {

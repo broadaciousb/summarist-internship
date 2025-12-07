@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Logo from "/assets/logo.png";
+import Logo from "../assets/logo.png";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { increment as openModal } from "@/redux/ToggleModalSlice";
 import { logout } from "@/redux/LoggedInSlice";
