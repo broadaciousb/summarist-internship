@@ -72,11 +72,11 @@ export default function Player() {
             </div>
           ) : (
             <div className="">
-              <div className="audio__book--summary-title text-[#032b41] text-3xl border-b border-b-[#e1e7ea] mb-[32px] pb-[16px] leading-[1.5] font-[700]">
+              <div className="audio__book--summary-title text-[#032b41] text-[24px] border-b border-b-[#032b41] mb-[32px] pb-[16px] leading-[1.5] font-[700]">
                 {currentBook?.title}
               </div>
               <div
-                className={`inner__book--description flex items-center w-full text-${textSize} text-[#032b41] font-[500] leading-[1.5]`}
+                className={`inner__book--description flex items-center w-full text-${textSize} text-[#032b41] leading-[1.5]`}
               >
                 {currentBook?.summary}
               </div>
