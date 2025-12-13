@@ -1,6 +1,9 @@
 import { BsStar, BsStarFill } from "react-icons/bs";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { increment as openModal } from "@/redux/ToggleModalSlice";
 
 export default function Reviews() {
+  const dispatch = useAppDispatch();
   return (
     <section id="reviews">
       <div className="row">
@@ -12,7 +15,9 @@ export default function Reviews() {
             <div className="review bg-[#fff3d7] p-[16px] mb-[32px] rounded-sm font-[300]">
               <div className="review__header text-[#032b41] flex gap-[8px] mb-[8px]">
                 <div className="review__name">Hanna M.</div>
-                <div className="review__stars flex"><BsStarFill className="fill-[#0564f1] w-[16px] h-[16px]" /></div>
+                <div className="review__stars flex">
+                  <BsStarFill className="fill-[#0564f1] w-[16px] h-[16px]" />
+                </div>
               </div>
               <div className="review__body text-sm md:text-base text-[#394547] tracking-[0.3px] leading-[1.4]">
                 This app has been a <b>game-changer</b> for me! It's saved me so
@@ -23,7 +28,9 @@ export default function Reviews() {
             <div className="review bg-[#fff3d7] p-[16px] mb-[32px] rounded-sm font-[300]">
               <div className="review__header text-[#032b41] flex gap-[8px] mb-[8px]">
                 <div className="review__name">David B.</div>
-                <div className="review__stars flex"><BsStarFill className="fill-[#0564f1] w-[16px] h-[16px]" /></div>
+                <div className="review__stars flex">
+                  <BsStarFill className="fill-[#0564f1] w-[16px] h-[16px]" />
+                </div>
               </div>
               <div className="review__body text-sm md:text-base text-[#394547] tracking-[0.3px] leading-[1.4]">
                 I love this app! It provides
@@ -34,7 +41,9 @@ export default function Reviews() {
             <div className="review bg-[#fff3d7] p-[16px] mb-[32px] rounded-sm font-[300]">
               <div className="review__header text-[#032b41] flex gap-[8px] mb-[8px]">
                 <div className="review__name">Nathan S.</div>
-                <div className="review__stars flex"><BsStarFill className="fill-[#0564f1] w-[16px] h-[16px]" /></div>
+                <div className="review__stars flex">
+                  <BsStarFill className="fill-[#0564f1] w-[16px] h-[16px]" />
+                </div>
               </div>
               <div className="review__body text-sm md:text-base text-[#394547] tracking-[0.3px] leading-[1.4]">
                 This app is a great way to get the main takeaways from a book
@@ -46,7 +55,9 @@ export default function Reviews() {
             <div className="review bg-[#fff3d7] p-[16px] mb-[32px] rounded-sm font-[300]">
               <div className="review__header text-[#032b41] flex gap-[8px] mb-[8px]">
                 <div className="review__name">Ryan R.</div>
-                <div className="review__stars flex"><BsStarFill className="fill-[#0564f1] w-[16px] h-[16px]" /></div>
+                <div className="review__stars flex">
+                  <BsStarFill className="fill-[#0564f1] w-[16px] h-[16px]" />
+                </div>
               </div>
               <div className="review__body text-sm md:text-base text-[#394547] tracking-[0.3px] leading-[1.4]">
                 If you're a busy person who
@@ -57,7 +68,13 @@ export default function Reviews() {
             </div>
           </div>
           <div className="reviews__btn--wrapper flex justify-center">
-            <button className="btn home__cta--btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]">
+            <button
+              className="btn home__cta--btn text-[#032b41] bg-[#2bd97c] hover:bg-[#20ba68]"
+              onClick={(e) => {
+                e.preventDefault;
+                dispatch(openModal());
+              }}
+            >
               Login
             </button>
           </div>

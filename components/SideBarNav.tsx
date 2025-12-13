@@ -45,6 +45,7 @@ export default function SideBarNav() {
           <Link
             href="/for-you"
             onClick={() => {
+              if (pathName === "/for-you") return;
               dispatch(startLoading());
               dispatch(closeSideBar());
             }}
@@ -73,6 +74,7 @@ export default function SideBarNav() {
           <Link
             href="/library"
             onClick={() => {
+              if (pathName === "/library") return;
               dispatch(startLoading());
               dispatch(closeSideBar());
             }}
@@ -161,6 +163,7 @@ export default function SideBarNav() {
           <Link
             href="/settings"
             onClick={() => {
+              if (pathName === "/settings") return;
               dispatch(startLoading());
               dispatch(closeSideBar());
             }}

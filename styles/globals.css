@@ -75,6 +75,10 @@ button:disabled {
   background-color: #f1f6f4;
 }
 
+.google__login--btn {
+  cursor: not-allowed;
+}
+
 .audio__progress--bar {
   border-radius: 8px;
   height: 4px;

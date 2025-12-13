@@ -54,9 +54,11 @@ export default function LoginModal() {
 
     try {
       await signIn(email, password);
-      dispatch(closeModal());
-      dispatch(startLoading());
-      router.push("/for-you");
+      if (user) {
+        dispatch(closeModal());
+        dispatch(startLoading());
+        router.push("/for-you");
+      }
     } catch (error: any) {
       console.error(error);
       alert(error.message);
@@ -140,7 +142,7 @@ export default function LoginModal() {
 
           {!needUserSignUp ? (
             <div>
-              <button className="btn relative text-white bg-[#4285f4] hover:bg-[#3367d6]">
+              <div className="google__login--btn btn relative text-white bg-[#4285f4] hover:bg-[#3367d6]">
                 <div>Login with Google</div>
                 <figure className="icon--mask bg-transparent flex items-center justify-center w-[36px] h-[36px] left-[2px] absolute">
                   <Image
@@ -151,11 +153,11 @@ export default function LoginModal() {
                     height={0}
                   />
                 </figure>
-              </button>
+              </div>
             </div>
           ) : (
             <div>
-              <button className="btn relative text-white bg-[#4285f4] hover:bg-[#3367d6]">
+              <div className="google__login--btn btn relative text-white bg-[#4285f4] hover:bg-[#3367d6]">
                 <div>Sign up with Google</div>
                 <figure className="icon--mask bg-transparent flex items-center justify-center w-[36px] h-[36px] left-[2px] absolute">
                   <Image
@@ -166,7 +168,7 @@ export default function LoginModal() {
                     height={0}
                   />
                 </figure>
-              </button>
+              </div>
             </div>
           )}
           <div className="auth__or flex items-center my-[16px] mx-[0]">
