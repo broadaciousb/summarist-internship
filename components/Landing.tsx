@@ -72,10 +72,9 @@ export default function Landing() {
                 src={LandingImg}
                 className="absolute w-[400px]"
                 alt="landing"
-                layout="fill"
-                objectFit="contain"
                 width={0}
                 height={0}
+                loading="eager"
               />
             </figure>
           </div>

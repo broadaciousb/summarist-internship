@@ -28,15 +28,14 @@ export default function Navbar() {
         mx-auto
         px-[24px]"
       >
-        <figure className="max-w-[200px] min-w-[200px] w-full h-full relative">
+        <figure className="max-w-[200px] min-w-[200px] w-full h-full relative flex items-center justify-center">
           <Image
             src={Logo}
             alt="logo"
-            layout="fill"
-            objectFit="contain"
             className="absolute"
             width={0}
             height={0}
+            loading="eager"
           />
         </figure>
         <ul className="flex gap-[24px]">

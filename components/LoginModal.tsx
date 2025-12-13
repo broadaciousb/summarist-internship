@@ -142,13 +142,13 @@ export default function LoginModal() {
             <div>
               <button className="btn relative text-white bg-[#4285f4] hover:bg-[#3367d6]">
                 <div>Login with Google</div>
-                <figure className="icon--mask bg-transparent flex items-center justify-center max-w-[200px] left-[2px] absolute">
+                <figure className="icon--mask bg-transparent flex items-center justify-center w-[36px] h-[36px] left-[2px] absolute">
                   <Image
                     src={googleImg}
-                    className="bg-white rounded-sm"
-                    fill={true}
-                    style={{ objectFit: "contain" }}
                     alt="google img"
+                    className="bg-white rounded-sm"
+                    width={0}
+                    height={0}
                   />
                 </figure>
               </button>
@@ -161,9 +161,9 @@ export default function LoginModal() {
                   <Image
                     src={googleImg}
                     className="bg-white rounded-sm"
-                    layout="fill"
-                    objectFit="contain"
                     alt="google img"
+                    width={0}
+                    height={0}
                   />
                 </figure>
               </button>

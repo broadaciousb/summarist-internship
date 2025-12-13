@@ -134,14 +134,10 @@ export default function forYou({
               <div className="selected__book--line w-[1px] bg-[#bac8ce]"></div>
               <div className="selected__book--content flex gap-[16px] sm:w-full md:w-[60%]">
                 <figure className="book__image--wrapper relative h-[140px] w-[140px] min-w-[140px]">
-                  <Image
-                    className="book__image w-full h-full absolute"
+                  <img
+                    className="book__image absolute w-full h-full"
                     src={selectedBook[0].imageLink}
                     alt="book"
-                    layout="fill"
-                    objectFit="contain"
-                    width={0}
-                    height={0}
                   />
                 </figure>
                 <div className="selected__book--text w-full">
