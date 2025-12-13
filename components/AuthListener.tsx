@@ -6,6 +6,13 @@ import { auth } from "@/Firebase/firebase.config";
 import { login, logout } from "@/redux/LoggedInSlice";
 import { setUser, clearUser } from "@/redux/userSlice";
 
+export interface SerializedUser {
+    uid: string;
+    email: string | null;
+    displayName: string | null;
+    photoURL: string | null;
+  }
+
 export default function AuthListener({
   children,
 }: {
@@ -15,10 +22,17 @@ export default function AuthListener({
   const route = useRouter();
   const pathName = usePathname();
 
+  
+
   useEffect(() => {
     const authStatus = onAuthStateChanged(auth, (user) => {
       if (user) {
-        dispatch(setUser(user));
+        dispatch(setUser({
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+        }));
         dispatch(login());
         console.log("authstate changed to true");
       } else {

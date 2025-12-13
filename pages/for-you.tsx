@@ -84,7 +84,6 @@ export default function forYou({
     dispatch(stopLoading());
   }, [dispatch]);
 
-  console.log(recBooks);
   return (
     <div className="flex flex-col m-[0] md:ml-[200px] w-[calc(100% - 200px)]">
       {loading && <LoadScreen />}

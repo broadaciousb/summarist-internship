@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from './store'
-import type { User } from 'firebase/auth';
+import type { SerializedUser } from '../components/AuthListener'
 
 // Define a type for the slice state
 interface UserState {
-  currentUser: User | null;
+  currentUser: SerializedUser | null;
 }
 
 // Define the initial state using that type
@@ -18,14 +18,14 @@ export const userSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<User>) => {
+    setUser: (state, action: PayloadAction<SerializedUser>) => {
       state.currentUser = action.payload;
     },
     clearUser: (state) => {
       state.currentUser = null;
     },
     // Use the PayloadAction type to declare the contents of `action.payload`
-    incrementByAmount: (state, action: PayloadAction<User>) => {
+    incrementByAmount: (state, action: PayloadAction<SerializedUser>) => {
       state.currentUser = action.payload
     },
   },
