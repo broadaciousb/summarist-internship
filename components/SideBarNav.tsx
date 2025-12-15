@@ -37,7 +37,7 @@ export default function SideBarNav() {
   return (
     <div className="sidebar bg-[#f7faf9] w-[200px] h-full z-[1000]">
       <SideBarLogo />
-      <div className="sidebar__wrapper bg-[#f7faf9] flex flex-col justify-between pb-[20px] h-full overflow-y-auto">
+      <div className="sidebar__wrapper bg-[#f7faf9] flex flex-col justify-between pb-[20px] h-full">
         {isModalOpen && <LoginModal />}
 
         {/* TOP HALF OF SIDEBAR */}

@@ -7,7 +7,7 @@ export default function MobileSideBarNav() {
 
   return (
     <div className="fixed h-full w-full z-10 bg-black/[0.75]">
-      <div className="sidebar bg-[#f7faf9] w-[80%] hidden: md:visible fixed top-[0] h-[100vh] left-[0] z-[1000]">
+      <div className="sidebar bg-[#f7faf9] w-[80%] hidden: md:visible fixed top-[0] h-[100vh] overflow-y-auto left-[0] z-[1000]">
         <SideBarNav />
       </div>
       <button className="h-full w-full" onClick={(e) => {
